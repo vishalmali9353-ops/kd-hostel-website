@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>K.D. Hostel | Notice</title>
-
+ 
 <!-- Bootstrap CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 <!-- Bootstrap Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- Google Fonts: classic serif + clean sans -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-
+ 
 <style>
   :root{
     --navy:#1D5FD6;
@@ -20,28 +20,35 @@
     --cream:#F4F8FE;
     --ink:#2b2b2b;
   }
-
-
+ 
+ 
   .kd-logo{
     width:42px;height:42px;border-radius:50%;
-    background:linear-gradient(135deg, var(--gold), var(--navy));
+    background:#fff;
     color:#fff;display:inline-flex;align-items:center;justify-content:center;
     font-family:'Playfair Display', serif;font-weight:700;font-size:1rem;
     letter-spacing:0.5px;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,0.35);
     flex-shrink:0;
+    overflow:hidden;
+    padding:0;
   }
-  .footer-kd .kd-logo{ margin-bottom:14px; }
-
+  .kd-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .footer-kd .kd-logo{ margin-bottom:14px; width:56px; height:56px; }
+ 
   body{
     font-family:'Source Sans 3', sans-serif;
     color:var(--ink);
     background:var(--cream);
   }
-
+ 
   h1,h2,h3,.brand{
     font-family:'Playfair Display', serif;
   }
-
+ 
   /* Navbar */
   .navbar-kd{
     background:var(--navy-deep);
@@ -85,7 +92,7 @@
     font-size:1.6rem;
     line-height:1;
   }
-
+ 
   /* Page header (hero variant for inner pages) */
   .page-header{
     background:linear-gradient(rgba(15,42,92,0.88), rgba(15,42,92,0.88)),
@@ -105,7 +112,7 @@
     background:var(--gold);
     margin:16px auto 0;
   }
-
+ 
   /* Toolbar */
   .notice-toolbar{
     margin:40px 0 30px;
@@ -124,7 +131,7 @@
     border-color:var(--gold);
     box-shadow:0 0 0 0.2rem rgba(200,162,74,0.2);
   }
-
+ 
   /* Notice cards */
   .notice-card{
     background:#fff;
@@ -192,7 +199,7 @@
     padding:2px 10px;
     margin-top:10px;
   }
-
+ 
   .state-box{
     text-align:center;
     padding:50px 20px;
@@ -204,7 +211,7 @@
     display:block;
     margin-bottom:12px;
   }
-
+ 
   /* Footer */
   .footer-kd{
     background:var(--navy-deep);
@@ -274,11 +281,11 @@
 </style>
 </head>
 <body>
-
+ 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-kd sticky-top">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><span class="kd-logo">KD</span> K.D. HOSTEL</a>
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><span class="kd-logo"><img src="logo.png" alt="K.D. Hostel Logo"></span> K.D. HOSTEL</a>
     <div class="d-flex align-items-center order-lg-3">
       <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -302,7 +309,7 @@
     </div>
   </div>
 </nav>
-
+ 
 <!-- Page Header -->
 <section class="page-header">
   <div class="container">
@@ -310,9 +317,9 @@
     <div class="divider"></div>
   </div>
 </section>
-
+ 
 <div class="container">
-
+ 
   <!-- Toolbar -->
   <div class="notice-toolbar">
     <div class="d-flex gap-2 flex-grow-1" style="max-width:420px;">
@@ -335,12 +342,12 @@
       </button>
     </div>
   </div>
-
+ 
   <!-- Notices list -->
   <div id="noticeList"></div>
-
+ 
 </div>
-
+ 
 <!-- Password Modal (Agent Authorization) -->
 <div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -361,7 +368,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- Add Notice Modal -->
 <div class="modal fade" id="addNoticeModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
@@ -410,18 +417,18 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- Footer -->
 <footer class="footer-kd">
   <div class="container">
     <div class="row g-4">
-
+ 
       <div class="col-lg-3 col-md-6">
-        <div class="kd-logo">KD</div>
+        <div class="kd-logo"><img src="logo.png" alt="K.D. Hostel Logo"></div>
         <h5>K. D. HOSTEL</h5>
         <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
       </div>
-
+ 
       <div class="col-lg-3 col-md-6">
         <h5>Quick Links</h5>
         <a href="index.html">Home</a>
@@ -431,7 +438,7 @@
         <a href="complaint.html">Complaint Management</a>
       
       </div>
-
+ 
       <div class="col-lg-3 col-md-6">
         <h5>Facilities</h5>
         <a href="#">Boys Block</a>
@@ -440,7 +447,7 @@
         <a href="#">Common Room</a>
         <a href="#">Sports Room</a>
       </div>
-
+ 
       <div class="col-lg-3 col-md-6">
         <h5>Contact Us</h5>
         <div class="contact-line">
@@ -456,18 +463,18 @@
           <a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
         </div>
       </div>
-
+ 
     </div>
-
+ 
     <div class="footer-bottom">
       <p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
       <p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
     </div>
   </div>
 </footer>
-
+ 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-
+ 
 <script>
   // ============================================================
   // CONFIG: paste your deployed Google Apps Script Web App URL
@@ -475,7 +482,7 @@
   // Leave blank to use sample offline data.
   // ============================================================
   const GAS_URL = ""; // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
-
+ 
   // Sample/fallback data — used if GAS_URL is blank or fetch fails
   const sampleNotices = [
     {
@@ -514,18 +521,18 @@
       pinned: false
     }
   ];
-
+ 
   let allNotices = [];
-
+ 
   function daysAgo(dateStr){
     const diff = (new Date() - new Date(dateStr)) / (1000*60*60*24);
     return diff;
   }
-
+ 
   function renderNotices(notices){
     const list = document.getElementById('noticeList');
     list.innerHTML = "";
-
+ 
     if (!notices.length){
       list.innerHTML = `
         <div class="state-box">
@@ -534,13 +541,13 @@
         </div>`;
       return;
     }
-
+ 
     // Pinned first, then by date descending
     const sorted = [...notices].sort((a,b) => {
       if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
       return new Date(b.date) - new Date(a.date);
     });
-
+ 
     sorted.forEach(n => {
       const isNew = daysAgo(n.date) <= 3;
       const card = document.createElement('div');
@@ -560,25 +567,25 @@
       list.appendChild(card);
     });
   }
-
+ 
   function formatDate(dateStr){
     const d = new Date(dateStr);
     return d.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
   }
-
+ 
   function applyFilters(){
     const query = document.getElementById('searchInput').value.toLowerCase();
     const category = document.getElementById('categoryFilter').value;
-
+ 
     const filtered = allNotices.filter(n => {
       const matchesQuery = n.title.toLowerCase().includes(query) || n.description.toLowerCase().includes(query);
       const matchesCategory = category === "all" || n.category === category;
       return matchesQuery && matchesCategory;
     });
-
+ 
     renderNotices(filtered);
   }
-
+ 
   async function loadNotices(){
     const list = document.getElementById('noticeList');
     list.innerHTML = `
@@ -586,13 +593,13 @@
         <i class="bi bi-hourglass-split"></i>
         Loading notices...
       </div>`;
-
+ 
     if (!GAS_URL){
       allNotices = sampleNotices;
       applyFilters();
       return;
     }
-
+ 
     try {
       const res = await fetch(GAS_URL);
       const data = await res.json();
@@ -605,21 +612,21 @@
     }
     applyFilters();
   }
-
+ 
   document.getElementById('searchInput').addEventListener('input', applyFilters);
   document.getElementById('categoryFilter').addEventListener('change', applyFilters);
-
+ 
   // ============================================================
   // Agent password gate. Note: this only hides the form on the
   // client — anyone viewing page source can read the password.
   // Fine for a college demo; not real security.
   // ============================================================
   const AGENT_PASSWORD = "KDP@123";
-
+ 
   function checkPassword(){
     const entered = document.getElementById('agentPassword').value;
     const status = document.getElementById('pw_status');
-
+ 
     if (entered === AGENT_PASSWORD){
       document.getElementById('agentPassword').value = "";
       status.innerHTML = "";
@@ -630,7 +637,7 @@
       status.innerHTML = '<span class="text-danger">Wrong password. Try again.</span>';
     }
   }
-
+ 
   async function submitNotice(){
     const title = document.getElementById('n_title').value.trim();
     const description = document.getElementById('n_description').value.trim();
@@ -638,14 +645,14 @@
     const date = document.getElementById('n_date').value;
     const pinned = document.getElementById('n_pinned').checked;
     const status = document.getElementById('n_status');
-
+ 
     if (!title || !description || !date){
       status.innerHTML = '<span class="text-danger">Please fill title, description and date.</span>';
       return;
     }
-
+ 
     const newNotice = { title, description, category, date, pinned };
-
+ 
     if (!GAS_URL){
       // No backend configured yet — just show it locally
       allNotices.unshift(newNotice);
@@ -653,7 +660,7 @@
       closeModalAndReset();
       return;
     }
-
+ 
     status.innerHTML = '<span class="text-muted">Posting...</span>';
     try {
       await fetch(GAS_URL, {
@@ -672,15 +679,18 @@
       applyFilters();
     }
   }
-
+ 
   function closeModalAndReset(){
     document.getElementById('noticeForm').reset();
     document.getElementById('n_status').innerHTML = '';
     bootstrap.Modal.getInstance(document.getElementById('addNoticeModal')).hide();
   }
-
+ 
   loadNotices();
 </script>
-
+ 
 </body>
 </html>
+ 
+
+
