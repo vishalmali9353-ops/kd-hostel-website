@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Room Allocation · KD Hostel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#ffffff;
+    --navy-900:#f2f6fc;
+    --navy-800:#eaf1fb;
+    --navy-700:#dbe6f8;
+    --brass:#2f6fed;
+    --brass-bright:#1548c9;
+    --cream:#10254f;
+    --cream-dim:#5b6a8c;
+    --green:#1f7a51;
+    --red:#c0392f;
+    --line:rgba(47,111,237,0.16);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--navy-950);color:var(--cream);font-family:'Inter',sans-serif;min-height:100vh;}
+  header{padding:28px 20px 20px;border-bottom:1px solid var(--line);position:sticky;top:53px;background:var(--navy-950);z-index:10;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--brass);text-transform:uppercase;}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:28px;margin:6px 0 2px;color:var(--cream);}
+  .sub{font-size:13px;color:var(--cream-dim);}
+  main{max-width:920px;margin:0 auto;padding:20px;}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
+  .stat{background:var(--navy-900);border:1px solid var(--line);border-radius:10px;padding:14px 10px;text-align:center;}
+  .stat b{display:block;font-family:'Fraunces',serif;font-size:24px;color:var(--brass-bright);}
+  .stat span{font-size:11px;color:var(--cream-dim);font-family:'IBM Plex Mono',monospace;}
+  .card{background:var(--navy-900);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,60,140,.06);}
+  .card h2{font-family:'Fraunces',serif;font-size:17px;margin:0 0 14px;color:var(--brass-bright);font-weight:600;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+  label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--cream-dim);display:block;margin-bottom:4px;}
+  input,select{background:var(--navy-800);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;width:100%;}
+  input:focus,select:focus{outline:none;border-color:var(--brass);}
+  .field{flex:1;min-width:130px;}
+  button{background:var(--brass);color:var(--navy-950);border:none;padding:11px 18px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;}
+  button:hover{background:var(--brass-bright);}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--cream-dim);}
+  button.small{padding:6px 10px;font-size:12px;}
+  .queue-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--navy-800);border-radius:8px;margin-bottom:8px;font-size:13px;}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
+  .tag.m{background:rgba(47,111,237,.14);color:#1548c9;}
+  .tag.f{background:rgba(214,90,150,.14);color:#a3235f;}
+  .blocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;}
+  .room{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--navy-800);}
+  .room-head{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;}
+  .room-head b{color:var(--brass-bright);}
+  .occ-bar{height:6px;border-radius:4px;background:var(--navy-700);overflow:hidden;margin-bottom:8px;}
+  .occ-fill{height:100%;background:var(--green);}
+  .occ-fill.full{background:var(--brass);}
+  .occupant{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-top:1px solid var(--line);}
+  .occupant:first-of-type{border-top:none;}
+  .empty-slot{font-size:12px;color:var(--cream-dim);font-style:italic;padding:5px 0;}
+  select.gender-filter{width:auto;}
+  .filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .msg{font-size:12px;color:var(--green);margin-top:8px;min-height:14px;}
+  .msg.err{color:var(--red);}
+
+  .kd-topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 20px;background:#ffffff;border-bottom:2px solid #1D5FD6;position:sticky;top:0;z-index:50;flex-wrap:wrap;font-family:'Inter',sans-serif;}
+  .kd-topbar .kd-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#0F2A5C;font-weight:700;font-size:14px;white-space:nowrap;}
+  .kd-topbar .kd-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,.35);flex-shrink:0;}
+  .kd-topbar nav{display:flex;gap:2px;flex-wrap:wrap;}
+  .kd-topbar nav a{font-size:11.5px;color:#5A6B8C;text-decoration:none;padding:6px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
+  .kd-topbar nav a:hover{background:#EAF1FD;color:#1D5FD6;}
+  .kd-topbar nav a.active{background:#1D5FD6;color:#fff;}
+  @media (max-width:900px){ .kd-topbar nav{display:none;} }
+</style>
+</head>
+<body>
+<div class="kd-topbar">
+  <a href="index.html" class="kd-brand"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. Hostel</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="notice.html">Notice</a>
+    <a href="registration.html">Registration</a>
+    <a href="allocation.html" class="active">Allocation</a>
+    <a href="visitor.html">Visitor</a>
+    <a href="mess.html">Mess</a>
+    <a href="complaint.html">Complaint</a>
+    <a href="fee.html">Fee</a>
+    <a href="maintenance.html">Maintenance</a>
+    <a href="security.html">Security</a>
+    <a href="support.html">Support</a>
+  </nav>
+</div>
+
+<header>
+  <div class="eyebrow">KD Hostel · Module</div>
+  <h1>Smart Room Allocation</h1>
+  <div class="sub">Gender-aware auto-allocation across blocks, floors and capacity</div>
+</header>
+
+<main>
+  <div class="stats" id="stats"></div>
+
+  <div class="card">
+    <h2>Add student to allocation queue</h2>
+    <div class="row">
+      <div class="field"><label>Full name</label><input id="s-name" placeholder="e.g. Meera Shah"></div>
+      <div class="field"><label>Gender</label>
+        <select id="s-gender"><option value="F">Female</option><option value="M">Male</option></select>
+      </div>
+      <div class="field"><label>Year / Sem</label><input id="s-year" placeholder="e.g. Sem 3"></div>
+      <div class="field"><label>Room type pref</label>
+        <select id="s-pref"><option value="any">Any</option><option value="2">2-seater</option><option value="3">3-seater</option></select>
+      </div>
+    </div>
+    <button onclick="addStudent()">Add to queue</button>
+    <button class="ghost" onclick="autoAllocateAll()">Auto-allocate entire queue</button>
+    <div class="msg" id="add-msg"></div>
+  </div>
+
+  <div class="card">
+    <h2>Pending queue (<span id="queue-count">0</span>)</h2>
+    <div id="queue-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>Rooms</h2>
+    <div class="filters">
+      <select class="gender-filter" id="block-filter" onchange="render()">
+        <option value="all">All blocks</option>
+      </select>
+      <button class="ghost small" onclick="resetAll()">Reset demo data</button>
+    </div>
+    <div class="blocks" id="room-grid"></div>
+  </div>
+</main>
+
+<script>
+const STORE_KEY = 'kdh_room_allocation_v1';
+
+function defaultData(){
+  const blocks = [];
+  // Block A (Female), Block B (Male) - gender segregated blocks, mix of 2 & 3 seaters
+  const blockDefs = [
+    {id:'A1', gender:'F', floor:1, cap:2},
+    {id:'A2', gender:'F', floor:1, cap:2},
+    {id:'A3', gender:'F', floor:1, cap:3},
+    {id:'A4', gender:'F', floor:2, cap:3},
+    {id:'B1', gender:'M', floor:1, cap:2},
+    {id:'B2', gender:'M', floor:1, cap:3},
+    {id:'B3', gender:'M', floor:2, cap:2},
+    {id:'B4', gender:'M', floor:2, cap:3},
+  ];
+  blockDefs.forEach(b=>blocks.push({...b, occupants:[]}));
+  return { rooms: blocks, queue: [] };
+}
+
+function load(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) { const d = defaultData(); save(d); return d; }
+    return JSON.parse(raw);
+  }catch(e){ const d = defaultData(); save(d); return d; }
+}
+function save(d){ localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
+
+let data = load();
+
+function addStudent(){
+  const name = document.getElementById('s-name').value.trim();
+  const gender = document.getElementById('s-gender').value;
+  const year = document.getElementById('s-year').value.trim() || '—';
+  const pref = document.getElementById('s-pref').value;
+  const msg = document.getElementById('add-msg');
+  if(!name){ msg.textContent = 'Enter a student name first.'; msg.className='msg err'; return; }
+  data.queue.push({ id: 'q'+Date.now()+Math.random().toString(36).slice(2,6), name, gender, year, pref });
+  save(data);
+  document.getElementById('s-name').value='';
+  msg.textContent = name + ' added to queue.';
+  msg.className='msg';
+  render();
+}
+
+function bestRoomFor(student){
+  // gender match, then prefer matching room-type pref, then most-empty room first (balance), fallback any capacity
+  const candidates = data.rooms.filter(r => r.gender === student.gender && r.occupants.length < r.cap);
+  if(candidates.length === 0) return null;
+  let pool = candidates;
+  if(student.pref !== 'any'){
+    const prefMatch = candidates.filter(r => String(r.cap) === student.pref);
+    if(prefMatch.length) pool = prefMatch;
+  }
+  pool.sort((a,b) => (a.cap - a.occupants.length) < (b.cap - b.occupants.length) ? 1 : -1); // most free slots first for balance... actually prefer filling rooms already partially filled
+  pool.sort((a,b) => a.occupants.length === 0 && b.occupants.length !== 0 ? 1 : (a.occupants.length !== 0 && b.occupants.length === 0 ? -1 : 0));
+  return pool[0];
+}
+
+function allocateStudent(qid){
+  const idx = data.queue.findIndex(s=>s.id===qid);
+  if(idx<0) return;
+  const student = data.queue[idx];
+  const room = bestRoomFor(student);
+  if(!room){
+    const msg = document.getElementById('add-msg');
+    msg.textContent = 'No available ' + (student.gender==='F'?'female':'male') + ' room right now for ' + student.name + '.';
+    msg.className = 'msg err';
+    return;
+  }
+  room.occupants.push({ name: student.name, year: student.year, gender: student.gender });
+  data.queue.splice(idx,1);
+  save(data);
+  render();
+}
+
+function autoAllocateAll(){
+  const ids = data.queue.map(s=>s.id);
+  let allocated = 0;
+  ids.forEach(id=>{
+    const before = data.queue.length;
+    allocateStudent(id);
+    if(data.queue.length < before) allocated++;
+  });
+  const msg = document.getElementById('add-msg');
+  msg.textContent = allocated + ' student(s) auto-allocated.';
+  msg.className = 'msg';
+}
+
+function vacate(roomId, occIdx){
+  const room = data.rooms.find(r=>r.id===roomId);
+  if(!room) return;
+  room.occupants.splice(occIdx,1);
+  save(data);
+  render();
+}
+
+function resetAll(){
+  if(!confirm('Reset all rooms and queue to demo defaults?')) return;
+  data = defaultData();
+  save(data);
+  render();
+}
+
+function render(){
+  // stats
+  const totalCap = data.rooms.reduce((s,r)=>s+r.cap,0);
+  const totalOcc = data.rooms.reduce((s,r)=>s+r.occupants.length,0);
+  const full = data.rooms.filter(r=>r.occupants.length>=r.cap).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><b>${data.rooms.length}</b><span>Total rooms</span></div>
+    <div class="stat"><b>${totalOcc}/${totalCap}</b><span>Beds filled</span></div>
+    <div class="stat"><b>${full}</b><span>Full rooms</span></div>
+    <div class="stat"><b>${data.queue.length}</b><span>In queue</span></div>
+  `;
+
+  // queue
+  document.getElementById('queue-count').textContent = data.queue.length;
+  const ql = document.getElementById('queue-list');
+  ql.innerHTML = data.queue.length === 0
+    ? '<div class="empty-slot">Queue is empty — add a student above.</div>'
+    : data.queue.map(s=>`
+      <div class="queue-item">
+        <span><span class="tag ${s.gender==='F'?'f':'m'}">${s.gender==='F'?'F':'M'}</span>&nbsp; ${s.name} · ${s.year} · pref ${s.pref==='any'?'any':s.pref+'-seater'}</span>
+        <button class="small" onclick="allocateStudent('${s.id}')">Allocate</button>
+      </div>`).join('');
+
+  // block filter options
+  const blockFilter = document.getElementById('block-filter');
+  const blocks = [...new Set(data.rooms.map(r=>r.id[0]))];
+  const currentVal = blockFilter.value;
+  blockFilter.innerHTML = '<option value="all">All blocks</option>' + blocks.map(b=>`<option value="${b}">Block ${b}</option>`).join('');
+  blockFilter.value = currentVal || 'all';
+
+  // rooms grid
+  const filterVal = blockFilter.value;
+  const rooms = data.rooms.filter(r => filterVal==='all' || r.id[0]===filterVal);
+  document.getElementById('room-grid').innerHTML = rooms.map(r=>{
+    const pct = Math.round((r.occupants.length/r.cap)*100);
+    const occHtml = r.occupants.length
+      ? r.occupants.map((o,i)=>`<div class="occupant"><span>${o.name} · ${o.year}</span><button class="small ghost" onclick="vacate('${r.id}',${i})">Vacate</button></div>`).join('')
+      : '<div class="empty-slot">No occupants yet</div>';
+    return `<div class="room">
+      <div class="room-head"><b>Room ${r.id}</b><span>${r.gender==='F'?'Female':'Male'} · Floor ${r.floor} · ${r.cap}-seater</span></div>
+      <div class="occ-bar"><div class="occ-fill ${pct>=100?'full':''}" style="width:${pct}%"></div></div>
+      ${occHtml}
+    </div>`;
+  }).join('');
+}
+
+render();
+</script>
+</body>
+</html>
