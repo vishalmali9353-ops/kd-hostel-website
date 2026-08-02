@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K.D. Hostel | Home</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<!-- Google Fonts: classic serif + clean sans -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy:#1D5FD6;
+    --navy-deep:#0F2A5C;
+    --gold:#4C86EA;
+    --cream:#F4F8FE;
+    --ink:#2b2b2b;
+  }
+
+
+  .kd-logo{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,0.35);flex-shrink:0;}
+  .footer-kd .kd-logo{ margin-bottom:14px; }
+
+  body{
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+  }
+
+  h1,h2,h3,.brand{
+    font-family:'Playfair Display', serif;
+  }
+
+  /* Navbar */
+  .navbar-kd{
+    background:var(--navy-deep);
+    border-bottom:3px solid var(--gold);
+  }
+  .navbar-kd .navbar-brand{
+    color:var(--gold);
+    font-weight:700;
+    font-size:1.5rem;
+    letter-spacing:0.5px;
+  }
+  .navbar-kd .nav-link{
+    color:#e9e4d8;
+    font-weight:600;
+    font-size:0.92rem;
+    margin:0 4px;
+  }
+  .navbar-kd .nav-link:hover{
+    color:var(--gold);
+  }
+  .navbar-kd .navbar-phone{
+    color:var(--gold);
+    font-weight:600;
+    font-size:0.92rem;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-right:14px;
+    white-space:nowrap;
+  }
+  .navbar-kd .navbar-phone:hover{
+    color:#fff;
+  }
+  .navbar-kd .navbar-toggler{
+    border-color:var(--gold);
+  }
+  .navbar-kd .navbar-toggler-icon-custom{
+    color:var(--gold);
+    font-size:1.6rem;
+    line-height:1;
+  }
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(rgba(15,42,92,0.88), rgba(15,42,92,0.88)),
+      url('https://images.unsplash.com/photo-1555854877-bab0e564b8d5?q=80&w=1600') center/cover no-repeat;
+    color:#fff;
+    padding:110px 0 90px;
+    text-align:center;
+    border-bottom:4px solid var(--gold);
+  }
+  .hero h1{
+    font-size:2.8rem;
+    font-weight:700;
+  }
+  .hero .divider{
+    width:70px;
+    height:3px;
+    background:var(--gold);
+    margin:18px auto 22px;
+  }
+  .hero p{
+    font-size:1.15rem;
+    color:#d8d2c2;
+    max-width:640px;
+    margin:0 auto;
+  }
+
+  /* Section title */
+  .section-title{
+    text-align:center;
+    margin:60px 0 40px;
+  }
+  .section-title h2{
+    color:var(--navy);
+    font-weight:700;
+  }
+  .section-title .divider{
+    width:60px;
+    height:2px;
+    background:var(--gold);
+    margin:14px auto 0;
+  }
+
+  /* Module cards */
+  .module-card{
+    background:#fff;
+    border:1px solid #e4ddc9;
+    border-radius:4px;
+    padding:32px 20px;
+    text-align:center;
+    height:100%;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .module-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 22px rgba(22,50,74,0.12);
+    border-color:var(--gold);
+  }
+  .module-card i{
+    font-size:2.1rem;
+    color:var(--navy);
+    background:var(--cream);
+    border:2px solid var(--gold);
+    width:70px;
+    height:70px;
+    line-height:66px;
+    border-radius:50%;
+    display:inline-block;
+    margin-bottom:16px;
+  }
+  .module-card h3{
+    font-size:1.1rem;
+    color:var(--navy);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .module-card p{
+    font-size:0.88rem;
+    color:#666;
+    margin-bottom:0;
+  }
+
+  /* Contact Info Section */
+  .contact-card{
+    background:#fff;
+    border:1px solid #e4ddc9;
+    border-radius:4px;
+    padding:34px 20px;
+    text-align:center;
+    height:100%;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .contact-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 22px rgba(22,50,74,0.12);
+    border-color:var(--gold);
+  }
+  .contact-card i{
+    font-size:1.9rem;
+    color:#fff;
+    background:var(--navy);
+    width:64px;
+    height:64px;
+    line-height:64px;
+    border-radius:50%;
+    display:inline-block;
+    margin-bottom:16px;
+  }
+  .contact-card h3{
+    font-size:1.05rem;
+    color:var(--navy);
+    font-weight:700;
+    margin-bottom:10px;
+  }
+  .contact-card p, .contact-card a{
+    font-size:0.92rem;
+    color:#555;
+    text-decoration:none;
+    line-height:1.6;
+  }
+  .contact-card a{
+    color:var(--navy);
+    font-weight:600;
+  }
+  .contact-card a:hover{
+    color:var(--gold);
+  }
+
+  /* Extended Footer */
+  .footer-kd{
+    background:var(--navy-deep);
+    color:#b9c2ca;
+    padding:60px 0 0;
+    margin-top:70px;
+    border-top:3px solid var(--gold);
+  }
+  .footer-kd h5{
+    color:#fff;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:22px;
+  }
+  .footer-kd a{
+    color:#b9c2ca;
+    text-decoration:none;
+    display:block;
+    margin-bottom:14px;
+    font-size:0.95rem;
+    transition:color .15s ease;
+  }
+  .footer-kd a:hover{
+    color:var(--gold);
+  }
+  .footer-kd .social-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#2a4054;
+    color:#fff;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.1rem;
+    margin-top:6px;
+  }
+  .footer-kd .social-icon:hover{
+    background:var(--gold);
+    color:var(--navy-deep);
+  }
+  .footer-kd .contact-line{
+    display:flex;
+    gap:12px;
+    margin-bottom:16px;
+    font-size:0.95rem;
+    color:#b9c2ca;
+  }
+  .footer-kd .contact-line i{
+    color:var(--gold);
+    font-size:1.05rem;
+    margin-top:2px;
+  }
+  .footer-kd .contact-line a{
+    margin-bottom:0;
+    display:inline;
+  }
+  .footer-bottom{
+    border-top:1px solid #2a4054;
+    margin-top:40px;
+    padding:22px 0;
+    text-align:center;
+    font-size:0.85rem;
+    color:#8ea0ae;
+  }
+
+  /* Footer */
+  footer{
+    background:var(--navy-deep);
+    color:#cfc9b8;
+    padding:30px 0;
+    text-align:center;
+    margin-top:70px;
+    border-top:3px solid var(--gold);
+  }
+  footer .gold{ color:var(--gold); font-weight:700; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-kd sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
+    <div class="d-flex align-items-center order-lg-3">
+      <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list navbar-toggler-icon-custom"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="notice.html">Notice</a></li>
+        <li class="nav-item"><a class="nav-link" href="registration.html">Student Registration</a></li>
+        <li class="nav-item"><a class="nav-link" href="allocation.html">Smart Room Allocation</a></li>
+        <li class="nav-item"><a class="nav-link" href="visitor.html">Visitor Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="complaint.html">Complaint Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
+        <li class="nav-item"><a class="nav-link" href="security.html">Security &amp; Surveillance</a></li>
+        <li class="nav-item"><a class="nav-link" href="support.html">24/7 Student Support</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <h1>Welcome to K.D. Hostel</h1>
+    <div class="divider"></div>
+    <p>A disciplined, comfortable and well-managed home away from home — now with a smart digital management system for students and staff.</p>
+  </div>
+</section>
+
+<!-- Modules -->
+<div class="container">
+  <div class="section-title">
+    <h2>Our Services</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="row g-4 pb-4">
+
+    <div class="col-md-4 col-sm-6">
+      <a href="notice.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-megaphone"></i>
+        <h3>Notice</h3>
+        <p>Latest announcements and updates for all residents.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="registration.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-person-plus"></i>
+        <h3>Student Registration</h3>
+        <p>Register new students and manage admission details.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="allocation.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-door-open"></i>
+        <h3>Smart Room Allocation</h3>
+        <p>Automated and fair allocation of hostel rooms.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="visitor.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-people"></i>
+        <h3>Visitor Management</h3>
+        <p>Track and approve visitor entries securely.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="mess.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-cup-hot"></i>
+        <h3>Mess Management</h3>
+        <p>Manage meal schedules, menus and mess feedback.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="complaint.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-chat-square-dots"></i>
+        <h3>Complaint Management</h3>
+        <p>Raise and track resolution of student complaints.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="fee.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-cash-coin"></i>
+        <h3>Fee Management</h3>
+        <p>View dues, pay fees and download receipts.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="maintenance.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-tools"></i>
+        <h3>Maintenance Prediction</h3>
+        <p>Smart prediction of maintenance needs before issues arise.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="security.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-shield-check"></i>
+        <h3>Security &amp; Surveillance</h3>
+        <p>Visitor logs, gate passes and camera zone monitoring.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="support.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-headset"></i>
+        <h3>24/7 Student Support</h3>
+        <p>Round the clock assistance for student queries.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="boys.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-gender-male"></i>
+        <h3>Boys Hostel</h3>
+        <p>Boys Hostel Page.</p>
+      </div>
+      </a>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <a href="girls.html" class="text-decoration-none">
+      <div class="module-card">
+        <i class="bi bi-gender-female"></i>
+        <h3>Girls Hostel</h3>
+        <p>Girls Hostel Page.</p>
+      </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer-kd">
+  <div class="container">
+    <div class="row g-4">
+
+      <div class="col-lg-3 col-md-6">
+        <img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo">
+        <h5>K. D. HOSTEL</h5>
+        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Quick Links</h5>
+        <a href="index.html">Home</a>
+        <a href="notice.html">Notice</a>
+        <a href="registration.html">Student Registration</a>
+        <a href="fee.html">Fee Management</a>
+        <a href="complaint.html">Complaint Management</a>
+      
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Facilities</h5>
+        <a href="boys.html">Boys Block</a>
+        <a href="girls.html">Girls Block</a>
+        <a href="mess.html">Mess &amp; Dining</a>
+        <a href="#">Common Room</a>
+        <a href="#">Sports Room</a>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact Us</h5>
+        <div class="contact-line">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-telephone-fill"></i>
+          <a href="tel:02766220419">02766-220419</a>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
+      <p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

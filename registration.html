@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K.D. Hostel | Notice</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<!-- Google Fonts: classic serif + clean sans -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy:#1D5FD6;
+    --navy-deep:#0F2A5C;
+    --gold:#4C86EA;
+    --cream:#F4F8FE;
+    --ink:#2b2b2b;
+  }
+
+
+  .kd-logo{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,0.35);flex-shrink:0;}
+  .footer-kd .kd-logo{ margin-bottom:14px; }
+
+  body{
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+  }
+
+  h1,h2,h3,.brand{
+    font-family:'Playfair Display', serif;
+  }
+
+  /* Navbar */
+  .navbar-kd{
+    background:var(--navy-deep);
+    border-bottom:3px solid var(--gold);
+  }
+  .navbar-kd .navbar-brand{
+    color:var(--gold);
+    font-weight:700;
+    font-size:1.5rem;
+    letter-spacing:0.5px;
+  }
+  .navbar-kd .nav-link{
+    color:#e9e4d8;
+    font-weight:600;
+    font-size:0.92rem;
+    margin:0 4px;
+  }
+  .navbar-kd .nav-link:hover,
+  .navbar-kd .nav-link.active{
+    color:var(--gold);
+  }
+  .navbar-kd .navbar-phone{
+    color:var(--gold);
+    font-weight:600;
+    font-size:0.92rem;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-right:14px;
+    white-space:nowrap;
+  }
+  .navbar-kd .navbar-phone:hover{
+    color:#fff;
+  }
+  .navbar-kd .navbar-toggler{
+    border-color:var(--gold);
+  }
+  .navbar-kd .navbar-toggler-icon-custom{
+    color:var(--gold);
+    font-size:1.6rem;
+    line-height:1;
+  }
+
+  /* Page header (hero variant for inner pages) */
+  .page-header{
+    background:linear-gradient(rgba(15,42,92,0.88), rgba(15,42,92,0.88)),
+      url('https://images.unsplash.com/photo-1519452575417-564c1401ecc0?q=80&w=1600') center/cover no-repeat;
+    color:#fff;
+    padding:70px 0 60px;
+    text-align:center;
+    border-bottom:4px solid var(--gold);
+  }
+  .page-header h1{
+    font-size:2.3rem;
+    font-weight:700;
+  }
+  .page-header .divider{
+    width:70px;
+    height:3px;
+    background:var(--gold);
+    margin:16px auto 0;
+  }
+
+  /* Toolbar */
+  .notice-toolbar{
+    margin:40px 0 30px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .notice-toolbar .form-control,
+  .notice-toolbar .form-select{
+    border-color:#e4ddc9;
+  }
+  .notice-toolbar .form-control:focus,
+  .notice-toolbar .form-select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 0.2rem rgba(200,162,74,0.2);
+  }
+
+  /* Notice cards */
+  .notice-card{
+    background:#fff;
+    border:1px solid #e4ddc9;
+    border-left:4px solid var(--navy);
+    border-radius:4px;
+    padding:22px 24px;
+    margin-bottom:18px;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    position:relative;
+  }
+  .notice-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 22px rgba(22,50,74,0.1);
+    border-left-color:var(--gold);
+  }
+  .notice-card.pinned{
+    border-left-color:var(--gold);
+    background:#fffdf6;
+  }
+  .notice-card .notice-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .notice-card h3{
+    font-size:1.05rem;
+    color:var(--navy);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .notice-card .notice-date{
+    font-size:0.8rem;
+    color:#888;
+    white-space:nowrap;
+  }
+  .notice-card p{
+    font-size:0.92rem;
+    color:#555;
+    margin:8px 0 0;
+  }
+  .notice-card .badge-new{
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-weight:700;
+    font-size:0.7rem;
+    padding:4px 9px;
+    border-radius:20px;
+    margin-left:8px;
+  }
+  .notice-card .badge-pin{
+    color:var(--gold);
+    margin-right:6px;
+  }
+  .notice-card .category-tag{
+    display:inline-block;
+    font-size:0.72rem;
+    font-weight:600;
+    color:var(--navy);
+    background:var(--cream);
+    border:1px solid #e4ddc9;
+    border-radius:20px;
+    padding:2px 10px;
+    margin-top:10px;
+  }
+
+  /* Fee Management card */
+  .fee-card{
+    background:#fff;
+    border:1px solid #e4ddc9;
+    border-radius:6px;
+    padding:40px 36px;
+    margin:45px 0 60px;
+    box-shadow:0 6px 20px rgba(22,50,74,0.06);
+  }
+  .fee-card h2{
+    text-align:center;
+    color:var(--navy);
+    font-weight:700;
+    font-size:1.9rem;
+  }
+  .fee-card .divider-orange{
+    width:70px;
+    height:3px;
+    background:var(--gold);
+    margin:16px auto 28px;
+  }
+  .fee-card p{
+    font-size:1rem;
+    line-height:1.7;
+    color:#444;
+  }
+  .payment-link-box{
+    background:var(--cream);
+    border:1px solid #e4ddc9;
+    border-radius:4px;
+    padding:14px 18px;
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .payment-link-box .pl-label{
+    font-weight:700;
+    color:var(--navy);
+    white-space:nowrap;
+  }
+  .payment-link-box a{
+    color:#1a5aa8;
+    word-break:break-all;
+    text-decoration:none;
+  }
+  .payment-link-box a:hover{
+    text-decoration:underline;
+  }
+  .pay-btn{
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-weight:700;
+    padding:12px 30px;
+    border-radius:30px;
+    font-size:1rem;
+  }
+  .pay-btn:hover{
+    background:var(--navy);
+    color:#fff;
+  }
+  .steps-title{
+    color:var(--navy);
+    font-size:1.15rem;
+    font-weight:700;
+  }
+  .steps-list{
+    color:#444;
+    font-size:0.95rem;
+    line-height:1.9;
+    padding-left:22px;
+  }
+
+  .section-title{
+    color:var(--navy);
+    font-size:1.05rem;
+    font-weight:700;
+    border-left:4px solid var(--gold);
+    padding-left:10px;
+    margin-bottom:14px;
+  }
+  #regForm .form-label{
+    font-size:0.85rem;
+    font-weight:600;
+    color:#444;
+  }
+  #regForm .form-control:focus,
+  #regForm .form-select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 0.2rem rgba(200,162,74,0.2);
+  }
+  #regTable thead th{
+    color:var(--navy);
+    font-size:0.85rem;
+    font-weight:700;
+  }
+  #regTable td{
+    font-size:0.9rem;
+  }
+
+  .download-fab{
+    position:fixed;
+    bottom:26px;
+    right:26px;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    background:var(--gold);
+    color:var(--navy-deep);
+    border:none;
+    font-size:1.4rem;
+    box-shadow:0 6px 16px rgba(22,50,74,0.25);
+    z-index:1030;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .download-fab:hover{
+    background:var(--navy);
+    color:#fff;
+  }
+
+  .state-box{
+    text-align:center;
+    padding:50px 20px;
+    color:#888;
+  }
+  .state-box i{
+    font-size:2rem;
+    color:var(--gold);
+    display:block;
+    margin-bottom:12px;
+  }
+
+  /* Footer */
+  .footer-kd{
+    background:var(--navy-deep);
+    color:#b9c2ca;
+    padding:60px 0 0;
+    margin-top:70px;
+    border-top:3px solid var(--gold);
+  }
+  .footer-kd h5{
+    color:#fff;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:22px;
+  }
+  .footer-kd a{
+    color:#b9c2ca;
+    text-decoration:none;
+    display:block;
+    margin-bottom:14px;
+    font-size:0.95rem;
+    transition:color .15s ease;
+  }
+  .footer-kd a:hover{
+    color:var(--gold);
+  }
+  .footer-kd .social-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#2a4054;
+    color:#fff;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.1rem;
+    margin-top:6px;
+  }
+  .footer-kd .social-icon:hover{
+    background:var(--gold);
+    color:var(--navy-deep);
+  }
+  .footer-kd .contact-line{
+    display:flex;
+    gap:12px;
+    margin-bottom:16px;
+    font-size:0.95rem;
+    color:#b9c2ca;
+  }
+  .footer-kd .contact-line i{
+    color:var(--gold);
+    font-size:1.05rem;
+    margin-top:2px;
+  }
+  .footer-kd .contact-line a{
+    margin-bottom:0;
+    display:inline;
+  }
+  .footer-bottom{
+    border-top:1px solid #2a4054;
+    margin-top:40px;
+    padding:22px 0;
+    text-align:center;
+    font-size:0.85rem;
+    color:#8ea0ae;
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-kd sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
+    <div class="d-flex align-items-center order-lg-3">
+      <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list navbar-toggler-icon-custom"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="notice.html">Notice</a></li>
+        <li class="nav-item"><a class="nav-link active" href="registration.html">Student Registration</a></li>
+        <li class="nav-item"><a class="nav-link" href="allocation.html">Smart Room Allocation</a></li>
+        <li class="nav-item"><a class="nav-link" href="visitor.html">Visitor Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="complaint.html">Complaint Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
+        <li class="nav-item"><a class="nav-link" href="security.html">Security &amp; Surveillance</a></li>
+        <li class="nav-item"><a class="nav-link" href="support.html">24/7 Student Support</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-person-vcard"></i> Student Registration</h1>
+    <div class="divider"></div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="fee-card">
+    <h2><i class="bi bi-person-plus"></i> New Student Registration</h2>
+    <div class="divider-orange"></div>
+
+    <form id="regForm">
+      <h3 class="section-title">Personal Details</h3>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-control" id="r_name" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Gender</label>
+          <select class="form-select" id="r_gender">
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Date of Birth</label>
+          <input type="date" class="form-control" id="r_dob" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Mobile Number</label>
+          <input type="tel" class="form-control" id="r_mobile" pattern="[0-9]{10}" maxlength="10" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" id="r_email" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Aadhar / ID Number</label>
+          <input type="text" class="form-control" id="r_aadhar" required>
+        </div>
+      </div>
+
+      <h3 class="section-title mt-4">Academic Details</h3>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Course / Branch</label>
+          <input type="text" class="form-control" id="r_course" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Year / Semester</label>
+          <input type="text" class="form-control" id="r_year" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Enrollment No</label>
+          <input type="text" class="form-control" id="r_roll" required>
+        </div>
+      </div>
+
+      <h3 class="section-title mt-4">Guardian / Emergency Contact</h3>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Parent / Guardian Name</label>
+          <input type="text" class="form-control" id="r_guardian" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Guardian Mobile Number</label>
+          <input type="tel" class="form-control" id="r_guardian_mobile" pattern="[0-9]{10}" maxlength="10" required>
+        </div>
+        <div class="col-md-12">
+          <label class="form-label">Permanent Address</label>
+          <textarea class="form-control" id="r_address" rows="2" required></textarea>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="button" class="btn pay-btn" onclick="registerStudent()">
+          <i class="bi bi-check-circle"></i> Register Student
+        </button>
+      </div>
+      <div id="reg_status" class="text-center mt-2 small"></div>
+    </form>
+  </div>
+</div>
+
+<!-- Floating download icon (authorized access only) -->
+<button type="button" class="download-fab" data-bs-toggle="modal" data-bs-target="#downloadPasswordModal" title="Download Excel (authorized only)">
+  <i class="bi bi-download"></i>
+</button>
+
+<!-- Password Modal (Authorized Access) -->
+<div class="modal fade" id="downloadPasswordModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background:var(--navy); color:#fff;">
+        <h5 class="modal-title"><i class="bi bi-shield-lock"></i> Authorized Access</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Enter password to download registration data</label>
+        <input type="password" class="form-control" id="downloadPassword" placeholder="Password">
+        <div id="dl_pw_status" class="mt-2 small"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn" style="background:var(--gold); color:var(--navy-deep); font-weight:600;" onclick="checkDownloadPassword()">Unlock &amp; Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer-kd">
+  <div class="container">
+    <div class="row g-4">
+
+      <div class="col-lg-3 col-md-6">
+        <img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo">
+        <h5>K. D. HOSTEL</h5>
+        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Quick Links</h5>
+        <a href="index.html">Home</a>
+        <a href="notice.html">Notice</a>
+        <a href="registration.html">Student Registration</a>
+        <a href="fee.html">Fee Management</a>
+        <a href="complaint.html">Complaint Management</a>
+      
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Facilities</h5>
+        <a href="#">Boys Block</a>
+        <a href="#">Girls Block</a>
+        <a href="#">Mess &amp; Dining</a>
+        <a href="#">Common Room</a>
+        <a href="#">Sports Room</a>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact Us</h5>
+        <div class="contact-line">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-telephone-fill"></i>
+          <a href="tel:02766220419">02766-220419</a>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
+      <p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+  const fields = ["r_name","r_gender","r_dob","r_mobile","r_email","r_aadhar",
+                   "r_course","r_year","r_roll",
+                   "r_guardian","r_guardian_mobile","r_address"];
+
+  const headers = ["Full Name","Gender","Date of Birth","Mobile Number","Email","Aadhar/ID Number",
+                    "Course/Branch","Year/Semester","Enrollment No",
+                    "Parent/Guardian Name","Guardian Mobile Number","Permanent Address"];
+
+  let students = [];
+
+  function registerStudent(){
+    const form = document.getElementById('regForm');
+    const status = document.getElementById('reg_status');
+
+    if (!form.checkValidity()){
+      form.reportValidity();
+      return;
+    }
+
+    const entry = {};
+    fields.forEach(id => entry[id] = document.getElementById(id).value.trim());
+
+    students.push(entry);
+
+    status.innerHTML = '<span class="text-success"><i class="bi bi-check-circle-fill"></i> Registered successfully!</span>';
+    form.reset();
+  }
+
+  // ============================================================
+  // Download is gated behind a password so only an authorized
+  // person can export student data. Note: this check runs in the
+  // browser, so it only deters casual access — anyone viewing page
+  // source can read the password. Fine for a college project demo,
+  // not real security.
+  // ============================================================
+  const DOWNLOAD_PASSWORD = "KDP@123";
+
+  function checkDownloadPassword(){
+    const entered = document.getElementById('downloadPassword').value;
+    const status = document.getElementById('dl_pw_status');
+
+    if (entered === DOWNLOAD_PASSWORD){
+      document.getElementById('downloadPassword').value = "";
+      status.innerHTML = "";
+      bootstrap.Modal.getInstance(document.getElementById('downloadPasswordModal')).hide();
+      downloadExcel();
+    } else {
+      status.innerHTML = '<span class="text-danger">Wrong password. Try again.</span>';
+    }
+  }
+
+  function downloadExcel(){
+    if (!students.length){
+      alert("No students registered yet.");
+      return;
+    }
+
+    const data = students.map(s => {
+      const row = {};
+      fields.forEach((f, i) => row[headers[i]] = s[f]);
+      return row;
+    });
+
+    const ws = XLSX.utils.json_to_sheet(data, { header: headers });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Registrations");
+    XLSX.writeFile(wb, "student_registrations.xlsx");
+  }
+</script>
+
+
+
+</body>
+</html>

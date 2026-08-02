@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K.D. Hostel | Notice</title>
+ 
+<!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<!-- Google Fonts: classic serif + clean sans -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+ 
+<style>
+  :root{
+    --navy:#1D5FD6;
+    --navy-deep:#0F2A5C;
+    --gold:#4C86EA;
+    --cream:#F4F8FE;
+    --ink:#2b2b2b;
+  }
+ 
+ 
+  .kd-logo{
+    width:42px;height:42px;border-radius:50%;
+    background:#fff;
+    color:#fff;display:inline-flex;align-items:center;justify-content:center;
+    font-family:'Playfair Display', serif;font-weight:700;font-size:1rem;
+    letter-spacing:0.5px;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,0.35);
+    flex-shrink:0;
+    overflow:hidden;
+    padding:0;
+  }
+  .kd-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .footer-kd .kd-logo{ margin-bottom:14px; width:56px; height:56px; }
+ 
+  body{
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+  }
+ 
+  h1,h2,h3,.brand{
+    font-family:'Playfair Display', serif;
+  }
+ 
+  /* Navbar */
+  .navbar-kd{
+    background:var(--navy-deep);
+    border-bottom:3px solid var(--gold);
+  }
+  .navbar-kd .navbar-brand{
+    color:var(--gold);
+    font-weight:700;
+    font-size:1.5rem;
+    letter-spacing:0.5px;
+  }
+  .navbar-kd .nav-link{
+    color:#e9e4d8;
+    font-weight:600;
+    font-size:0.92rem;
+    margin:0 4px;
+  }
+  .navbar-kd .nav-link:hover,
+  .navbar-kd .nav-link.active{
+    color:var(--gold);
+  }
+  .navbar-kd .navbar-phone{
+    color:var(--gold);
+    font-weight:600;
+    font-size:0.92rem;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-right:14px;
+    white-space:nowrap;
+  }
+  .navbar-kd .navbar-phone:hover{
+    color:#fff;
+  }
+  .navbar-kd .navbar-toggler{
+    border-color:var(--gold);
+  }
+  .navbar-kd .navbar-toggler-icon-custom{
+    color:var(--gold);
+    font-size:1.6rem;
+    line-height:1;
+  }
+ 
+  /* Page header (hero variant for inner pages) */
+  .page-header{
+    background:linear-gradient(rgba(15,42,92,0.88), rgba(15,42,92,0.88)),
+      url('https://images.unsplash.com/photo-1519452575417-564c1401ecc0?q=80&w=1600') center/cover no-repeat;
+    color:#fff;
+    padding:70px 0 60px;
+    text-align:center;
+    border-bottom:4px solid var(--gold);
+  }
+  .page-header h1{
+    font-size:2.3rem;
+    font-weight:700;
+  }
+  .page-header .divider{
+    width:70px;
+    height:3px;
+    background:var(--gold);
+    margin:16px auto 0;
+  }
+ 
+  /* Toolbar */
+  .notice-toolbar{
+    margin:40px 0 30px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .notice-toolbar .form-control,
+  .notice-toolbar .form-select{
+    border-color:#e4ddc9;
+  }
+  .notice-toolbar .form-control:focus,
+  .notice-toolbar .form-select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 0.2rem rgba(200,162,74,0.2);
+  }
+ 
+  /* Notice cards */
+  .notice-card{
+    background:#fff;
+    border:1px solid #e4ddc9;
+    border-left:4px solid var(--navy);
+    border-radius:4px;
+    padding:22px 24px;
+    margin-bottom:18px;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    position:relative;
+  }
+  .notice-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 22px rgba(22,50,74,0.1);
+    border-left-color:var(--gold);
+  }
+  .notice-card.pinned{
+    border-left-color:var(--gold);
+    background:#fffdf6;
+  }
+  .notice-card .notice-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .notice-card h3{
+    font-size:1.05rem;
+    color:var(--navy);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .notice-card .notice-date{
+    font-size:0.8rem;
+    color:#888;
+    white-space:nowrap;
+  }
+  .notice-card p{
+    font-size:0.92rem;
+    color:#555;
+    margin:8px 0 0;
+  }
+  .notice-card .badge-new{
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-weight:700;
+    font-size:0.7rem;
+    padding:4px 9px;
+    border-radius:20px;
+    margin-left:8px;
+  }
+  .notice-card .badge-pin{
+    color:var(--gold);
+    margin-right:6px;
+  }
+  .notice-card .category-tag{
+    display:inline-block;
+    font-size:0.72rem;
+    font-weight:600;
+    color:var(--navy);
+    background:var(--cream);
+    border:1px solid #e4ddc9;
+    border-radius:20px;
+    padding:2px 10px;
+    margin-top:10px;
+  }
+ 
+  .state-box{
+    text-align:center;
+    padding:50px 20px;
+    color:#888;
+  }
+  .state-box i{
+    font-size:2rem;
+    color:var(--gold);
+    display:block;
+    margin-bottom:12px;
+  }
+ 
+  /* Footer */
+  .footer-kd{
+    background:var(--navy-deep);
+    color:#b9c2ca;
+    padding:60px 0 0;
+    margin-top:70px;
+    border-top:3px solid var(--gold);
+  }
+  .footer-kd h5{
+    color:#fff;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:22px;
+  }
+  .footer-kd a{
+    color:#b9c2ca;
+    text-decoration:none;
+    display:block;
+    margin-bottom:14px;
+    font-size:0.95rem;
+    transition:color .15s ease;
+  }
+  .footer-kd a:hover{
+    color:var(--gold);
+  }
+  .footer-kd .social-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#2a4054;
+    color:#fff;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.1rem;
+    margin-top:6px;
+  }
+  .footer-kd .social-icon:hover{
+    background:var(--gold);
+    color:var(--navy-deep);
+  }
+  .footer-kd .contact-line{
+    display:flex;
+    gap:12px;
+    margin-bottom:16px;
+    font-size:0.95rem;
+    color:#b9c2ca;
+  }
+  .footer-kd .contact-line i{
+    color:var(--gold);
+    font-size:1.05rem;
+    margin-top:2px;
+  }
+  .footer-kd .contact-line a{
+    margin-bottom:0;
+    display:inline;
+  }
+  .footer-bottom{
+    border-top:1px solid #2a4054;
+    margin-top:40px;
+    padding:22px 0;
+    text-align:center;
+    font-size:0.85rem;
+    color:#8ea0ae;
+  }
+</style>
+</head>
+<body>
+ 
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-kd sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><span class="kd-logo"><img src="logo.png" alt="K.D. Hostel Logo"></span> K.D. HOSTEL</a>
+    <div class="d-flex align-items-center order-lg-3">
+      <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list navbar-toggler-icon-custom"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="notice.html">Notice</a></li>
+        <li class="nav-item"><a class="nav-link" href="registration.html">Student Registration</a></li>
+        <li class="nav-item"><a class="nav-link" href="allocation.html">Smart Room Allocation</a></li>
+        <li class="nav-item"><a class="nav-link" href="visitor.html">Visitor Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="complaint.html">Complaint Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
+        <li class="nav-item"><a class="nav-link" href="security.html">Security &amp; Surveillance</a></li>
+        <li class="nav-item"><a class="nav-link" href="support.html">24/7 Student Support</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+ 
+<!-- Page Header -->
+<section class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-megaphone"></i> Notices &amp; Announcements</h1>
+    <div class="divider"></div>
+  </div>
+</section>
+ 
+<div class="container">
+ 
+  <!-- Toolbar -->
+  <div class="notice-toolbar">
+    <div class="d-flex gap-2 flex-grow-1" style="max-width:420px;">
+      <input type="text" id="searchInput" class="form-control" placeholder="Search notices...">
+      <select id="categoryFilter" class="form-select" style="max-width:180px;">
+        <option value="all">All Categories</option>
+        <option value="General">General</option>
+        <option value="Fee">Fee</option>
+        <option value="Mess">Mess</option>
+        <option value="Maintenance">Maintenance</option>
+        <option value="Event">Event</option>
+      </select>
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-sm" style="background:var(--gold); color:var(--navy-deep); font-weight:600;" data-bs-toggle="modal" data-bs-target="#passwordModal">
+        <i class="bi bi-plus-lg"></i> Add Notice
+      </button>
+      <button class="btn btn-sm" style="background:var(--navy); color:#fff;" onclick="loadNotices()">
+        <i class="bi bi-arrow-clockwise"></i> Refresh
+      </button>
+    </div>
+  </div>
+ 
+  <!-- Notices list -->
+  <div id="noticeList"></div>
+ 
+</div>
+ 
+<!-- Password Modal (Agent Authorization) -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background:var(--navy); color:#fff;">
+        <h5 class="modal-title"><i class="bi bi-shield-lock"></i> Authorized Access</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <label class="form-label">Enter agent password to add a notice</label>
+        <input type="password" class="form-control" id="agentPassword" placeholder="Password">
+        <div id="pw_status" class="mt-2 small"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn" style="background:var(--gold); color:var(--navy-deep); font-weight:600;" onclick="checkPassword()">Unlock</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- Add Notice Modal -->
+<div class="modal fade" id="addNoticeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background:var(--navy); color:#fff;">
+        <h5 class="modal-title"><i class="bi bi-megaphone"></i> New Notice</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="noticeForm">
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" id="n_title" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" id="n_description" rows="3" required></textarea>
+          </div>
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label">Category</label>
+              <select class="form-select" id="n_category">
+                <option>General</option>
+                <option>Fee</option>
+                <option>Mess</option>
+                <option>Maintenance</option>
+                <option>Event</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-control" id="n_date" required>
+            </div>
+          </div>
+          <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="n_pinned">
+            <label class="form-check-label" for="n_pinned">Pin this notice to top</label>
+          </div>
+        </form>
+        <div id="n_status" class="mt-2 small"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn" style="background:var(--gold); color:var(--navy-deep); font-weight:600;" onclick="submitNotice()">Post Notice</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- Footer -->
+<footer class="footer-kd">
+  <div class="container">
+    <div class="row g-4">
+ 
+      <div class="col-lg-3 col-md-6">
+        <div class="kd-logo"><img src="logo.png" alt="K.D. Hostel Logo"></div>
+        <h5>K. D. HOSTEL</h5>
+        <a href="https://www.facebook.com/p/KD-Polytechnic-Patan-100054398415159/" class="social-icon"><i class="bi bi-facebook"></i></a>
+      </div>
+ 
+      <div class="col-lg-3 col-md-6">
+        <h5>Quick Links</h5>
+        <a href="index.html">Home</a>
+        <a href="notice.html">Notice</a>
+        <a href="registration.html">Student Registration</a>
+        <a href="fee.html">Fee Management</a>
+        <a href="complaint.html">Complaint Management</a>
+      
+      </div>
+ 
+      <div class="col-lg-3 col-md-6">
+        <h5>Facilities</h5>
+        <a href="#">Boys Block</a>
+        <a href="#">Girls Block</a>
+        <a href="#">Mess &amp; Dining</a>
+        <a href="#">Common Room</a>
+        <a href="#">Sports Room</a>
+      </div>
+ 
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact Us</h5>
+        <div class="contact-line">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-telephone-fill"></i>
+          <a href="tel:02766220419">02766-220419</a>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
+        </div>
+      </div>
+ 
+    </div>
+ 
+    <div class="footer-bottom">
+      <p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
+      <p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
+    </div>
+  </div>
+</footer>
+ 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+ 
+<script>
+  // ============================================================
+  // CONFIG: paste your deployed Google Apps Script Web App URL
+  // (the one ending in /exec) between the quotes below.
+  // Leave blank to use sample offline data.
+  // ============================================================
+  const GAS_URL = ""; // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
+ 
+  // Sample/fallback data — used if GAS_URL is blank or fetch fails
+  const sampleNotices = [
+    {
+      title: "Hostel Fee Payment Deadline Extended",
+      description: "Last date to pay hostel fees for this semester has been extended to the 5th of next month. Late fee will apply after that.",
+      category: "Fee",
+      date: "2026-07-25",
+      pinned: true
+    },
+    {
+      title: "Mess Menu Update for August",
+      description: "The revised mess menu for August has been finalized based on student feedback. Check the mess notice board for details.",
+      category: "Mess",
+      date: "2026-07-24",
+      pinned: false
+    },
+    {
+      title: "Scheduled Water Supply Maintenance",
+      description: "Water supply will be temporarily stopped on Sunday from 10 AM to 1 PM for tank cleaning in Boys Block.",
+      category: "Maintenance",
+      date: "2026-07-22",
+      pinned: false
+    },
+    {
+      title: "Independence Day Celebration",
+      description: "All residents are invited to the flag hoisting ceremony in the common ground, followed by cultural activities.",
+      category: "Event",
+      date: "2026-07-20",
+      pinned: false
+    },
+    {
+      title: "ID Card Verification Drive",
+      description: "All students must get their hostel ID cards verified at the office by end of this week.",
+      category: "General",
+      date: "2026-07-18",
+      pinned: false
+    }
+  ];
+ 
+  let allNotices = [];
+ 
+  function daysAgo(dateStr){
+    const diff = (new Date() - new Date(dateStr)) / (1000*60*60*24);
+    return diff;
+  }
+ 
+  function renderNotices(notices){
+    const list = document.getElementById('noticeList');
+    list.innerHTML = "";
+ 
+    if (!notices.length){
+      list.innerHTML = `
+        <div class="state-box">
+          <i class="bi bi-inbox"></i>
+          No notices match your search.
+        </div>`;
+      return;
+    }
+ 
+    // Pinned first, then by date descending
+    const sorted = [...notices].sort((a,b) => {
+      if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+      return new Date(b.date) - new Date(a.date);
+    });
+ 
+    sorted.forEach(n => {
+      const isNew = daysAgo(n.date) <= 3;
+      const card = document.createElement('div');
+      card.className = "notice-card" + (n.pinned ? " pinned" : "");
+      card.innerHTML = `
+        <div class="notice-top">
+          <h3>
+            ${n.pinned ? '<i class="bi bi-pin-angle-fill badge-pin"></i>' : ''}
+            ${n.title}
+            ${isNew ? '<span class="badge-new">NEW</span>' : ''}
+          </h3>
+          <span class="notice-date"><i class="bi bi-calendar3"></i> ${formatDate(n.date)}</span>
+        </div>
+        <p>${n.description}</p>
+        <span class="category-tag">${n.category}</span>
+      `;
+      list.appendChild(card);
+    });
+  }
+ 
+  function formatDate(dateStr){
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+  }
+ 
+  function applyFilters(){
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const category = document.getElementById('categoryFilter').value;
+ 
+    const filtered = allNotices.filter(n => {
+      const matchesQuery = n.title.toLowerCase().includes(query) || n.description.toLowerCase().includes(query);
+      const matchesCategory = category === "all" || n.category === category;
+      return matchesQuery && matchesCategory;
+    });
+ 
+    renderNotices(filtered);
+  }
+ 
+  async function loadNotices(){
+    const list = document.getElementById('noticeList');
+    list.innerHTML = `
+      <div class="state-box">
+        <i class="bi bi-hourglass-split"></i>
+        Loading notices...
+      </div>`;
+ 
+    if (!GAS_URL){
+      allNotices = sampleNotices;
+      applyFilters();
+      return;
+    }
+ 
+    try {
+      const res = await fetch(GAS_URL);
+      const data = await res.json();
+      // Expecting an array of { title, description, category, date, pinned }
+      allNotices = Array.isArray(data) ? data : (data.notices || []);
+      if (!allNotices.length) allNotices = sampleNotices;
+    } catch (err){
+      console.error("Failed to load notices from Apps Script, using sample data:", err);
+      allNotices = sampleNotices;
+    }
+    applyFilters();
+  }
+ 
+  document.getElementById('searchInput').addEventListener('input', applyFilters);
+  document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+ 
+  // ============================================================
+  // Agent password gate. Note: this only hides the form on the
+  // client — anyone viewing page source can read the password.
+  // Fine for a college demo; not real security.
+  // ============================================================
+  const AGENT_PASSWORD = "KDP@123";
+ 
+  function checkPassword(){
+    const entered = document.getElementById('agentPassword').value;
+    const status = document.getElementById('pw_status');
+ 
+    if (entered === AGENT_PASSWORD){
+      document.getElementById('agentPassword').value = "";
+      status.innerHTML = "";
+      bootstrap.Modal.getInstance(document.getElementById('passwordModal')).hide();
+      const addModal = new bootstrap.Modal(document.getElementById('addNoticeModal'));
+      addModal.show();
+    } else {
+      status.innerHTML = '<span class="text-danger">Wrong password. Try again.</span>';
+    }
+  }
+ 
+  async function submitNotice(){
+    const title = document.getElementById('n_title').value.trim();
+    const description = document.getElementById('n_description').value.trim();
+    const category = document.getElementById('n_category').value;
+    const date = document.getElementById('n_date').value;
+    const pinned = document.getElementById('n_pinned').checked;
+    const status = document.getElementById('n_status');
+ 
+    if (!title || !description || !date){
+      status.innerHTML = '<span class="text-danger">Please fill title, description and date.</span>';
+      return;
+    }
+ 
+    const newNotice = { title, description, category, date, pinned };
+ 
+    if (!GAS_URL){
+      // No backend configured yet — just show it locally
+      allNotices.unshift(newNotice);
+      applyFilters();
+      closeModalAndReset();
+      return;
+    }
+ 
+    status.innerHTML = '<span class="text-muted">Posting...</span>';
+    try {
+      await fetch(GAS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids CORS preflight
+        body: JSON.stringify({ action: "add", ...newNotice })
+      });
+      status.innerHTML = '<span class="text-success">Notice posted.</span>';
+      allNotices.unshift(newNotice);
+      applyFilters();
+      closeModalAndReset();
+    } catch (err){
+      console.error("Failed to post notice:", err);
+      status.innerHTML = '<span class="text-danger">Could not reach server. Notice shown locally only.</span>';
+      allNotices.unshift(newNotice);
+      applyFilters();
+    }
+  }
+ 
+  function closeModalAndReset(){
+    document.getElementById('noticeForm').reset();
+    document.getElementById('n_status').innerHTML = '';
+    bootstrap.Modal.getInstance(document.getElementById('addNoticeModal')).hide();
+  }
+ 
+  loadNotices();
+</script>
+ 
+</body>
+</html>
+ 
+
+
