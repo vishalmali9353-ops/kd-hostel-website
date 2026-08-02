@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KD Hostel — Maintenance Prediction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#ffffff;
+    --navy-900:#f2f6fc;
+    --navy-800:#ffffff;
+    --navy-700:#e2eaf7;
+    --navy-600:#dbe6f8;
+    --line:#d6e2f5;
+    --brass:#2f6fed;
+    --brass-light:#1d4fc4;
+    --cream:#0e2350;
+    --cream-dim:#5b6a8c;
+    --ink:#ffffff;
+    --critical:#c0392f;
+    --critical-bg:#fbe4e1;
+    --warning:#b8720a;
+    --warning-bg:#fbedd8;
+    --watch:#8a7a10;
+    --watch-bg:#f7f2d6;
+    --healthy:#1f7a51;
+    --healthy-bg:#dff2e8;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, #dfeafd 0%, transparent 60%),
+      var(--navy-950);
+    color:var(--cream);
+    border-top:6px solid var(--brass);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding-bottom:80px;
+  }
+  ::selection{background:var(--brass); color:var(--ink);}
+  a{color:inherit;}
+
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* ---------- Header ---------- */
+  header.top{
+    padding:38px 6vw 26px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:18px;
+  }
+  .brand-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(28px,4vw,44px);
+    margin:0;
+    letter-spacing:-0.01em;
+    color:var(--cream);
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--brass-light);
+  }
+  .top-sub{
+    font-size:13.5px;
+    color:var(--cream-dim);
+    margin-top:8px;
+    max-width:520px;
+  }
+  .sync-status{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+    padding:9px 14px;
+    border:1px solid var(--line);
+    border-radius:100px;
+    background:var(--navy-900);
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--healthy);}
+  .dot.off{background:#6c6455;}
+  .dot.pulse{animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(95,161,122,.5);}70%{box-shadow:0 0 0 7px rgba(95,161,122,0);}100%{box-shadow:0 0 0 0 rgba(95,161,122,0);}}
+  button.ghost-btn{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    padding:9px 14px;
+    border-radius:100px;
+    cursor:pointer;
+    transition:.15s ease;
+  }
+  button.ghost-btn:hover{border-color:var(--brass); color:var(--brass-light);}
+
+  /* ---------- Stat strip ---------- */
+  .stat-strip{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:1px;
+    background:var(--line);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .stat{
+    background:var(--navy-900);
+    padding:20px 6vw;
+    padding-left:max(20px, calc(6vw - 4vw));
+  }
+  .stat-strip .stat{padding-left:22px; padding-right:22px;}
+  .stat .num{
+    font-family:'Fraunces',serif;
+    font-size:32px;
+    font-weight:600;
+  }
+  .stat .lbl{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:var(--cream-dim);
+    margin-top:4px;
+  }
+  .stat.critical .num{color:var(--critical);}
+  .stat.warning .num{color:var(--warning);}
+  .stat.watch .num{color:var(--watch);}
+  .stat.healthy .num{color:var(--healthy);}
+
+  /* ---------- Controls ---------- */
+  .controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    padding:22px 6vw 6px;
+  }
+  select, input[type=text]{
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    padding:9px 12px;
+    border-radius:8px;
+    outline:none;
+  }
+  select:focus, input[type=text]:focus{border-color:var(--brass);}
+  .controls .spacer{flex:1;}
+  .sort-label{font-size:12px; color:var(--cream-dim); margin-right:-4px;}
+
+  /* ---------- Grid of cards ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:16px;
+    padding:20px 6vw 10px;
+  }
+  .card{
+    background:var(--navy-800);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    box-shadow:0 1px 3px rgba(20,40,90,.06);
+  }
+  .card:hover{border-color:#a9c2ee; box-shadow:0 4px 14px rgba(20,40,90,.1);}
+  .card::before{
+    content:'';
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+  }
+  .card.critical::before{background:var(--critical);}
+  .card.warning::before{background:var(--warning);}
+  .card.watch::before{background:var(--watch);}
+  .card.healthy::before{background:var(--healthy);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .room-id{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:600;
+  }
+  .room-meta{
+    font-size:12px;
+    color:var(--cream-dim);
+    margin-top:3px;
+  }
+  .asset-type{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    padding:4px 8px;
+    border-radius:5px;
+    border:1px solid var(--line);
+    color:var(--cream-dim);
+    white-space:nowrap;
+  }
+
+  /* Inspection-tag dial (signature element) */
+  .tag-wrap{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin:16px 0 14px;
+  }
+  .dial{
+    width:74px; height:74px;
+    border-radius:50%;
+    position:relative;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .dial-inner{
+    width:52px; height:52px;
+    border-radius:50%;
+    background:#ffffff;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column;
+    border:1px solid var(--line);
+    box-shadow:0 1px 3px rgba(20,40,90,.12);
+  }
+  .dial-inner .score{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:16px;
+    line-height:1;
+  }
+  .dial-inner .score-lbl{
+    font-size:7px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--cream-dim);
+    margin-top:2px;
+  }
+  .tag-info .status-word{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:17px;
+    font-weight:600;
+  }
+  .status-word.critical{color:var(--critical);}
+  .status-word.warning{color:var(--warning);}
+  .status-word.watch{color:var(--watch);}
+  .status-word.healthy{color:var(--healthy);}
+  .tag-info .next-date{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+    margin-top:3px;
+  }
+
+  .factors{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-bottom:14px;
+  }
+  .factor-chip{
+    font-size:10.5px;
+    padding:4px 8px;
+    border-radius:6px;
+    background:var(--navy-900);
+    border:1px solid var(--line);
+    color:var(--cream-dim);
+  }
+
+  .card-actions{
+    display:flex;
+    gap:8px;
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+  .btn-log{
+    flex:1;
+    background:var(--brass);
+    color:var(--ink);
+    border:none;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:12.5px;
+    padding:10px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.15s ease;
+  }
+  .btn-log:hover{background:var(--brass-light);}
+  .btn-log:disabled{background:var(--navy-700); color:var(--cream-dim); cursor:default;}
+
+  .empty{
+    padding:60px 6vw;
+    text-align:center;
+    color:var(--cream-dim);
+  }
+
+  /* ---------- Setup panel ---------- */
+  .setup-panel{
+    margin:26px 6vw 0;
+    background:var(--navy-900);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+  }
+  .setup-panel h2{
+    font-family:'Fraunces',serif;
+    font-size:19px;
+    margin:0 0 6px;
+    font-weight:600;
+  }
+  .setup-panel p{
+    font-size:13px;
+    color:var(--cream-dim);
+    line-height:1.6;
+    margin:0 0 14px;
+  }
+  .setup-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .setup-row input{flex:1; min-width:240px;}
+  pre.code-block{
+    background:#0e1524;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    line-height:1.65;
+    overflow-x:auto;
+    color:#cbd3ea;
+    margin:0 0 14px;
+  }
+  .col-list{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+    gap:6px;
+    margin-bottom:14px;
+  }
+  .col-list span{color:var(--brass-light);}
+  details summary{
+    cursor:pointer;
+    font-size:12.5px;
+    color:var(--brass-light);
+    margin-bottom:10px;
+  }
+
+  footer.foot{
+    padding:26px 6vw 0;
+    color:var(--cream-dim);
+    font-size:11.5px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  @media (max-width:760px){
+    .stat-strip{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(5){grid-column:span 2;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .dot.pulse{animation:none;}
+    .card{transition:none;}
+  }
+
+  .kd-topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 20px;background:#ffffff;border-bottom:2px solid #1D5FD6;position:sticky;top:0;z-index:50;flex-wrap:wrap;font-family:'Inter',sans-serif;}
+  .kd-topbar .kd-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#0F2A5C;font-weight:700;font-size:14px;white-space:nowrap;}
+  .kd-topbar .kd-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,.35);flex-shrink:0;}
+  .kd-topbar nav{display:flex;gap:2px;flex-wrap:wrap;}
+  .kd-topbar nav a{font-size:11.5px;color:#5A6B8C;text-decoration:none;padding:6px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
+  .kd-topbar nav a:hover{background:#EAF1FD;color:#1D5FD6;}
+  .kd-topbar nav a.active{background:#1D5FD6;color:#fff;}
+  @media (max-width:900px){ .kd-topbar nav{display:none;} }
+</style>
+</head>
+<body>
+<div class="kd-topbar">
+  <a href="index.html" class="kd-brand"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. Hostel</a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="notice.html">Notice</a>
+    <a href="registration.html">Registration</a>
+    <a href="allocation.html">Allocation</a>
+    <a href="visitor.html">Visitor</a>
+    <a href="mess.html">Mess</a>
+    <a href="complaint.html">Complaint</a>
+    <a href="fee.html">Fee</a>
+    <a href="maintenance.html" class="active">Maintenance</a>
+    <a href="security.html">Security</a>
+    <a href="support.html">Support</a>
+  </nav>
+</div>
+
+
+<header class="top">
+  <div>
+    <p class="brand-eyebrow">KD Hostel · Facilities</p>
+    <h1>Maintenance <em>Prediction</em></h1>
+    <p class="top-sub">Every room and system, read like an inspection log — last serviced, wear signals, and when it's due next.</p>
+  </div>
+  <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
+    <div class="sync-status" id="syncStatus">
+      <span class="dot off" id="syncDot"></span>
+      <span id="syncText">Demo data · not connected to Sheet</span>
+    </div>
+    <button class="ghost-btn" id="setupToggle">Connect Google Sheet ⚙</button>
+  </div>
+</header>
+
+<section class="stat-strip">
+  <div class="stat critical"><div class="num" id="statCritical">0</div><div class="lbl">Critical</div></div>
+  <div class="stat warning"><div class="num" id="statWarning">0</div><div class="lbl">Warning</div></div>
+  <div class="stat watch"><div class="num" id="statWatch">0</div><div class="lbl">Watch</div></div>
+  <div class="stat healthy"><div class="num" id="statHealthy">0</div><div class="lbl">Healthy</div></div>
+  <div class="stat"><div class="num mono" id="statAvg">0</div><div class="lbl">Avg Risk Score</div></div>
+</section>
+
+<div class="controls">
+  <input type="text" id="searchBox" placeholder="Search room or block…" style="min-width:180px;">
+  <select id="filterType">
+    <option value="all">All systems</option>
+    <option value="AC">AC</option>
+    <option value="Geyser">Geyser</option>
+    <option value="Plumbing">Plumbing</option>
+    <option value="Electrical">Electrical</option>
+    <option value="Furniture">Furniture</option>
+    <option value="FireSafety">Fire Safety</option>
+  </select>
+  <select id="filterRisk">
+    <option value="all">All risk levels</option>
+    <option value="critical">Critical</option>
+    <option value="warning">Warning</option>
+    <option value="watch">Watch</option>
+    <option value="healthy">Healthy</option>
+  </select>
+  <div class="spacer"></div>
+  <span class="sort-label">Sort</span>
+  <select id="sortBy">
+    <option value="risk">Risk score (high → low)</option>
+    <option value="due">Due date (soonest)</option>
+    <option value="room">Room number</option>
+  </select>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="empty" id="emptyState" style="display:none;">No assets match these filters.</div>
+
+<section class="setup-panel" id="setupPanel" style="display:none;">
+  <h2>Connect a live Google Sheet</h2>
+  <p>The prediction engine can read straight from a Sheet instead of demo data. Deploy the Apps Script below as a Web App, paste its URL here, and each room's risk score recalculates from your real maintenance log.</p>
+  <div class="setup-row">
+    <input type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/…/exec">
+    <button class="ghost-btn" id="connectBtn" style="background:var(--brass); color:var(--ink); border:none; font-weight:600;">Connect</button>
+    <button class="ghost-btn" id="demoBtn">Use demo data</button>
+  </div>
+
+  <p><strong style="color:var(--cream);">1. Sheet columns</strong> — create a sheet named <span class="mono" style="color:var(--brass-light);">Assets</span> with this header row:</p>
+  <div class="col-list">
+    <span>ID</span><span>Room</span><span>Block</span><span>Type</span>
+    <span>InstallDate</span><span>LastMaintenance</span><span>Complaints30d</span>
+    <span>Complaints90d</span><span>UsageIntensity</span>
+  </div>
+
+  <details>
+    <summary>2. Apps Script backend (copy into Extensions → Apps Script, deploy as Web App)</summary>
+    <pre class="code-block" id="gasCode">function doGet(e) {
+  var action = e.parameter.action || 'list';
+  if (action === 'list') return listAssets();
+  return jsonOut({error: 'unknown action'});
+}
+
+function doPost(e) {
+  var body = JSON.parse(e.postData.contents);
+  if (body.action === 'logMaintenance') return logMaintenance(body.id, body.date);
+  return jsonOut({error: 'unknown action'});
+}
+
+function getSheet() {
+  return SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Assets');
+}
+
+function listAssets() {
+  var sheet = getSheet();
+  var rows = sheet.getDataRange().getValues();
+  var headers = rows.shift();
+  var out = rows.map(function(r) {
+    var obj = {};
+    headers.forEach(function(h, i) { obj[h] = r[i]; });
+    return obj;
+  });
+  return jsonOut(out);
+}
+
+function logMaintenance(id, dateStr) {
+  var sheet = getSheet();
+  var data = sheet.getDataRange().getValues();
+  var headers = data[0];
+  var idCol = headers.indexOf('ID');
+  var dateCol = headers.indexOf('LastMaintenance');
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][idCol]) === String(id)) {
+      sheet.getRange(i + 1, dateCol + 1).setValue(dateStr);
+      break;
+    }
+  }
+  return jsonOut({ok: true});
+}
+
+function jsonOut(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+  </details>
+  <p style="margin-top:-4px;">Deploy → <span class="mono" style="color:var(--brass-light);">Execute as: Me</span>, <span class="mono" style="color:var(--brass-light);">Who has access: Anyone</span>. Paste the resulting <span class="mono">/exec</span> URL above.</p>
+</section>
+
+<footer class="foot">KD HOSTEL FACILITIES · RISK MODEL v1 · SCORES ARE HEURISTIC ESTIMATES, NOT A SUBSTITUTE FOR PHYSICAL INSPECTION</footer>
+
+<script>
+/* ---------------- Prediction engine ---------------- */
+const BASELINE_DAYS = {
+  AC: 180, Geyser: 270, Plumbing: 365, Electrical: 240, Furniture: 365, FireSafety: 90
+};
+const USAGE_FACTOR = { Low: 0, Medium: 8, High: 16 };
+
+function daysBetween(a, b) {
+  return Math.round((b - a) / 86400000);
+}
+
+function computeRisk(asset, today) {
+  const last = new Date(asset.LastMaintenance);
+  const installed = new Date(asset.InstallDate);
+  const baseline = BASELINE_DAYS[asset.Type] || 240;
+
+  const daysSinceLast = daysBetween(last, today);
+  const intervalFactor = Math.min((daysSinceLast / baseline) * 100, 100);
+
+  const ageYears = daysBetween(installed, today) / 365;
+  const ageFactor = Math.min(ageYears * 5, 30);
+
+  const c30 = Number(asset.Complaints30d) || 0;
+  const c90 = Number(asset.Complaints90d) || 0;
+  const complaintFactor = Math.min(c30 * 8 + c90 * 2, 30);
+
+  const usageFactor = USAGE_FACTOR[asset.UsageIntensity] ?? 0;
+
+  let score = intervalFactor * 0.5 + ageFactor + complaintFactor + usageFactor;
+  score = Math.max(0, Math.min(100, Math.round(score)));
+
+  const adjFactor = 1 - (score / 100) * 0.5;
+  const predictedDays = Math.max(baseline * adjFactor, 7);
+  const nextDate = new Date(last.getTime() + predictedDays * 86400000);
+  const daysUntil = daysBetween(today, nextDate);
+
+  let level;
+  if (daysUntil <= 0 || score >= 75) level = 'critical';
+  else if (score >= 50) level = 'warning';
+  else if (score >= 25) level = 'watch';
+  else level = 'healthy';
+
+  const factors = [];
+  if (daysSinceLast > baseline) factors.push(`${daysSinceLast}d since service`);
+  else factors.push(`serviced ${daysSinceLast}d ago`);
+  if (ageYears >= 1) factors.push(`${ageYears.toFixed(1)}y in use`);
+  if (c30 > 0) factors.push(`${c30} complaint${c30 > 1 ? 's' : ''} (30d)`);
+  if (asset.UsageIntensity === 'High') factors.push('high usage');
+
+  return { score, level, nextDate, daysUntil, factors };
+}
+
+const STATUS_WORD = {
+  critical: 'Overdue', warning: 'Due soon', watch: 'Keep watch', healthy: 'Healthy'
+};
+
+/* ---------------- Demo data ---------------- */
+function demoData() {
+  const today = new Date();
+  const d = (n) => new Date(today.getTime() - n * 86400000).toISOString().slice(0, 10);
+  return [
+    { ID: 'A101-AC', Room: '101', Block: 'A', Type: 'AC', InstallDate: d(900), LastMaintenance: d(210), Complaints30d: 3, Complaints90d: 5, UsageIntensity: 'High' },
+    { ID: 'A101-EL', Room: '101', Block: 'A', Type: 'Electrical', InstallDate: d(1400), LastMaintenance: d(60), Complaints30d: 0, Complaints90d: 1, UsageIntensity: 'Medium' },
+    { ID: 'A102-GY', Room: '102', Block: 'A', Type: 'Geyser', InstallDate: d(1100), LastMaintenance: d(310), Complaints30d: 1, Complaints90d: 2, UsageIntensity: 'High' },
+    { ID: 'A104-PL', Room: '104', Block: 'A', Type: 'Plumbing', InstallDate: d(1800), LastMaintenance: d(40), Complaints30d: 0, Complaints90d: 0, UsageIntensity: 'Low' },
+    { ID: 'B201-FS', Room: '201', Block: 'B', Type: 'FireSafety', InstallDate: d(600), LastMaintenance: d(95), Complaints30d: 0, Complaints90d: 0, UsageIntensity: 'Low' },
+    { ID: 'B202-AC', Room: '202', Block: 'B', Type: 'AC', InstallDate: d(2000), LastMaintenance: d(30), Complaints30d: 0, Complaints90d: 1, UsageIntensity: 'Medium' },
+    { ID: 'B203-FU', Room: '203', Block: 'B', Type: 'Furniture', InstallDate: d(1500), LastMaintenance: d(400), Complaints30d: 2, Complaints90d: 3, UsageIntensity: 'High' },
+    { ID: 'C301-EL', Room: '301', Block: 'C', Type: 'Electrical', InstallDate: d(2200), LastMaintenance: d(260), Complaints30d: 4, Complaints90d: 6, UsageIntensity: 'High' },
+    { ID: 'C302-GY', Room: '302', Block: 'C', Type: 'Geyser', InstallDate: d(300), LastMaintenance: d(20), Complaints30d: 0, Complaints90d: 0, UsageIntensity: 'Low' },
+    { ID: 'C303-PL', Room: '303', Block: 'C', Type: 'Plumbing', InstallDate: d(2600), LastMaintenance: d(500), Complaints30d: 1, Complaints90d: 4, UsageIntensity: 'Medium' },
+  ];
+}
+
+/* ---------------- State ---------------- */
+let rawAssets = [];
+let gasUrl = null;
+
+function fmtDate(dt) {
+  return dt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function dueLabel(daysUntil) {
+  if (daysUntil < 0) return `${Math.abs(daysUntil)}d overdue`;
+  if (daysUntil === 0) return 'due today';
+  return `in ${daysUntil}d`;
+}
+
+function conicFor(level) {
+  const c = { critical: '#c0392f', warning: '#b8720a', watch: '#8a7a10', healthy: '#1f7a51' }[level];
+  return `conic-gradient(${c} 0deg, ${c} 300deg, #e2eaf7 300deg 360deg)`;
+}
+
+function render() {
+  const today = new Date();
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  const typeF = document.getElementById('filterType').value;
+  const riskF = document.getElementById('filterRisk').value;
+  const sortBy = document.getElementById('sortBy').value;
+
+  let items = rawAssets.map(a => ({ asset: a, risk: computeRisk(a, today) }));
+
+  items = items.filter(({ asset, risk }) => {
+    if (typeF !== 'all' && asset.Type !== typeF) return false;
+    if (riskF !== 'all' && risk.level !== riskF) return false;
+    if (q) {
+      const hay = `${asset.Room} ${asset.Block} ${asset.Type} ${asset.ID}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  if (sortBy === 'risk') items.sort((a, b) => b.risk.score - a.risk.score);
+  else if (sortBy === 'due') items.sort((a, b) => a.risk.daysUntil - b.risk.daysUntil);
+  else items.sort((a, b) => a.asset.Room.localeCompare(b.asset.Room, undefined, { numeric: true }));
+
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('emptyState');
+  grid.innerHTML = '';
+
+  if (items.length === 0) {
+    empty.style.display = 'block';
+  } else {
+    empty.style.display = 'none';
+    items.forEach(({ asset, risk }) => grid.appendChild(buildCard(asset, risk)));
+  }
+
+  const all = rawAssets.map(a => computeRisk(a, today));
+  document.getElementById('statCritical').textContent = all.filter(r => r.level === 'critical').length;
+  document.getElementById('statWarning').textContent = all.filter(r => r.level === 'warning').length;
+  document.getElementById('statWatch').textContent = all.filter(r => r.level === 'watch').length;
+  document.getElementById('statHealthy').textContent = all.filter(r => r.level === 'healthy').length;
+  document.getElementById('statAvg').textContent = all.length
+    ? Math.round(all.reduce((s, r) => s + r.score, 0) / all.length)
+    : 0;
+}
+
+function buildCard(asset, risk) {
+  const card = document.createElement('div');
+  card.className = `card ${risk.level}`;
+  card.innerHTML = `
+    <div class="card-top">
+      <div>
+        <div class="room-id">Room ${asset.Room}</div>
+        <div class="room-meta">Block ${asset.Block} · ${asset.ID}</div>
+      </div>
+      <div class="asset-type">${asset.Type.replace(/([A-Z])/g, ' $1').trim()}</div>
+    </div>
+    <div class="tag-wrap">
+      <div class="dial" style="background:${conicFor(risk.level)}">
+        <div class="dial-inner">
+          <div class="score mono">${risk.score}</div>
+          <div class="score-lbl">risk</div>
+        </div>
+      </div>
+      <div class="tag-info">
+        <div class="status-word ${risk.level}">${STATUS_WORD[risk.level]}</div>
+        <div class="next-date">Next: ${fmtDate(risk.nextDate)} · ${dueLabel(risk.daysUntil)}</div>
+      </div>
+    </div>
+    <div class="factors">
+      ${risk.factors.map(f => `<span class="factor-chip">${f}</span>`).join('')}
+    </div>
+    <div class="card-actions">
+      <button class="btn-log" data-id="${asset.ID}">Log maintenance done today</button>
+    </div>
+  `;
+  card.querySelector('.btn-log').addEventListener('click', (e) => logMaintenance(asset.ID, e.target));
+  return card;
+}
+
+async function logMaintenance(id, btnEl) {
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const asset = rawAssets.find(a => a.ID === id);
+  if (!asset) return;
+
+  btnEl.disabled = true;
+  btnEl.textContent = 'Logging…';
+
+  if (gasUrl) {
+    try {
+      await fetch(gasUrl, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'logMaintenance', id, date: todayStr }),
+      });
+    } catch (err) {
+      console.error('Sheet update failed', err);
+    }
+  }
+  asset.LastMaintenance = todayStr;
+  render();
+}
+
+/* ---------------- Data loading ---------------- */
+async function loadFromSheet(url) {
+  document.getElementById('syncText').textContent = 'Connecting…';
+  try {
+    const res = await fetch(`${url}?action=list`);
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
+    rawAssets = data;
+    gasUrl = url;
+    document.getElementById('syncDot').className = 'dot pulse';
+    document.getElementById('syncText').textContent = 'Live · synced with Google Sheet';
+    render();
+  } catch (err) {
+    document.getElementById('syncDot').className = 'dot off';
+    document.getElementById('syncText').textContent = 'Could not reach Sheet · showing demo data';
+    rawAssets = demoData();
+    gasUrl = null;
+    render();
+  }
+}
+
+function loadDemo() {
+  rawAssets = demoData();
+  gasUrl = null;
+  document.getElementById('syncDot').className = 'dot off';
+  document.getElementById('syncText').textContent = 'Demo data · not connected to Sheet';
+  render();
+}
+
+/* ---------------- Wiring ---------------- */
+document.getElementById('setupToggle').addEventListener('click', () => {
+  const p = document.getElementById('setupPanel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
+});
+document.getElementById('connectBtn').addEventListener('click', () => {
+  const url = document.getElementById('gasUrlInput').value.trim();
+  if (url) loadFromSheet(url);
+});
+document.getElementById('demoBtn').addEventListener('click', loadDemo);
+['searchBox'].forEach(id => document.getElementById(id).addEventListener('input', render));
+['filterType', 'filterRisk', 'sortBy'].forEach(id => document.getElementById(id).addEventListener('change', render));
+
+loadDemo();
+</script>
+</body>
+</html>
