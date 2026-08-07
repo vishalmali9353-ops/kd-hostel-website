@@ -3,92 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
 <title>Security & Surveillance · KD Hostel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --navy-950:#ffffff; --navy-900:#f2f6fc; --navy-800:#eaf1fb; --navy-700:#dbe6f8;
-    --brass:#2f6fed; --brass-bright:#1548c9; --cream:#10254f; --cream-dim:#5b6a8c;
-    --green:#1f7a51; --amber:#b8720a; --red:#c0392f; --line:rgba(47,111,237,0.16);
-  }
-  *{box-sizing:border-box;}
-  body{margin:0;background:var(--navy-950);color:var(--cream);font-family:'Inter',sans-serif;}
-  header{padding:28px 20px 20px;border-bottom:1px solid var(--line);position:sticky;top:53px;background:var(--navy-950);z-index:10;}
-  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--brass);text-transform:uppercase;}
-  h1{font-family:'Fraunces',serif;font-weight:600;font-size:28px;margin:6px 0 2px;}
-  .sub{font-size:13px;color:var(--cream-dim);}
-  main{max-width:940px;margin:0 auto;padding:20px;}
-  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
-  .tab{padding:9px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--line);color:var(--cream-dim);background:var(--navy-900);}
-  .tab.active{background:var(--brass);color:var(--navy-950);border-color:var(--brass);}
-  .panel{display:none;}
-  .panel.active{display:block;}
-  .card{background:var(--navy-900);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,60,140,.06);}
-  .card h2{font-family:'Fraunces',serif;font-size:17px;margin:0 0 14px;color:var(--brass-bright);font-weight:600;}
-  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
-  .field{flex:1;min-width:140px;}
-  label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--cream-dim);display:block;margin-bottom:4px;}
-  input,select,textarea{background:var(--navy-800);border:1px solid var(--line);color:var(--cream);padding:10px 12px;border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;width:100%;}
-  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brass);}
-  button{background:var(--brass);color:var(--navy-950);border:none;padding:11px 18px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;}
-  button:hover{background:var(--brass-bright);}
-  button.ghost{background:transparent;border:1px solid var(--line);color:var(--cream-dim);}
-  button.small{padding:6px 12px;font-size:11px;}
-
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
-  .stat{background:var(--navy-900);border:1px solid var(--line);border-radius:10px;padding:14px 10px;text-align:center;}
-  .stat b{display:block;font-family:'Fraunces',serif;font-size:22px;color:var(--brass-bright);}
-  .stat span{font-size:10.5px;color:var(--cream-dim);font-family:'IBM Plex Mono',monospace;}
-
-  .entry{background:var(--navy-800);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;}
-  .entry-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
-  .entry-top b{font-family:'Fraunces',serif;font-size:14.5px;}
-  .meta{font-size:11.5px;color:var(--cream-dim);font-family:'IBM Plex Mono',monospace;margin-bottom:6px;}
-  .badge{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
-  .badge.in, .badge.pending{background:rgba(217,162,77,.18);color:var(--amber);}
-  .badge.out, .badge.approved{background:rgba(127,174,127,.18);color:var(--green);}
-  .badge.denied, .badge.high{background:rgba(197,107,95,.18);color:var(--red);}
-  .badge.medium{background:rgba(217,162,77,.18);color:var(--amber);}
-  .badge.low{background:rgba(127,174,127,.18);color:var(--green);}
-  .actions{display:flex;gap:8px;margin-top:8px;}
-
-  .cam-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
-  .cam{background:var(--navy-800);border:1px solid var(--line);border-radius:10px;padding:14px;}
-  .cam-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-  .cam-top b{font-family:'Fraunces',serif;font-size:14px;}
-  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;}
-  .dot.online{background:var(--green);box-shadow:0 0 8px var(--green);}
-  .dot.offline{background:var(--red);}
-  .cam-status{font-size:12px;color:var(--cream-dim);}
-
-  .kd-topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 20px;background:#ffffff;border-bottom:2px solid #1D5FD6;position:sticky;top:0;z-index:50;flex-wrap:wrap;font-family:'Inter',sans-serif;}
-  .kd-topbar .kd-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#0F2A5C;font-weight:700;font-size:14px;white-space:nowrap;}
-  .kd-topbar .kd-logo{width:32px;height:32px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,.35);flex-shrink:0;}
-  .kd-topbar nav{display:flex;gap:2px;flex-wrap:wrap;}
-  .kd-topbar nav a{font-size:11.5px;color:#5A6B8C;text-decoration:none;padding:6px 9px;border-radius:20px;font-weight:600;white-space:nowrap;}
-  .kd-topbar nav a:hover{background:#EAF1FD;color:#1D5FD6;}
-  .kd-topbar nav a.active{background:#1D5FD6;color:#fff;}
-  @media (max-width:900px){ .kd-topbar nav{display:none;} }
-</style>
+<link rel="stylesheet" href="security.css">
 </head>
 <body>
-<div class="kd-topbar">
-  <a href="index.html" class="kd-brand"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. Hostel</a>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="notice.html">Notice</a>
-    <a href="registration.html">Registration</a>
-    <a href="allocation.html">Allocation</a>
-    <a href="visitor.html">Visitor</a>
-    <a href="mess.html">Mess</a>
-    <a href="complaint.html">Complaint</a>
-    <a href="fee.html">Fee</a>
-    <a href="maintenance.html">Maintenance</a>
-    <a href="security.html" class="active">Security</a>
-    <a href="support.html">Support</a>
-  </nav>
-</div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-kd sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
+    <div class="d-flex align-items-center order-lg-3">
+      <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list navbar-toggler-icon-custom"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="notice.html">Notice</a></li>
+        <li class="nav-item"><a class="nav-link" href="registration.html">Student Registration</a></li>
+        <li class="nav-item"><a class="nav-link" href="allocation.html">Smart Room Allocation</a></li>
+        <li class="nav-item"><a class="nav-link" href="visitor.html">Visitor Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="complaint.html">Complaint Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
+        <li class="nav-item"><a class="nav-link active" href="security.html">Security &amp; Surveillance</a></li>
+        <li class="nav-item"><a class="nav-link" href="support.html">24/7 Student Support</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
 <header>
   <div class="eyebrow">KD Hostel · Module</div>
@@ -177,153 +129,62 @@
     </div>
   </div>
 </main>
+<!-- Footer -->
+<footer class="footer-kd">
+  <div class="container">
+    <div class="row g-4">
 
-<script>
-const V_KEY='kdh_sec_visitors_v1', P_KEY='kdh_sec_passes_v1', I_KEY='kdh_sec_incidents_v1', C_KEY='kdh_sec_cameras_v1';
+      <div class="col-lg-3 col-md-6">
+        <img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo">
+        <h5>K. D. HOSTEL</h5>
+        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+      </div>
 
-function switchTab(name){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+name).classList.add('active');
-}
-function timeNow(){ return new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}); }
-function loadJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)) || fallback; }catch(e){ return fallback; } }
-function saveJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+      <div class="col-lg-3 col-md-6">
+        <h5>Quick Links</h5>
+        <a href="index.html">Home</a>
+        <a href="notice.html">Notice</a>
+        <a href="registration.html">Student Registration</a>
+        <a href="fee.html">Fee Management</a>
+        <a href="complaint.html">Complaint Management</a>
+      </div>
 
-// ---- Visitors ----
-let visitors = loadJSON(V_KEY, []);
-function logVisitor(){
-  const name = document.getElementById('v-name').value.trim();
-  const student = document.getElementById('v-student').value.trim();
-  const purpose = document.getElementById('v-purpose').value.trim() || '—';
-  const idType = document.getElementById('v-id').value;
-  if(!name || !student){ alert('Enter visitor name and the student being visited.'); return; }
-  visitors.unshift({ id:'V'+Date.now().toString().slice(-6), name, student, purpose, idType, inTime: timeNow(), outTime:null });
-  saveJSON(V_KEY, visitors);
-  document.getElementById('v-name').value=''; document.getElementById('v-student').value=''; document.getElementById('v-purpose').value='';
-  renderVisitors();
-}
-function markExit(id){
-  const v = visitors.find(x=>x.id===id);
-  if(v){ v.outTime = timeNow(); saveJSON(V_KEY, visitors); renderVisitors(); }
-}
-function renderVisitors(){
-  document.getElementById('v-count').textContent = visitors.length;
-  document.getElementById('visitor-list').innerHTML = visitors.length===0
-    ? '<div style="font-size:13px;color:var(--cream-dim);font-style:italic;">No visitors logged yet.</div>'
-    : visitors.map(v=>`
-      <div class="entry">
-        <div class="entry-top"><b>${v.name}</b><span class="badge ${v.outTime?'out':'in'}">${v.outTime?'checked out':'inside'}</span></div>
-        <div class="meta">Visiting ${v.student} · ${v.purpose} · ID: ${v.idType}</div>
-        <div class="meta">In: ${v.inTime}${v.outTime ? ' · Out: '+v.outTime : ''}</div>
-        ${!v.outTime ? `<div class="actions"><button class="small" onclick="markExit('${v.id}')">Mark exit</button></div>` : ''}
-      </div>`).join('');
-}
+      <div class="col-lg-3 col-md-6">
+        <h5>Facilities</h5>
+        <a href="boys.html">Boys Block</a>
+        <a href="girls.html">Girls Block</a>
+        <a href="mess.html">Mess &amp; Dining</a>
+        <a href="#">Common Room</a>
+        <a href="#">Sports Room</a>
+      </div>
 
-// ---- Gate passes ----
-let passes = loadJSON(P_KEY, []);
-function requestPass(){
-  const name = document.getElementById('p-name').value.trim();
-  const room = document.getElementById('p-room').value.trim() || '—';
-  const reason = document.getElementById('p-reason').value.trim() || '—';
-  const ret = document.getElementById('p-return').value;
-  if(!name){ alert('Enter the student name.'); return; }
-  passes.unshift({ id:'P'+Date.now().toString().slice(-6), name, room, reason, ret, status:'pending' });
-  saveJSON(P_KEY, passes);
-  document.getElementById('p-name').value=''; document.getElementById('p-reason').value=''; document.getElementById('p-return').value='';
-  renderPasses();
-}
-function decidePass(id, decision){
-  const p = passes.find(x=>x.id===id);
-  if(p){ p.status = decision; saveJSON(P_KEY, passes); renderPasses(); }
-}
-function renderPasses(){
-  document.getElementById('p-count').textContent = passes.length;
-  document.getElementById('pass-list').innerHTML = passes.length===0
-    ? '<div style="font-size:13px;color:var(--cream-dim);font-style:italic;">No pass requests yet.</div>'
-    : passes.map(p=>`
-      <div class="entry">
-        <div class="entry-top"><b>${p.name} · Room ${p.room}</b><span class="badge ${p.status}">${p.status}</span></div>
-        <div class="meta">Reason: ${p.reason}</div>
-        <div class="meta">Expected return: ${p.ret ? new Date(p.ret).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—'}</div>
-        ${p.status==='pending' ? `<div class="actions"><button class="small" onclick="decidePass('${p.id}','approved')">Approve</button><button class="small ghost" onclick="decidePass('${p.id}','denied')">Deny</button></div>` : ''}
-      </div>`).join('');
-}
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact Us</h5>
+        <div class="contact-line">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-telephone-fill"></i>
+          <a href="tel:02766220419">02766-220419</a>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
+        </div>
+      </div>
 
-// ---- Incidents ----
-let incidents = loadJSON(I_KEY, []);
-function reportIncident(){
-  const loc = document.getElementById('i-loc').value.trim();
-  const sev = document.getElementById('i-sev').value;
-  const desc = document.getElementById('i-desc').value.trim();
-  if(!loc || !desc){ alert('Enter location and description.'); return; }
-  incidents.unshift({ id:'I'+Date.now().toString().slice(-6), loc, sev, desc, status:'open', time: timeNow() });
-  saveJSON(I_KEY, incidents);
-  document.getElementById('i-loc').value=''; document.getElementById('i-desc').value='';
-  renderIncidents();
-}
-function closeIncident(id){
-  const i = incidents.find(x=>x.id===id);
-  if(i){ i.status='resolved'; saveJSON(I_KEY, incidents); renderIncidents(); }
-}
-function renderIncidents(){
-  document.getElementById('i-count').textContent = incidents.length;
-  document.getElementById('incident-list').innerHTML = incidents.length===0
-    ? '<div style="font-size:13px;color:var(--cream-dim);font-style:italic;">No incidents reported.</div>'
-    : incidents.map(i=>`
-      <div class="entry">
-        <div class="entry-top"><b>${i.loc}</b><span class="badge ${i.sev}">${i.sev}</span></div>
-        <div class="meta">Reported ${i.time} · Status: ${i.status}</div>
-        <div class="meta" style="color:var(--cream);font-family:'Inter',sans-serif;">${i.desc}</div>
-        ${i.status==='open' ? `<div class="actions"><button class="small" onclick="closeIncident('${i.id}')">Mark resolved</button></div>` : ''}
-      </div>`).join('');
-}
+    </div>
 
-// ---- Cameras ----
-function defaultCams(){
-  return [
-    {zone:'Main Gate', online:true}, {zone:'Block A Corridor', online:true},
-    {zone:'Block B Corridor', online:true}, {zone:'Mess Hall', online:true},
-    {zone:'Parking Area', online:false}, {zone:'Rear Gate', online:true},
-    {zone:'Common Room', online:true}, {zone:'Block A Stairwell', online:false},
-  ];
-}
-let cams = loadJSON(C_KEY, null) || defaultCams();
-saveJSON(C_KEY, cams);
-function toggleCam(idx){
-  cams[idx].online = !cams[idx].online;
-  saveJSON(C_KEY, cams);
-  renderCams();
-}
-function renderCams(){
-  document.getElementById('cam-grid').innerHTML = cams.map((c,idx)=>`
-    <div class="cam">
-      <div class="cam-top"><b>${c.zone}</b></div>
-      <div class="cam-status"><span class="dot ${c.online?'online':'offline'}"></span>${c.online?'Online · recording':'Offline'}</div>
-      <div class="actions"><button class="small ghost" onclick="toggleCam(${idx})">${c.online?'Simulate offline':'Bring online'}</button></div>
-    </div>`).join('');
-}
+    <div class="footer-bottom">
+      <p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
+      <p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
+    </div>
+  </div>
+</footer>
 
-function renderStats(){
-  const onlineCams = cams.filter(c=>c.online).length;
-  document.getElementById('stats').innerHTML = `
-    <div class="stat"><b>${visitors.filter(v=>!v.outTime).length}</b><span>Visitors inside</span></div>
-    <div class="stat"><b>${passes.filter(p=>p.status==='pending').length}</b><span>Pending passes</span></div>
-    <div class="stat"><b>${incidents.filter(i=>i.status==='open').length}</b><span>Open incidents</span></div>
-    <div class="stat"><b>${onlineCams}/${cams.length}</b><span>Cameras online</span></div>
-  `;
-}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="security.js"></script>
 
-function renderAll(){
-  renderVisitors(); renderPasses(); renderIncidents(); renderCams(); renderStats();
-}
-renderAll();
-// refresh stats whenever any sub-render happens
-const origFns = [renderVisitors, renderPasses, renderIncidents, renderCams];
-renderVisitors = function(){ origFns[0](); renderStats(); };
-renderPasses = function(){ origFns[1](); renderStats(); };
-renderIncidents = function(){ origFns[2](); renderStats(); };
-renderCams = function(){ origFns[3](); renderStats(); };
-</script>
 </body>
 </html>
