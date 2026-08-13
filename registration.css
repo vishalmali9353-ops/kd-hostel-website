@@ -272,28 +272,6 @@
     font-size:0.9rem;
   }
 
-  .download-fab{
-    position:fixed;
-    bottom:26px;
-    right:26px;
-    width:56px;
-    height:56px;
-    border-radius:50%;
-    background:var(--gold);
-    color:var(--navy-deep);
-    border:none;
-    font-size:1.4rem;
-    box-shadow:0 6px 16px rgba(22,50,74,0.25);
-    z-index:1030;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .download-fab:hover{
-    background:var(--navy);
-    color:#fff;
-  }
-
   .state-box{
     text-align:center;
     padding:50px 20px;
