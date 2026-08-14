@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K.D.P Hostel — Visitor Management System</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<!-- Google Fonts: classic serif + clean sans (site chrome) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Outfit:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="visitor.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-kd sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
+    <div class="d-flex align-items-center order-lg-3">
+      <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list navbar-toggler-icon-custom"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="notice.html">Notice</a></li>
+        <li class="nav-item"><a class="nav-link" href="registration.html">Student Registration</a></li>
+        <li class="nav-item"><a class="nav-link" href="allocation.html">Smart Room Allocation</a></li>
+        <li class="nav-item"><a class="nav-link active" href="visitor.html">Visitor Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="complaint.html">Complaint Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
+        <li class="nav-item"><a class="nav-link" href="security.html">Security &amp; Surveillance</a></li>
+        <li class="nav-item"><a class="nav-link" href="support.html">24/7 Student Support</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a class="brand-mark" href="index.html" style="text-decoration:none;color:inherit;">
+      <img src="logo.png" alt="K.D. Hostel Logo" class="seal">
+      <div>
+        <p class="brand-name">K.D.P Hostel</p>
+        <p class="tagline">Visitor Management System</p>
+      </div>
+    </a>
+    <div class="nav-group">
+      <button class="nav-btn active" data-page="dashboardPage"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 12L16 8"/><path d="M12 12L9 15"/></svg> Dashboard</button>
+      <button class="nav-btn" data-page="registerPage"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/></svg> Register &amp; Students</button>
+      <button class="nav-btn" data-page="recordsPage"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z"/><rect x="5" y="4" width="14" height="18" rx="2"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></svg> Visitor Records</button>
+
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="themeIcon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ PAGE 1: DASHBOARD ============ -->
+  <section class="page active" id="dashboardPage">
+
+    <div class="welcome-banner">
+      <div>
+        <h1 class="welcome-title">Welcome to K.D.P Hostel</h1>
+        <p class="welcome-sub">Visitor Management System — front desk overview &amp; live status</p>
+      </div>
+      <div class="clock-card">
+        <div class="clock-label"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Live Time</div>
+        <div class="clock-time" id="liveClock">--:--:--</div>
+        <div class="clock-date" id="liveDate">—</div>
+      </div>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat-card today">
+        <div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div>
+          <div class="stat-num" id="statToday">0</div>
+          <div class="stat-label">Today's Visitors</div>
+        </div>
+      </div>
+      <div class="stat-card in">
+        <div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
+        <div>
+          <div class="stat-num" id="statCurrent">0</div>
+          <div class="stat-label">Current Visitors</div>
+        </div>
+      </div>
+      <div class="stat-card out">
+        <div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+        <div>
+          <div class="stat-num" id="statOut">0</div>
+          <div class="stat-label">Checked Out</div>
+        </div>
+      </div>
+      <div class="stat-card students">
+        <div class="stat-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></div>
+        <div>
+          <div class="stat-num" id="statStudents">0</div>
+          <div class="stat-label">Registered Students</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="icon-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+        <div><h2>Recent Activity</h2></div>
+      </div>
+      <div class="panel-body" id="recentActivity">
+        <div class="empty-state" id="activityEmpty">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          <p>No visitor activity yet today — new check-ins will appear here.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ PAGE 2: REGISTER & STUDENTS ============ -->
+  <section class="page" id="registerPage">
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="icon-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="17" y1="11" x2="23" y2="11"/></svg></span>
+        <div>
+          <h2>Visitor Registration Form</h2>
+          <p>Fields marked <span style="color:var(--error);font-weight:700;">*</span> are required</p>
+        </div>
+      </div>
+      <div class="panel-body">
+        <form id="regForm" novalidate>
+          <div class="form-banner" id="formBanner"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Please correct the highlighted fields before submitting.</div>
+          <div class="success-banner" id="successBanner"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Visitor registered and checked in successfully.</div>
+
+          <div class="field">
+            <label for="vName"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Visitor Name<span class="req">*</span></label>
+            <input type="text" id="vName" placeholder="e.g. Rahul Sharma">
+            <span class="error-msg" id="err-vName"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please enter the visitor's name.</span>
+          </div>
+          <div class="field">
+            <label for="vPhone"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Contact Number<span class="req">*</span></label>
+            <input type="tel" id="vPhone" placeholder="10-digit mobile number" maxlength="10">
+            <span class="error-msg" id="err-vPhone"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Enter a valid 10-digit mobile number.</span>
+          </div>
+          <div class="field">
+            <label for="vIdProof"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="10" r="2"/><path d="M2 20l3-3h5l3 3"/><line x1="14" y1="9" x2="20" y2="9"/><line x1="14" y1="13" x2="18" y2="13"/></svg> ID Proof Type<span class="req">*</span></label>
+            <select id="vIdProof">
+              <option value="" selected>Select ID proof</option>
+              <option>Aadhaar Card</option>
+              <option>College ID</option>
+              <option>Driving License</option>
+              <option>Voter ID</option>
+              <option>Passport</option>
+              <option>Other</option>
+            </select>
+            <span class="error-msg" id="err-vIdProof"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please select an ID proof type.</span>
+          </div>
+
+          <div class="field">
+            <label for="vMeetName"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg> Meeting Student<span class="req">*</span> <span class="hint">(start typing to search)</span></label>
+            <input type="text" id="vMeetName" placeholder="Search from student database…" list="studentList" autocomplete="off">
+            <datalist id="studentList"></datalist>
+            <span class="error-msg" id="err-vMeetName"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please enter who the visitor is meeting.</span>
+            <span class="verified-msg" id="verified-vMeetName"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Matched with student database — room auto-filled.</span>
+          </div>
+          <div class="field">
+            <label for="vRoom"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5"/><path d="M5 10v10a1 1 0 0 0 1 1h3v-6h6v6h3a1 1 0 0 0 1-1V10"/></svg> Room No.<span class="req">*</span></label>
+            <input type="text" id="vRoom" placeholder="e.g. B-204">
+            <span class="error-msg" id="err-vRoom"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please enter the room number.</span>
+          </div>
+          <div class="field">
+            <label for="vPersons"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> No. of Persons<span class="req">*</span></label>
+            <input type="number" id="vPersons" min="1" value="1">
+            <span class="error-msg" id="err-vPersons"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Enter at least 1 person.</span>
+          </div>
+
+          <div class="field">
+            <label for="vPurpose"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><line x1="8" y1="12" x2="8.01" y2="12"/><line x1="12" y1="12" x2="12.01" y2="12"/><line x1="16" y1="12" x2="16.01" y2="12"/></svg> Purpose of Visit<span class="req">*</span></label>
+            <select id="vPurpose">
+              <option value="" selected>Select purpose</option>
+              <option>Family Visit</option>
+              <option>Friend Visit</option>
+              <option>Delivery / Courier</option>
+              <option>Maintenance / Repair</option>
+              <option>Official / Warden Work</option>
+              <option>Other</option>
+            </select>
+            <span class="error-msg" id="err-vPurpose"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please select a purpose of visit.</span>
+          </div>
+          <div class="field">
+            <label for="vDate"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Visit Date<span class="req">*</span></label>
+            <input type="date" id="vDate">
+            <span class="error-msg" id="err-vDate"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please select the visit date.</span>
+          </div>
+          <div class="field">
+            <label for="vTimeIn"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Check-in Time<span class="req">*</span></label>
+            <input type="time" id="vTimeIn">
+            <span class="error-msg" id="err-vTimeIn"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please select the check-in time.</span>
+          </div>
+
+          <div class="field wide">
+            <label for="vRemarks"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5z"/><path d="M15 3v6h6"/></svg> Remarks (optional)</label>
+            <input type="text" id="vRemarks" placeholder="Any additional note for the register">
+          </div>
+
+          <div class="form-actions">
+            <button type="reset" class="btn-ghost" id="clearBtn"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/></svg> Clear Form</button>
+            <button type="submit" class="btn-primary"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Register Visitor &amp; Check In</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="icon-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.1 2.7 3 6 3s6-1.9 6-3v-5"/></svg></span>
+        <div>
+          <h2>Student Database</h2>
+          <p>50 resident records — Gujarat (Banaskantha, Patan, Ahmedabad, Sariyad, Mahesana)</p>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="search-panel">
+          <div class="search-panel-label"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search Student Database</div>
+          <div class="search-row">
+            <div class="search-box">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="studentSearchInput" placeholder="Search by student name, room no., mobile or district…">
+            </div>
+          </div>
+          <div class="result-count" id="studentResultCount">Showing 0 of 0 students</div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table id="studentTable">
+            <thead>
+              <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Room</th>
+                <th>Course &amp; Year</th>
+                <th>Mobile No.</th>
+                <th>Home Address</th>
+              </tr>
+            </thead>
+            <tbody id="studentBody"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="studentEmptyState" style="display:none;">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <div class="stamp">No Match Found</div>
+          <p>No student matches this search — check the spelling and try again.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ PAGE 3: VISITOR RECORDS ============ -->
+  <section class="page" id="recordsPage">
+    <div class="panel">
+      <div class="panel-head">
+        <span class="icon-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1z"/><rect x="5" y="4" width="14" height="18" rx="2"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></svg></span>
+        <div><h2>Visitor Records</h2></div>
+      </div>
+      <div class="panel-body">
+
+        <div class="search-panel">
+          <div class="search-panel-label"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search Visitor Records</div>
+          <div class="search-row">
+            <div class="search-box">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="searchInput" placeholder="Search by visitor name, room no., contact or purpose…">
+            </div>
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="in">Checked In</button>
+            <button class="filter-chip" data-filter="out">Checked Out</button>
+          </div>
+          <div class="result-count" id="resultCount">Showing 0 of 0 records</div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table id="recordsTable">
+            <thead>
+              <tr>
+                <th>Visitor</th>
+                <th>Contact</th>
+                <th>Meeting / Room</th>
+                <th>Purpose</th>
+                <th>Persons</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="emptyState" style="display:none;">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <div class="stamp">Register Empty</div>
+          <p>No visitor entries yet — use the Registration page to log the first entry.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer-kd">
+  <div class="container">
+    <div class="row g-4">
+
+      <div class="col-lg-3 col-md-6">
+        <img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo">
+        <h5>K. D. HOSTEL</h5>
+        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Quick Links</h5>
+        <a href="index.html">Home</a>
+        <a href="notice.html">Notice</a>
+        <a href="registration.html">Student Registration</a>
+        <a href="fee.html">Fee Management</a>
+        <a href="complaint.html">Complaint Management</a>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Facilities</h5>
+        <a href="boys.html">Boys Block</a>
+        <a href="girls.html">Girls Block</a>
+        <a href="mess.html">Mess &amp; Dining</a>
+        <a href="#">Common Room</a>
+        <a href="#">Sports Room</a>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact Us</h5>
+        <div class="contact-line">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-telephone-fill"></i>
+          <a href="tel:02766220419">02766-220419</a>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
+      <p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="visitor.js"></script>
+</body>
+</html>
