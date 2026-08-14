@@ -57,12 +57,21 @@
     <h2><i class="bi bi-person-plus"></i> New Student Registration</h2>
     <div class="divider-orange"></div>
 
-    <form id="regForm">
+    <form id="regForm" novalidate>
+
+      <!-- ===================================================== -->
+      <!-- SECTION 1: PERSONAL DETAILS                            -->
+      <!-- Basic identity information of the student.             -->
+      <!-- Age, mobile, email and aadhar are all validated below   -->
+      <!-- both by the browser (HTML5 pattern/type) and again in   -->
+      <!-- registration.js before the data is sent to the sheet.   -->
+      <!-- ===================================================== -->
       <h3 class="section-title">Personal Details</h3>
       <div class="row g-3">
         <div class="col-md-6">
           <label class="form-label">Full Name</label>
-          <input type="text" class="form-control" id="r_name" required>
+          <input type="text" class="form-control" id="r_name" placeholder="As per school / college ID" required>
+          <div class="invalid-feedback">Please enter the student's full name.</div>
         </div>
         <div class="col-md-3">
           <label class="form-label">Gender</label>
@@ -75,50 +84,90 @@
         <div class="col-md-3">
           <label class="form-label">Date of Birth</label>
           <input type="date" class="form-control" id="r_dob" required>
+          <div class="invalid-feedback" id="dob_error">Student must be at least 14 years old.</div>
+          <div class="form-text">Minimum age for registration is 14 years.</div>
         </div>
         <div class="col-md-4">
           <label class="form-label">Mobile Number</label>
-          <input type="tel" class="form-control" id="r_mobile" pattern="[0-9]{10}" maxlength="10" required>
+          <input type="tel" class="form-control" id="r_mobile" pattern="[6-9][0-9]{9}" maxlength="10" inputmode="numeric" placeholder="10 digit number" required>
+          <div class="invalid-feedback">Enter a valid 10 digit mobile number starting with 6, 7, 8 or 9.</div>
+          <div class="form-text">Only digits allowed, must start with 6/7/8/9.</div>
         </div>
         <div class="col-md-4">
           <label class="form-label">Email</label>
-          <input type="email" class="form-control" id="r_email" required>
+          <input type="email" class="form-control" id="r_email" placeholder="name@example.com" required>
+          <div class="invalid-feedback">Enter a valid email address.</div>
         </div>
         <div class="col-md-4">
           <label class="form-label">Aadhar / ID Number</label>
-          <input type="text" class="form-control" id="r_aadhar" required>
+          <input type="text" class="form-control" id="r_aadhar" pattern="[0-9]{12}" maxlength="12" inputmode="numeric" placeholder="12 digit number" required>
+          <div class="invalid-feedback">Enter a valid 12 digit Aadhar number.</div>
+          <div class="form-text">Numbers only, exactly 12 digits.</div>
         </div>
       </div>
 
+      <!-- ===================================================== -->
+      <!-- SECTION 2: ACADEMIC DETAILS                            -->
+      <!-- Branch and semester are fixed dropdown lists so that    -->
+      <!-- the data saved in the Google Sheet stays clean and      -->
+      <!-- consistent (no spelling mistakes / free text).          -->
+      <!-- ===================================================== -->
       <h3 class="section-title mt-4">Academic Details</h3>
       <div class="row g-3">
         <div class="col-md-4">
           <label class="form-label">Course / Branch</label>
-          <input type="text" class="form-control" id="r_course" required>
+          <select class="form-select" id="r_course" required>
+            <option value="" disabled selected>Select Branch</option>
+            <option>Computer Engineering</option>
+            <option>Civil Engineering</option>
+            <option>Electrical Engineering</option>
+            <option>Mechanical Engineering</option>
+          </select>
+          <div class="invalid-feedback">Please select a branch.</div>
         </div>
         <div class="col-md-4">
           <label class="form-label">Year / Semester</label>
-          <input type="text" class="form-control" id="r_year" required>
+          <select class="form-select" id="r_year" required>
+            <option value="" disabled selected>Select Semester</option>
+            <option>1st</option>
+            <option>2nd</option>
+            <option>3rd</option>
+            <option>4th</option>
+            <option>5th</option>
+            <option>6th</option>
+          </select>
+          <div class="invalid-feedback">Please select a semester.</div>
         </div>
         <div class="col-md-4">
           <label class="form-label">Enrollment No</label>
-          <input type="text" class="form-control" id="r_roll" required>
+          <input type="text" class="form-control" id="r_roll" pattern="[0-9]{1,11}" maxlength="11" inputmode="numeric" placeholder="Up to 11 digit number" required>
+          <div class="invalid-feedback">Enter a valid enrollment number (up to 11 digits).</div>
+          <div class="form-text">Numbers only, maximum 11 digits.</div>
         </div>
       </div>
 
+      <!-- ===================================================== -->
+      <!-- SECTION 3: GUARDIAN / EMERGENCY CONTACT                -->
+      <!-- Used by the hostel warden to contact the family in      -->
+      <!-- case of an emergency.                                   -->
+      <!-- ===================================================== -->
       <h3 class="section-title mt-4">Guardian / Emergency Contact</h3>
       <div class="row g-3">
         <div class="col-md-6">
           <label class="form-label">Parent / Guardian Name</label>
           <input type="text" class="form-control" id="r_guardian" required>
+          <div class="invalid-feedback">Please enter guardian's name.</div>
         </div>
         <div class="col-md-6">
           <label class="form-label">Guardian Mobile Number</label>
-          <input type="tel" class="form-control" id="r_guardian_mobile" pattern="[0-9]{10}" maxlength="10" required>
+          <input type="tel" class="form-control" id="r_guardian_mobile" pattern="[6-9][0-9]{9}" maxlength="10" inputmode="numeric" placeholder="10 digit number" required>
+          <div class="invalid-feedback">Enter a valid 10 digit mobile number starting with 6, 7, 8 or 9.</div>
+          <div class="form-text">Only digits allowed, must start with 6/7/8/9.</div>
         </div>
         <div class="col-md-12">
           <label class="form-label">Permanent Address</label>
           <textarea class="form-control" id="r_address" rows="2" required></textarea>
+          <div class="invalid-feedback">Please enter the permanent address.</div>
         </div>
       </div>
 
