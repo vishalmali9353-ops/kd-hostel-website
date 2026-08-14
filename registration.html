@@ -14,10 +14,14 @@
   Sections    : 1) Navbar
                 2) Page Header
                 3) Registration Guidelines (accordion)
-                4) Registration Form
+                4) Registration Progress Steps
+                5) Registration Form
                      - Personal Details
+                     - Academic Details
+                     - Guardian / Emergency Contact
                      - Terms & Conditions
-                5) Footer
+                6) Confirmation Summary Modal
+                7) Footer
 =============================================================================
 -->
 <html lang="en">
@@ -35,8 +39,9 @@
 <!-- Google Fonts: classic serif heading font + clean sans body font -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
-<!-- ============================ PAGE SPECIFIC STYLES ============================ -->
-<link href="registration.css" rel="stylesheet">
+<!-- ============================ PAGE SPECIFIC STYLESHEET ============================ -->
+<link rel="stylesheet" href="registration.css">
+
 </head>
 <body>
 
@@ -172,6 +177,19 @@
 
       <div class="accordion-item">
         <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+            Why do I need to enter my guardian's mobile number?
+          </button>
+        </h2>
+        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            <p class="mb-0">It is used only for emergency contact by the hostel warden and is never shared outside the administration.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
             What happens after I submit the registration?
           </button>
@@ -200,7 +218,30 @@
   </div>
 
   <!-- ============================================================= -->
-  <!-- 4) REGISTRATION FORM                                           -->
+  <!-- 4) REGISTRATION PROGRESS STEPS                                 -->
+  <!-- Purely visual indicator so the student can see the form has    -->
+  <!-- three logical parts. Highlighted automatically by              -->
+  <!-- registration.js as the user scrolls / fills each section.      -->
+  <!-- ============================================================= -->
+  <div class="progress-steps" id="progressSteps">
+    <div class="progress-step active" data-step="1">
+      <span class="step-circle">1</span>
+      <span class="step-label">Personal</span>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="2">
+      <span class="step-circle">2</span>
+      <span class="step-label">Academic</span>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="3">
+      <span class="step-circle">3</span>
+      <span class="step-label">Guardian</span>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 5) REGISTRATION FORM                                           -->
   <!-- ============================================================= -->
   <div class="fee-card">
     <h2><i class="bi bi-person-plus"></i> New Student Registration</h2>
@@ -215,7 +256,7 @@
       <!-- both by the browser (HTML5 pattern/type) and again in   -->
       <!-- registration.js before the data is sent to the sheet.   -->
       <!-- ===================================================== -->
-      <h3 class="section-title">Personal Details</h3>
+      <h3 class="section-title" data-step-target="1">Personal Details</h3>
       <div class="row g-3">
         <div class="col-md-6">
           <label class="form-label">Full Name <span class="req-star">*</span></label>
@@ -256,7 +297,73 @@
       </div>
 
       <!-- ===================================================== -->
-      <!-- SECTION 2: TERMS & CONDITIONS                          -->
+      <!-- SECTION 2: ACADEMIC DETAILS                            -->
+      <!-- Branch and semester are fixed dropdown lists so that    -->
+      <!-- the data saved in the Google Sheet stays clean and      -->
+      <!-- consistent (no spelling mistakes / free text).          -->
+      <!-- ===================================================== -->
+      <h3 class="section-title mt-4" data-step-target="2">Academic Details</h3>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Course / Branch <span class="req-star">*</span></label>
+          <select class="form-select" id="r_course" required>
+            <option value="" disabled selected>Select Branch</option>
+            <option>Computer Engineering</option>
+            <option>Civil Engineering</option>
+            <option>Electrical Engineering</option>
+            <option>Mechanical Engineering</option>
+          </select>
+          <div class="invalid-feedback">Please select a branch.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Year / Semester <span class="req-star">*</span></label>
+          <select class="form-select" id="r_year" required>
+            <option value="" disabled selected>Select Semester</option>
+            <option>1st</option>
+            <option>2nd</option>
+            <option>3rd</option>
+            <option>4th</option>
+            <option>5th</option>
+            <option>6th</option>
+          </select>
+          <div class="invalid-feedback">Please select a semester.</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Enrollment No <span class="req-star">*</span></label>
+          <input type="text" class="form-control" id="r_roll" pattern="[0-9]{1,12}" maxlength="12" inputmode="numeric" placeholder="Up to 12 digit number" required>
+          <div class="invalid-feedback">Enter a valid enrollment number (up to 12 digits).</div>
+          <div class="form-text">Numbers only, maximum 12 digits.</div>
+        </div>
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- SECTION 3: GUARDIAN / EMERGENCY CONTACT                -->
+      <!-- Used by the hostel warden to contact the family in      -->
+      <!-- case of an emergency.                                   -->
+      <!-- ===================================================== -->
+      <h3 class="section-title mt-4" data-step-target="3">Guardian / Emergency Contact</h3>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Parent / Guardian Name <span class="req-star">*</span></label>
+          <input type="text" class="form-control" id="r_guardian" required>
+          <div class="invalid-feedback">Please enter guardian's name.</div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Guardian Mobile Number <span class="req-star">*</span></label>
+          <input type="tel" class="form-control" id="r_guardian_mobile" pattern="[6-9][0-9]{9}" maxlength="10" inputmode="numeric" placeholder="10 digit number" required>
+          <div class="invalid-feedback">Enter a valid 10 digit mobile number starting with 6, 7, 8 or 9.</div>
+          <div class="form-text">Only digits allowed, must start with 6/7/8/9.</div>
+        </div>
+        <div class="col-md-12">
+          <label class="form-label">Permanent Address <span class="req-star">*</span></label>
+          <textarea class="form-control" id="r_address" rows="2" maxlength="250" required></textarea>
+          <div class="invalid-feedback">Please enter the permanent address.</div>
+          <div class="form-text"><span id="addr_count">0</span>/250 characters</div>
+        </div>
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- SECTION 4: TERMS & CONDITIONS                          -->
       <!-- Student must acknowledge the declaration before the     -->
       <!-- form is allowed to submit.                               -->
       <!-- ===================================================== -->
@@ -270,17 +377,60 @@
       </div>
 
       <div class="text-center mt-4">
-        <button type="button" class="btn pay-btn" id="reviewBtn" onclick="submitRegistration()">
-          <i class="bi bi-check-circle"></i> Register
+        <button type="button" class="btn pay-btn" id="reviewBtn" onclick="openReviewPreview()">
+          <i class="bi bi-eye"></i> Preview &amp; Submit
         </button>
       </div>
+
+      <!-- ===================================================== -->
+      <!-- INLINE PREVIEW PANEL                                   -->
+      <!-- Hidden by default. Shown right below the button once    -->
+      <!-- "Preview & Submit" is clicked and every field passes    -->
+      <!-- validation. Populated dynamically by registration.js.   -->
+      <!-- Clicking "Submit" here saves directly to the Google      -->
+      <!-- Sheet - no separate modal/popup step.                    -->
+      <!-- ===================================================== -->
+      <div id="reviewPreview" class="review-preview u-hidden">
+        <h4 class="review-preview-title"><i class="bi bi-clipboard-check"></i> Confirm Your Details</h4>
+        <p class="text-muted small mb-3">Please verify the details below before final submission.</p>
+        <table class="table table-sm review-table">
+          <tbody id="reviewTableBody">
+            <!-- rows injected by registration.js -->
+          </tbody>
+        </table>
+        <div class="text-center mt-3 d-flex gap-2 justify-content-center flex-wrap">
+          <button type="button" class="btn btn-outline-secondary" onclick="closeReviewPreview()">
+            <i class="bi bi-pencil"></i> Edit
+          </button>
+          <button type="button" class="btn pay-btn" onclick="registerStudent()">
+            <i class="bi bi-check-circle"></i> Submit
+          </button>
+        </div>
+      </div>
+
       <div id="reg_status" class="text-center mt-2 small"></div>
     </form>
   </div>
 </div>
 
 <!-- ============================================================= -->
-<!-- 5) FOOTER                                                      -->
+<!-- SUCCESS POPUP (Bootstrap Toast)                                -->
+<!-- Hidden by default. Shown briefly in the top-right corner after -->
+<!-- a successful registration, on top of the inline status text.   -->
+<!-- ============================================================= -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080;">
+  <div id="regSuccessToast" class="toast kd-success-toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
+    <div class="d-flex">
+      <div class="toast-body">
+        <i class="bi bi-check-circle-fill me-2"></i>Successfully Registered!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================= -->
+<!-- 7) FOOTER                                                      -->
 <!-- ============================================================= -->
 <footer class="footer-kd">
   <div class="container">
@@ -338,7 +488,10 @@
 <!-- ============================ SCRIPTS ============================ -->
 <!-- Bootstrap Bundle: powers the accordion and the confirmation modal -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<!-- Page specific validation + Google Sheet submission logic -->
 <script src="registration.js"></script>
+
 </body>
 </html>
+
 
