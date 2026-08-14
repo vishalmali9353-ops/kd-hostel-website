@@ -263,6 +263,41 @@
     border-color:var(--gold);
     box-shadow:0 0 0 0.2rem rgba(200,162,74,0.2);
   }
+  #regForm .form-text{
+    font-size:0.78rem;
+    color:#888;
+    margin-top:4px;
+  }
+
+  /* Bootstrap validation states for the registration form.
+     These classes are toggled automatically once the form
+     gets the "was-validated" class in registration.js       */
+  #regForm.was-validated .form-control:invalid,
+  #regForm.was-validated .form-select:invalid{
+    border-color:#dc3545;
+  }
+  #regForm.was-validated .form-control:valid,
+  #regForm.was-validated .form-select:valid{
+    border-color:#3fa34d;
+  }
+  #regForm .invalid-feedback{
+    font-size:0.78rem;
+  }
+
+  /* Status message under the Register button */
+  #reg_status{
+    min-height:22px;
+    font-weight:600;
+  }
+  #reg_status .bi-arrow-repeat{
+    animation:kd-spin 0.9s linear infinite;
+    display:inline-block;
+  }
+  @keyframes kd-spin{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+  }
+
   #regTable thead th{
     color:var(--navy);
     font-size:0.85rem;
