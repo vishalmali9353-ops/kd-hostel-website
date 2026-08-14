@@ -574,7 +574,7 @@
   box-shadow:0 0 0 0.2rem rgba(200,162,74,0.25);
 }
 
-/* Review / confirmation modal table */
+/* Review / confirmation table shared by the inline preview panel */
 .review-table th,
 .review-table td{
   font-size:0.88rem;
@@ -590,16 +590,36 @@
   color:#333;
   border-color:#eee2c2;
 }
-#reviewModal .modal-header{
-  background:var(--navy-deep);
-  color:#fff;
+
+/* =============================================================
+   INLINE REVIEW / PREVIEW PANEL
+   Shown directly below the "Preview & Submit" button (no popup
+   modal). Slides/fades into view once every field passes
+   validation, showing a read-only summary with an Edit and a
+   Submit action right underneath it.
+   ============================================================= */
+.review-preview{
+  margin-top:24px;
+  padding:22px 24px;
+  background:var(--cream);
+  border:1px solid #e4ddc9;
+  border-radius:6px;
+  animation:kd-fade-in-up 0.35s ease both;
 }
-#reviewModal .modal-header .btn-close{
-  filter:invert(1) grayscale(100%) brightness(200%);
+.review-preview-title{
+  color:var(--navy);
+  font-size:1.1rem;
+  font-weight:700;
+  margin-bottom:4px;
 }
-#reviewModal .modal-title i{
+.review-preview-title i{
   color:var(--gold);
   margin-right:6px;
+}
+.review-preview .table{
+  background:#fff;
+  border-radius:4px;
+  overflow:hidden;
 }
 .page-header-sub{
   color:#e9e4d8;
@@ -1425,6 +1445,18 @@ strong{
   border-color:#c9ddff;
   color:#1a3f7a;
 }
+.kd-success-toast{
+  background:var(--navy-deep);
+  color:#fff;
+  border:1px solid var(--gold);
+  border-radius:6px;
+  font-weight:600;
+  box-shadow:0 8px 20px rgba(15,42,92,0.35);
+}
+.kd-success-toast .bi-check-circle-fill{
+  color:#4CD964;
+}
+
 .kd-alert-success{
   background:#e8f8ed;
   border-color:#c3ecd0;
@@ -1510,5 +1542,4 @@ strong{
   opacity:0.85;
   font-size:0.85rem;
 }
-
 
