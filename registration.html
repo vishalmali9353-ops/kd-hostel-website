@@ -1,25 +1,59 @@
 <!DOCTYPE html>
+<!--
+=============================================================================
+  K.D. HOSTEL, PATAN
+  STUDENT REGISTRATION PAGE
+=============================================================================
+  File        : registration.html
+  Purpose     : Collects new student details and saves them directly into
+                a Google Sheet using a Google Apps Script Web App, so the
+                hostel office does not need to maintain a separate backend
+                server or database.
+  Related     : registration.css  -> all visual styling for this page
+                registration.js   -> form validation + Google Sheet submit
+  Sections    : 1) Navbar
+                2) Page Header
+                3) Registration Guidelines (accordion)
+                4) Registration Progress Steps
+                5) Registration Form
+                     - Personal Details
+                     - Academic Details
+                     - Guardian / Emergency Contact
+                     - Terms & Conditions
+                6) Confirmation Summary Modal
+                7) Footer
+=============================================================================
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="K.D. Hostel Patan - New Student Registration Form">
 <title>K.D. Hostel | Student Registration</title>
 
-<!-- Bootstrap CSS -->
+<!-- ============================ EXTERNAL LIBRARIES ============================ -->
+<!-- Bootstrap CSS: provides the grid system, form controls and modal component -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap Icons -->
+<!-- Bootstrap Icons: used for all small icons across the page (phone, mail, etc.) -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-<!-- Google Fonts: classic serif + clean sans -->
+<!-- Google Fonts: classic serif heading font + clean sans body font -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 
+<!-- ============================ PAGE SPECIFIC STYLES ============================ -->
 <link rel="stylesheet" href="registration.css">
 </head>
 <body>
 
-<!-- Navbar -->
+<!-- ============================================================= -->
+<!-- 1) NAVBAR                                                      -->
+<!-- Sticky top navigation shared across all K.D. Hostel pages.     -->
+<!-- The "Student Registration" link is marked active on this page. -->
+<!-- ============================================================= -->
 <nav class="navbar navbar-expand-lg navbar-kd sticky-top">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL
+    </a>
     <div class="d-flex align-items-center order-lg-3">
       <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -44,15 +78,170 @@
   </div>
 </nav>
 
-<!-- Page Header -->
+<!-- ============================================================= -->
+<!-- 2) PAGE HEADER                                                 -->
+<!-- Simple hero banner announcing the page.                        -->
+<!-- ============================================================= -->
 <section class="page-header">
   <div class="container">
     <h1><i class="bi bi-person-vcard"></i> Student Registration</h1>
     <div class="divider"></div>
+    <p class="page-header-sub">Fill in accurate details below to register for a hostel seat at K.D. Hostel, Patan.</p>
+    <p class="page-header-sub">All submissions are reviewed by the hostel administration office.</p>
   </div>
 </section>
 
 <div class="container">
+
+  <!-- ============================================================= -->
+  <!-- 3) REGISTRATION GUIDELINES                                     -->
+  <!-- Collapsible accordion explaining eligibility and required      -->
+  <!-- documents before the student starts filling the form.          -->
+  <!-- ============================================================= -->
+  <div class="guideline-card">
+    <h2 class="guideline-title"><i class="bi bi-info-circle"></i> Before You Begin</h2>
+    <div class="accordion" id="guidelineAccordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#gAcc1">
+            Eligibility Criteria
+          </button>
+        </h2>
+        <div id="gAcc1" class="accordion-collapse collapse show" data-bs-parent="#guidelineAccordion">
+          <div class="accordion-body">
+            <ul class="guideline-list">
+              <li>Student must be at least <strong>14 years of age</strong> on the date of registration.</li>
+              <li>Student must currently be enrolled in a recognized course / branch.</li>
+              <li>All fields marked with an asterisk in the form below are mandatory.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gAcc2">
+            Documents You May Be Asked to Show Later
+          </button>
+        </h2>
+        <div id="gAcc2" class="accordion-collapse collapse" data-bs-parent="#guidelineAccordion">
+          <div class="accordion-body">
+            <ul class="guideline-list">
+              <li>Aadhar Card / Government issued ID card.</li>
+              <li>Latest college / school enrollment or admission proof.</li>
+              <li>Passport size photograph (at the time of physical verification).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#gAcc3">
+            Data Privacy Note
+          </button>
+        </h2>
+        <div id="gAcc3" class="accordion-collapse collapse" data-bs-parent="#guidelineAccordion">
+          <div class="accordion-body">
+            <p class="mb-0">The information submitted here is stored securely and is used only by the K.D. Hostel administration for registration and emergency contact purposes.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 3b) FREQUENTLY ASKED QUESTIONS                                 -->
+  <!-- Common questions students ask before registering, kept in an   -->
+  <!-- accordion so the page stays compact.                           -->
+  <!-- ============================================================= -->
+  <div class="guideline-card">
+    <h2 class="guideline-title"><i class="bi bi-question-circle"></i> Frequently Asked Questions</h2>
+    <div class="accordion" id="faqAccordion">
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+            Can I edit my details after submitting the form?
+          </button>
+        </h2>
+        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            <p class="mb-0">Please contact the hostel office directly with your registered mobile number if you need to correct any detail after submission.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+            Why do I need to enter my guardian's mobile number?
+          </button>
+        </h2>
+        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            <p class="mb-0">It is used only for emergency contact by the hostel warden and is never shared outside the administration.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+            What happens after I submit the registration?
+          </button>
+        </h2>
+        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            <p class="mb-0">Your details are recorded and the hostel office will reach out on your provided mobile number regarding the next steps and seat allocation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+            I am below 14 years of age, can I still register?
+          </button>
+        </h2>
+        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            <p class="mb-0">No, the minimum age for hostel registration is 14 years. The form will not allow submission for a lower age.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 4) REGISTRATION PROGRESS STEPS                                 -->
+  <!-- Purely visual indicator so the student can see the form has    -->
+  <!-- three logical parts. Highlighted automatically by              -->
+  <!-- registration.js as the user scrolls / fills each section.      -->
+  <!-- ============================================================= -->
+  <div class="progress-steps" id="progressSteps">
+    <div class="progress-step active" data-step="1">
+      <span class="step-circle">1</span>
+      <span class="step-label">Personal</span>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="2">
+      <span class="step-circle">2</span>
+      <span class="step-label">Academic</span>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step" data-step="3">
+      <span class="step-circle">3</span>
+      <span class="step-label">Guardian</span>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 5) REGISTRATION FORM                                           -->
+  <!-- ============================================================= -->
   <div class="fee-card">
     <h2><i class="bi bi-person-plus"></i> New Student Registration</h2>
     <div class="divider-orange"></div>
@@ -66,15 +255,15 @@
       <!-- both by the browser (HTML5 pattern/type) and again in   -->
       <!-- registration.js before the data is sent to the sheet.   -->
       <!-- ===================================================== -->
-      <h3 class="section-title">Personal Details</h3>
+      <h3 class="section-title" data-step-target="1">Personal Details</h3>
       <div class="row g-3">
         <div class="col-md-6">
-          <label class="form-label">Full Name</label>
+          <label class="form-label">Full Name <span class="req-star">*</span></label>
           <input type="text" class="form-control" id="r_name" placeholder="As per school / college ID" required>
           <div class="invalid-feedback">Please enter the student's full name.</div>
         </div>
         <div class="col-md-3">
-          <label class="form-label">Gender</label>
+          <label class="form-label">Gender <span class="req-star">*</span></label>
           <select class="form-select" id="r_gender">
             <option>Male</option>
             <option>Female</option>
@@ -82,24 +271,24 @@
           </select>
         </div>
         <div class="col-md-3">
-          <label class="form-label">Date of Birth</label>
+          <label class="form-label">Date of Birth <span class="req-star">*</span></label>
           <input type="date" class="form-control" id="r_dob" required>
           <div class="invalid-feedback" id="dob_error">Student must be at least 14 years old.</div>
           <div class="form-text">Minimum age for registration is 14 years.</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label">Mobile Number</label>
+          <label class="form-label">Mobile Number <span class="req-star">*</span></label>
           <input type="tel" class="form-control" id="r_mobile" pattern="[6-9][0-9]{9}" maxlength="10" inputmode="numeric" placeholder="10 digit number" required>
           <div class="invalid-feedback">Enter a valid 10 digit mobile number starting with 6, 7, 8 or 9.</div>
           <div class="form-text">Only digits allowed, must start with 6/7/8/9.</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label">Email</label>
+          <label class="form-label">Email <span class="req-star">*</span></label>
           <input type="email" class="form-control" id="r_email" placeholder="name@example.com" required>
           <div class="invalid-feedback">Enter a valid email address.</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label">Aadhar / ID Number</label>
+          <label class="form-label">Aadhar / ID Number <span class="req-star">*</span></label>
           <input type="text" class="form-control" id="r_aadhar" pattern="[0-9]{12}" maxlength="12" inputmode="numeric" placeholder="12 digit number" required>
           <div class="invalid-feedback">Enter a valid 12 digit Aadhar number.</div>
           <div class="form-text">Numbers only, exactly 12 digits.</div>
@@ -112,10 +301,10 @@
       <!-- the data saved in the Google Sheet stays clean and      -->
       <!-- consistent (no spelling mistakes / free text).          -->
       <!-- ===================================================== -->
-      <h3 class="section-title mt-4">Academic Details</h3>
+      <h3 class="section-title mt-4" data-step-target="2">Academic Details</h3>
       <div class="row g-3">
         <div class="col-md-4">
-          <label class="form-label">Course / Branch</label>
+          <label class="form-label">Course / Branch <span class="req-star">*</span></label>
           <select class="form-select" id="r_course" required>
             <option value="" disabled selected>Select Branch</option>
             <option>Computer Engineering</option>
@@ -126,7 +315,7 @@
           <div class="invalid-feedback">Please select a branch.</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label">Year / Semester</label>
+          <label class="form-label">Year / Semester <span class="req-star">*</span></label>
           <select class="form-select" id="r_year" required>
             <option value="" disabled selected>Select Semester</option>
             <option>1st</option>
@@ -139,10 +328,10 @@
           <div class="invalid-feedback">Please select a semester.</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label">Enrollment No</label>
-          <input type="text" class="form-control" id="r_roll" pattern="[0-9]{1,11}" maxlength="11" inputmode="numeric" placeholder="Up to 11 digit number" required>
-          <div class="invalid-feedback">Enter a valid enrollment number (up to 11 digits).</div>
-          <div class="form-text">Numbers only, maximum 11 digits.</div>
+          <label class="form-label">Enrollment No <span class="req-star">*</span></label>
+          <input type="text" class="form-control" id="r_roll" pattern="[0-9]{1,12}" maxlength="12" inputmode="numeric" placeholder="Up to 12 digit number" required>
+          <div class="invalid-feedback">Enter a valid enrollment number (up to 12 digits).</div>
+          <div class="form-text">Numbers only, maximum 12 digits.</div>
         </div>
       </div>
 
@@ -151,29 +340,44 @@
       <!-- Used by the hostel warden to contact the family in      -->
       <!-- case of an emergency.                                   -->
       <!-- ===================================================== -->
-      <h3 class="section-title mt-4">Guardian / Emergency Contact</h3>
+      <h3 class="section-title mt-4" data-step-target="3">Guardian / Emergency Contact</h3>
       <div class="row g-3">
         <div class="col-md-6">
-          <label class="form-label">Parent / Guardian Name</label>
+          <label class="form-label">Parent / Guardian Name <span class="req-star">*</span></label>
           <input type="text" class="form-control" id="r_guardian" required>
           <div class="invalid-feedback">Please enter guardian's name.</div>
         </div>
         <div class="col-md-6">
-          <label class="form-label">Guardian Mobile Number</label>
+          <label class="form-label">Guardian Mobile Number <span class="req-star">*</span></label>
           <input type="tel" class="form-control" id="r_guardian_mobile" pattern="[6-9][0-9]{9}" maxlength="10" inputmode="numeric" placeholder="10 digit number" required>
           <div class="invalid-feedback">Enter a valid 10 digit mobile number starting with 6, 7, 8 or 9.</div>
           <div class="form-text">Only digits allowed, must start with 6/7/8/9.</div>
         </div>
         <div class="col-md-12">
-          <label class="form-label">Permanent Address</label>
-          <textarea class="form-control" id="r_address" rows="2" required></textarea>
+          <label class="form-label">Permanent Address <span class="req-star">*</span></label>
+          <textarea class="form-control" id="r_address" rows="2" maxlength="250" required></textarea>
           <div class="invalid-feedback">Please enter the permanent address.</div>
+          <div class="form-text"><span id="addr_count">0</span>/250 characters</div>
         </div>
       </div>
 
+      <!-- ===================================================== -->
+      <!-- SECTION 4: TERMS & CONDITIONS                          -->
+      <!-- Student must acknowledge the declaration before the     -->
+      <!-- form is allowed to submit.                               -->
+      <!-- ===================================================== -->
+      <h3 class="section-title mt-4">Declaration</h3>
+      <div class="form-check terms-check">
+        <input class="form-check-input" type="checkbox" id="r_terms" required>
+        <label class="form-check-label" for="r_terms">
+          I hereby declare that the above information is true to the best of my knowledge and I agree to abide by the hostel rules and regulations. <span class="req-star">*</span>
+        </label>
+        <div class="invalid-feedback">You must accept the declaration to register.</div>
+      </div>
+
       <div class="text-center mt-4">
-        <button type="button" class="btn pay-btn" onclick="registerStudent()">
-          <i class="bi bi-check-circle"></i> Register Student
+        <button type="button" class="btn pay-btn" id="reviewBtn" onclick="openReviewModal()">
+          <i class="bi bi-eye"></i> Review &amp; Register
         </button>
       </div>
       <div id="reg_status" class="text-center mt-2 small"></div>
@@ -181,6 +385,42 @@
   </div>
 </div>
 
+<!-- ============================================================= -->
+<!-- 6) CONFIRMATION SUMMARY MODAL                                  -->
+<!-- Shows a read-only summary of everything the student entered    -->
+<!-- so they can double check before the data is actually saved     -->
+<!-- to the Google Sheet. Populated dynamically by registration.js. -->
+<!-- ============================================================= -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-clipboard-check"></i> Confirm Your Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted small">Please verify the details below before final submission.</p>
+        <table class="table table-sm review-table">
+          <tbody id="reviewTableBody">
+            <!-- rows injected by registration.js -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button type="button" class="btn pay-btn" onclick="registerStudent()">
+          <i class="bi bi-check-circle"></i> Confirm &amp; Register
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================= -->
+<!-- 7) FOOTER                                                      -->
+<!-- ============================================================= -->
 <footer class="footer-kd">
   <div class="container">
     <div class="row g-4">
@@ -198,7 +438,6 @@
         <a href="registration.html">Student Registration</a>
         <a href="fee.html">Fee Management</a>
         <a href="complaint.html">Complaint Management</a>
-      
       </div>
 
       <div class="col-lg-3 col-md-6">
@@ -235,7 +474,10 @@
   </div>
 </footer>
 
+<!-- ============================ SCRIPTS ============================ -->
+<!-- Bootstrap Bundle: powers the accordion and the confirmation modal -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<!-- Page specific validation + Google Sheet submission logic -->
 <script src="registration.js"></script>
 
 </body>
