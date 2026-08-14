@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function(){
   restrictToDigits('r_mobile', 10);
   restrictToDigits('r_guardian_mobile', 10);
   restrictToDigits('r_aadhar', 12);
-  restrictToDigits('r_roll', 11);
+  restrictToDigits('r_roll', 12);
 
   // Prevent picking a DOB in the future via the date picker.
   const dob = document.getElementById('r_dob');
