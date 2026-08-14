@@ -41,7 +41,7 @@
 // milega, usse neeche paste karo. Setup ke poore steps
 // "google-sheet-setup-guide.md" file me di gayi hain.
 // ------------------------------------------------------------
-const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwVQAT4jo33fLCvvxwgs99l8KgN-S2QBbTFO1FnCoh93AV8n4a1fBQBCEIIia_opBJzLQ/exec";
+const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzXCec7gF1aGtmuMvRaqq1y7Aoate37wsY2W41WLmTiTokr1pz6Ax6luuPZcs8iibQXsg/exec";
 
 // Minimum age (in whole years) required to register at the hostel.
 const MIN_AGE_YEARS = 14;
@@ -164,6 +164,20 @@ function debounce(fn, delay){
 function setStatus(html){
   const status = $('reg_status');
   if (status) status.innerHTML = html;
+}
+
+/**
+ * showSuccessToast()
+ * Pops up the "Successfully Registered!" toast in the top-right
+ * corner after a successful submission, using Bootstrap's Toast
+ * component. Auto-hides after a few seconds (see data-bs-delay
+ * on the toast markup) or can be dismissed manually.
+ */
+function showSuccessToast(){
+  const toastEl = $('regSuccessToast');
+  if (!toastEl || !window.bootstrap) return;
+  const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+  toast.show();
 }
 
 /**
@@ -445,13 +459,15 @@ function buildReviewRows(entry){
 }
 
 /**
- * openReviewModal()
- * Wired to the "Review & Register" button. Runs full form
+ * openReviewPreview()
+ * Wired to the "Preview & Submit" button. Runs full form
  * validation first (including the custom age + terms checks);
- * only if everything passes does it populate and open the
- * confirmation modal.
+ * only if everything passes does it populate and reveal the
+ * inline preview panel directly below the button, then scrolls
+ * it into view. No popup/modal is used - the preview appears
+ * right on the page.
  */
-function openReviewModal(){
+function openReviewPreview(){
   const form = $('regForm');
   const dobInput = $('r_dob');
   const termsInput = $('r_terms');
@@ -487,26 +503,28 @@ function openReviewModal(){
     tbody.innerHTML = buildReviewRows(entry);
   }
 
-  const modalEl = $('reviewModal');
-  if (modalEl && window.bootstrap){
-    const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
-    modal.show();
+  const preview = $('reviewPreview');
+  const reviewBtn = $('reviewBtn');
+  if (preview){
+    preview.classList.remove('u-hidden');
+    preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  if (reviewBtn){
+    reviewBtn.classList.add('u-hidden');
   }
 }
 
 /**
- * closeReviewModal()
- * Small helper to programmatically hide the review modal after
- * a successful submission, so the student sees the success
- * message on the page underneath rather than staying on the
- * summary screen.
+ * closeReviewPreview()
+ * Wired to the preview panel's "Edit" button. Hides the inline
+ * preview again and brings back the "Preview & Submit" button so
+ * the student can go change something before previewing again.
  */
-function closeReviewModal(){
-  const modalEl = $('reviewModal');
-  if (modalEl && window.bootstrap){
-    const modal = window.bootstrap.Modal.getInstance(modalEl);
-    if (modal) modal.hide();
-  }
+function closeReviewPreview(){
+  const preview = $('reviewPreview');
+  const reviewBtn = $('reviewBtn');
+  if (preview) preview.classList.add('u-hidden');
+  if (reviewBtn) reviewBtn.classList.remove('u-hidden');
 }
 
 
@@ -549,7 +567,8 @@ function registerStudent(){
       FormStats.submissionSuccesses++;
       setStatus('<span class="text-success"><i class="bi bi-check-circle-fill"></i> Registered successfully!</span>');
       announcePolitely('Registration successful.');
-      closeReviewModal();
+      showSuccessToast();
+      closeReviewPreview();
       form.reset();
       form.classList.remove('was-validated');
       const counter = $('addr_count');
@@ -733,7 +752,7 @@ function setupEnterKeyNavigation(){
         if (next){
           next.focus();
         } else {
-          openReviewModal();
+          openReviewPreview();
         }
       }
     });
@@ -962,7 +981,7 @@ function resetFormStats(){
    This script intentionally avoids modern syntax that would need a
    build step (no ES modules, no optional chaining, no arrow-function
    "this" binding tricks) so that it can be dropped straight into a
-   plain <script src="registration.js"></script> tag and work in every
+   plain <script> tag (referenced via src) and work in every
    evergreen browser (Chrome, Edge, Firefox, Safari) without a bundler.
 
    Features relied upon and their support level:
@@ -976,3 +995,4 @@ function resetFormStats(){
    fetch() call in registerStudent() would need a polyfill or would
    need to be swapped for an XMLHttpRequest-based version instead.
    ============================================================================= */
+
