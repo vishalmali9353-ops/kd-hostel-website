@@ -1,4 +1,123 @@
-:root{
+/* ---------- Site-wide navbar & footer (shared with index.html) ---------- */
+  :root{
+    --navy:#1D5FD6;
+    --navy-deep:#0F2A5C;
+    --gold:#4C86EA;
+  }
+  .kd-logo{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,0.35);flex-shrink:0;}
+  .footer-kd .kd-logo{ margin-bottom:14px; }
+
+  .navbar-kd{
+    background:var(--navy-deep);
+    border-bottom:3px solid var(--gold);
+  }
+  .navbar-kd .navbar-brand{
+    color:var(--gold);
+    font-weight:700;
+    font-size:1.5rem;
+    letter-spacing:0.5px;
+    font-family:'Poppins',sans-serif;
+  }
+  .navbar-kd .nav-link{
+    color:#e9e4d8;
+    font-weight:600;
+    font-size:0.92rem;
+    margin:0 4px;
+  }
+  .navbar-kd .nav-link:hover, .navbar-kd .nav-link.active{
+    color:var(--gold);
+  }
+  .navbar-kd .navbar-phone{
+    color:var(--gold);
+    font-weight:600;
+    font-size:0.92rem;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-right:14px;
+    white-space:nowrap;
+  }
+  .navbar-kd .navbar-phone:hover{
+    color:#fff;
+  }
+  .navbar-kd .navbar-toggler{
+    border-color:var(--gold);
+  }
+  .navbar-kd .navbar-toggler-icon-custom{
+    color:var(--gold);
+    font-size:1.6rem;
+    line-height:1;
+  }
+
+  /* Extended Footer */
+  .footer-kd{
+    background:var(--navy-deep);
+    color:#b9c2ca;
+    padding:60px 0 0;
+    margin-top:0;
+    border-top:3px solid var(--gold);
+  }
+  .footer-kd h5{
+    color:#fff;
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:22px;
+  }
+  .footer-kd a{
+    color:#b9c2ca;
+    text-decoration:none;
+    display:block;
+    margin-bottom:14px;
+    font-size:0.95rem;
+    transition:color .15s ease;
+  }
+  .footer-kd a:hover{
+    color:var(--gold);
+  }
+  .footer-kd .social-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#2a4054;
+    color:#fff;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.1rem;
+    margin-top:6px;
+  }
+  .footer-kd .social-icon:hover{
+    background:var(--gold);
+    color:var(--navy-deep);
+  }
+  .footer-kd .contact-line{
+    display:flex;
+    gap:12px;
+    margin-bottom:16px;
+    font-size:0.95rem;
+    color:#b9c2ca;
+  }
+  .footer-kd .contact-line i{
+    color:var(--gold);
+    font-size:1.05rem;
+    margin-top:2px;
+  }
+  .footer-kd .contact-line a{
+    margin-bottom:0;
+    display:inline;
+  }
+  .footer-bottom{
+    border-top:1px solid #2a4054;
+    margin-top:40px;
+    padding:22px 0;
+    text-align:center;
+    font-size:0.85rem;
+    color:#8ea0ae;
+  }
+  /* ---------- /Site-wide navbar & footer ---------- */
+  :root{
     --slate:#1D5FD6;
     --slate-dark:#173C7A;
     --slate-darker:#0F2A5C;
@@ -29,10 +148,10 @@
   header.masthead::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:3px; background:linear-gradient(90deg, var(--accent), var(--slate)); }
   .masthead-inner{ max-width:1150px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
   .brand-mark{ display:flex; align-items:center; gap:13px; }
-  .seal{
-    width:46px; height:46px; border-radius:50%;
-    object-fit:cover; flex-shrink:0;
-    box-shadow:0 0 0 1px rgba(255,255,255,0.25);
+  .seal{object-fit:cover;background:#fff;
+    width:46px; height:46px; border-radius:11px;
+    background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; color:#fff; flex-shrink:0;
   }
   .brand-name{ font-weight:700; font-size:18px; margin:0; color:#fff; }
   .tagline{ margin:2px 0 0; font-size:11.5px; color:#B9C2D4; font-weight:600; letter-spacing:0.4px; }
@@ -180,7 +299,6 @@
 
   .empty-state{ text-align:center; padding:44px 16px; color:var(--muted); font-size:13px; }
   .empty-state svg.icon{ width:28px; height:28px; color:#C7CEDA; margin-bottom:10px; }
-  footer{ text-align:center; padding:22px; font-size:11.5px; color:var(--muted); border-top:1px solid var(--line); }
 
   @media (max-width:640px){
     .form-actions{ justify-content:stretch; } .form-actions button{ flex:1; }
@@ -190,110 +308,3 @@
     tbody td{ border:none; padding:7px 10px; display:flex; justify-content:space-between; gap:10px; text-align:right; }
     tbody td::before{ content:attr(data-label); font-weight:700; color:var(--muted); text-align:left; font-size:11px; }
   }
-/* =====================================================================
-   SITE CHROME — outer Bootstrap navbar & footer (site shell)
-   Classic serif branding (Playfair Display) + clean sans body copy,
-   kept visually distinct from the app dashboard above but same
-   blue/white/navy palette so the whole site feels like one system.
-   ===================================================================== */
-
-/* ---------- Top navbar ---------- */
-.navbar-kd{
-  background:#fff;
-  border-bottom:1px solid var(--line);
-  padding:12px 0;
-  box-shadow:0 1px 3px rgba(15,42,92,0.05);
-}
-.navbar-kd .navbar-brand{
-  font-family:'Playfair Display', serif;
-  font-weight:700;
-  font-size:21px;
-  color:var(--slate-darker);
-  letter-spacing:0.3px;
-}
-.navbar-kd .navbar-brand:hover{ color:var(--slate); }
-.kd-logo{
-  width:40px; height:40px; border-radius:50%;
-  object-fit:cover; flex-shrink:0;
-  box-shadow:0 0 0 1px var(--line);
-}
-.navbar-kd .navbar-nav{ gap:2px; }
-.navbar-kd .nav-link{
-  font-family:'Source Sans 3', 'Manrope', sans-serif;
-  font-weight:600;
-  font-size:14px;
-  color:var(--text);
-  padding:9px 14px;
-  border-radius:8px;
-  transition:background .15s, color .15s;
-}
-.navbar-kd .nav-link:hover{ background:var(--bg); color:var(--slate); }
-.navbar-kd .nav-link.active{ background:var(--slate); color:#fff; }
-.navbar-phone{
-  display:flex; align-items:center; gap:7px;
-  color:var(--slate);
-  font-family:'Source Sans 3','Manrope',sans-serif;
-  font-weight:700;
-  font-size:13.5px;
-  text-decoration:none;
-  margin-right:16px;
-  white-space:nowrap;
-}
-.navbar-phone:hover{ color:var(--slate-darker); }
-.navbar-toggler{ border-color:var(--line); padding:6px 10px; }
-.navbar-toggler:focus{ box-shadow:0 0 0 3px rgba(29,95,214,0.15); }
-.navbar-toggler-icon-custom{ font-size:22px; color:var(--slate-darker); }
-
-/* ---------- Footer ---------- */
-.footer-kd{
-  background:linear-gradient(135deg, var(--slate-darker) 0%, var(--slate-dark) 100%);
-  color:#BBD2F7;
-  padding:48px 0 0;
-  margin-top:48px;
-  font-family:'Manrope',sans-serif;
-}
-.footer-kd h5{
-  font-family:'Playfair Display', serif;
-  color:#fff;
-  font-weight:700;
-  font-size:16.5px;
-  margin-bottom:16px;
-}
-.footer-kd .kd-logo{ margin-bottom:12px; box-shadow:0 0 0 1px rgba(255,255,255,0.25); }
-.footer-kd a{
-  color:#BBD2F7;
-  text-decoration:none;
-  display:block;
-  font-size:13.5px;
-  margin-bottom:9px;
-  transition:color .15s;
-}
-.footer-kd a:hover{ color:#fff; }
-.contact-line{
-  display:flex; align-items:flex-start; gap:10px;
-  margin-bottom:14px;
-  font-size:13.5px;
-  color:#BBD2F7;
-  line-height:1.6;
-}
-.contact-line i{ margin-top:3px; color:var(--accent); flex-shrink:0; }
-.contact-line a{ display:inline; margin:0; color:#BBD2F7; }
-.contact-line a:hover{ color:#fff; }
-.social-icon{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:36px; height:36px; border-radius:50%;
-  background:rgba(255,255,255,0.1);
-  color:#fff;
-  margin-top:6px;
-  text-decoration:none;
-  transition:background .15s;
-}
-.social-icon:hover{ background:var(--slate); }
-.footer-bottom{
-  border-top:1px solid rgba(255,255,255,0.14);
-  margin-top:32px;
-  padding:20px 0;
-  text-align:center;
-  font-size:12.5px;
-  color:#9FB3D6;
-}
