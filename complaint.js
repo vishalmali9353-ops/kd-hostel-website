@@ -221,4 +221,4 @@
       $('#recentBody').appendChild(wrap);
     }
   }
-  render();
+  render ();
