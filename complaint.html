@@ -6,202 +6,41 @@
 <title>K.D.P Hostel — Complaint Management</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Outfit:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --slate:#1D5FD6;
-    --slate-dark:#173C7A;
-    --slate-darker:#0F2A5C;
-    --accent:#4C86EA;
-    --bg:#F4F8FE;
-    --panel:#FFFFFF;
-    --line:#D7E2F5;
-    --text:#16233F;
-    --muted:#5A6B8C;
-    --low:#0E8A5C; --low-bg:#E3F5EC;
-    --medium:#B8760E; --medium-bg:#FBEFDA;
-    --high:#C4302B; --high-bg:#FBE2E0;
-    --pending:#B8760E; --pending-bg:#FBEFDA;
-    --solved:#0E8A5C; --solved-bg:#E3F5EC;
-  }
-  *{box-sizing:border-box;}
-  body{ margin:0; background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; -webkit-font-smoothing:antialiased; }
-  h1,h2,h3,.brand-name{ font-family:'Poppins',sans-serif; }
-  button,.stat-num{ font-family:'Outfit',sans-serif; }
-  svg.icon{ width:1em; height:1em; display:inline-block; vertical-align:-0.125em; flex-shrink:0; }
-
-  header.masthead{
-    background:linear-gradient(135deg, var(--slate-darker) 0%, var(--slate-dark) 55%, var(--slate) 100%);
-    padding:22px 6vw;
-    box-shadow:0 4px 18px rgba(15,23,42,0.16);
-    position:relative;
-  }
-  header.masthead::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:3px; background:linear-gradient(90deg, var(--accent), var(--slate)); }
-  .masthead-inner{ max-width:1150px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-  .brand-mark{ display:flex; align-items:center; gap:13px; }
-  .seal{object-fit:cover;background:#fff;
-    width:46px; height:46px; border-radius:11px;
-    background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25);
-    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; color:#fff; flex-shrink:0;
-  }
-  .brand-name{ font-weight:700; font-size:18px; margin:0; color:#fff; }
-  .tagline{ margin:2px 0 0; font-size:11.5px; color:#B9C2D4; font-weight:600; letter-spacing:0.4px; }
-
-  nav.tabs{ display:flex; gap:6px; flex-wrap:wrap; }
-  nav.tabs a{
-    color:#CBD5E1; text-decoration:none; font-size:13px; font-weight:600;
-    padding:9px 15px; border-radius:8px; border:1px solid rgba(255,255,255,0.14);
-    background:rgba(255,255,255,0.06); transition:background .15s, color .15s;
-  }
-  nav.tabs a:hover{ background:rgba(255,255,255,0.16); color:#fff; }
-  nav.tabs button.nav-btn{
-    color:#CBD5E1; font-size:13px; font-weight:600; font-family:'Outfit',sans-serif;
-    padding:9px 15px; border-radius:8px; border:1px solid rgba(255,255,255,0.14);
-    background:rgba(255,255,255,0.06); transition:background .15s, color .15s; cursor:pointer;
-  }
-  nav.tabs button.nav-btn:hover{ background:rgba(255,255,255,0.16); color:#fff; }
-  nav.tabs button.nav-btn.active{ background:#fff; color:var(--slate-darker); }
-
-  .page{ display:none; }
-  .page.active{ display:block; animation:fadeIn .22s ease; }
-  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
-
-  main{ max-width:1150px; margin:0 auto; padding:34px 6vw 64px; }
-  .page-heading{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:26px; }
-  .page-title{ margin:0 0 4px; font-size:24px; font-weight:700; color:var(--slate-darker); letter-spacing:-0.2px; }
-  .page-sub{ margin:0; font-size:13.5px; color:var(--muted); }
-  .page-badge{
-    background:#fff; border:1px solid var(--line); border-radius:20px; padding:8px 16px;
-    font-size:12px; font-weight:700; color:var(--slate); box-shadow:0 1px 3px rgba(15,23,42,0.06);
-    display:flex; align-items:center; gap:7px;
-  }
-
-  .stat-strip{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
-  .stat-card{
-    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 20px;
-    display:flex; align-items:center; gap:14px; position:relative; overflow:hidden;
-    box-shadow:0 1px 3px rgba(15,23,42,0.05), 0 1px 2px rgba(15,23,42,0.04);
-    transition:box-shadow .15s, transform .15s;
-  }
-  .stat-card:hover{ box-shadow:0 6px 16px rgba(15,23,42,0.09); transform:translateY(-1px); }
-  .stat-card::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:4px; }
-  .stat-card.total::before{ background:var(--slate); }
-  .stat-card.pending::before{ background:var(--pending); }
-  .stat-card.solved::before{ background:var(--solved); }
-  .stat-card.high::before{ background:var(--high); }
-  .stat-icon{ width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; color:#fff; flex-shrink:0; }
-  .stat-card.total .stat-icon{ background:var(--slate); }
-  .stat-card.pending .stat-icon{ background:var(--pending); }
-  .stat-card.solved .stat-icon{ background:var(--solved); }
-  .stat-card.high .stat-icon{ background:var(--high); }
-  .stat-num{ font-size:25px; font-weight:700; line-height:1; color:var(--slate-darker); }
-  .stat-label{ font-size:11px; text-transform:uppercase; letter-spacing:0.8px; color:var(--muted); margin-top:5px; font-weight:700; }
-
-  .panel{
-    background:var(--panel); border:1px solid var(--line); border-radius:14px;
-    margin-bottom:26px; scroll-margin-top:16px; overflow:hidden;
-    box-shadow:0 1px 3px rgba(15,23,42,0.05), 0 4px 14px rgba(15,23,42,0.04);
-  }
-  .panel-head{
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-    padding:17px 22px; border-bottom:1px solid var(--line); background:#F4F8FE; flex-wrap:wrap;
-  }
-  .panel-head h2{ font-size:16px; font-weight:700; margin:0; color:var(--slate-darker); display:flex; align-items:center; gap:10px; }
-  .panel-head .icon-badge{ width:32px; height:32px; border-radius:9px; background:var(--slate); color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0; }
-  .panel-head p{ margin:2px 0 0 42px; font-size:12px; color:var(--muted); }
-  .panel-body{ padding:24px 22px; }
-
-  form#complaintForm{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px 20px; }
-  .field{ display:flex; flex-direction:column; gap:6px; min-width:0; }
-  .field.wide{ grid-column:1/-1; }
-  label{ font-size:12.5px; font-weight:700; color:var(--slate-darker); display:flex; align-items:center; gap:6px; }
-  label .req{ color:var(--high); margin-left:2px; }
-  label .hint{ color:var(--muted); font-weight:500; font-size:11px; }
-  input, select, textarea{
-    font-family:'Manrope',sans-serif; font-size:14px; padding:11px 13px;
-    border:1.5px solid var(--line); border-radius:9px; background:#F4F8FE; color:var(--text); outline:none; width:100%;
-    transition:border-color .15s, background .15s, box-shadow .15s;
-  }
-  input:focus, select:focus, textarea:focus{ border-color:var(--accent); background:#fff; box-shadow:0 0 0 3px rgba(37,99,235,0.12); }
-  input.invalid, select.invalid{ border-color:var(--high); background:var(--high-bg); }
-  input.verified{ border-color:var(--low); background:var(--low-bg); }
-  .error-msg{ font-size:11.5px; color:var(--high); font-weight:600; display:none; }
-  .error-msg.show{ display:block; }
-  .verified-msg{ font-size:11.5px; color:var(--low); font-weight:600; display:none; }
-  .verified-msg.show{ display:block; }
-
-  .priority-row{ display:flex; gap:8px; flex-wrap:wrap; }
-  .priority-btn{
-    padding:10px 20px; border-radius:9px; border:1.5px solid var(--line); background:#F4F8FE;
-    font-size:13px; font-weight:700; cursor:pointer; color:var(--muted); transition:all .15s;
-  }
-  .priority-btn:hover{ border-color:var(--slate); }
-  .priority-btn[data-val="Low"].selected{ background:var(--low); border-color:var(--low); color:#fff; }
-  .priority-btn[data-val="Medium"].selected{ background:var(--medium); border-color:var(--medium); color:#fff; }
-  .priority-btn[data-val="High"].selected{ background:var(--high); border-color:var(--high); color:#fff; }
-
-  .form-banner{ display:none; align-items:center; gap:8px; background:var(--high-bg); border:1px solid #F0C1BC; color:var(--high); padding:11px 15px; border-radius:9px; font-size:13px; font-weight:600; grid-column:1/-1; }
-  .form-banner.show{ display:flex; }
-  .success-banner{ display:none; align-items:center; gap:8px; background:var(--low-bg); border:1px solid #BFE2CE; color:var(--low); padding:11px 15px; border-radius:9px; font-size:13px; font-weight:600; grid-column:1/-1; }
-  .success-banner.show{ display:flex; }
-  .form-actions{ grid-column:1/-1; display:flex; justify-content:flex-end; gap:10px; padding-top:4px; }
-
-  button{ font-weight:700; font-size:13.5px; border-radius:9px; border:1px solid transparent; cursor:pointer; padding:11px 22px; display:inline-flex; align-items:center; gap:7px; transition:background .15s, transform .1s; }
-  button:active{ transform:translateY(1px); }
-  .btn-primary{ background:var(--slate); color:#fff; box-shadow:0 2px 6px rgba(51,65,85,0.25); }
-  .btn-primary:hover{ background:var(--slate-darker); }
-  .btn-ghost{ background:#fff; color:var(--text); border-color:var(--line); }
-  .btn-ghost:hover{ background:#EAF1FD; }
-
-  .search-bar{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
-  .search-box{ flex:1; min-width:220px; position:relative; }
-  .search-box input{ padding-left:38px; }
-  .search-box svg{ position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--muted); }
-  .chip{ font-size:12.5px; padding:8px 15px; border:1.5px solid var(--line); border-radius:18px; background:#fff; cursor:pointer; color:var(--text); font-weight:600; transition:all .15s; }
-  .chip:hover{ border-color:var(--slate); }
-  .chip.active{ background:var(--slate); color:#fff; border-color:var(--slate); }
-  .result-count{ font-size:12.5px; color:var(--muted); margin-bottom:12px; font-weight:600; }
-
-  table{ width:100%; border-collapse:collapse; font-size:13.5px; }
-  thead th{ text-align:left; padding:12px 10px; background:var(--slate-darker); color:#fff; font-size:11px; text-transform:uppercase; letter-spacing:0.7px; font-weight:700; }
-  thead th:first-child{ border-radius:8px 0 0 8px; }
-  thead th:last-child{ border-radius:0 8px 8px 0; }
-  tbody td{ padding:13px 10px; border-bottom:1px solid var(--line); vertical-align:middle; }
-  tbody tr:hover{ background:#F4F8FE; }
-  .cname{ font-weight:700; color:var(--slate-darker); }
-  .csub{ font-size:11.5px; color:var(--muted); margin-top:2px; }
-  .mono{ font-family:'Outfit',sans-serif; font-size:12.5px; color:var(--muted); }
-
-  .badge{ display:inline-flex; align-items:center; gap:6px; padding:5px 12px 5px 9px; border-radius:16px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; }
-  .badge::before{ content:''; width:6px; height:6px; border-radius:50%; }
-  .badge.low{ background:var(--low-bg); color:var(--low); } .badge.low::before{ background:var(--low); }
-  .badge.medium{ background:var(--medium-bg); color:var(--medium); } .badge.medium::before{ background:var(--medium); }
-  .badge.high{ background:var(--high-bg); color:var(--high); } .badge.high::before{ background:var(--high); }
-  .badge.pending{ background:var(--pending-bg); color:var(--pending); } .badge.pending::before{ background:var(--pending); }
-  .badge.solved{ background:var(--solved-bg); color:var(--solved); } .badge.solved::before{ background:var(--solved); }
-
-  .row-actions{ display:flex; gap:6px; flex-wrap:wrap; }
-  .icon-btn{ padding:8px 15px; font-size:12px; border-radius:8px; border:1px solid transparent; transition:background .15s; }
-  .icon-btn.resolve{ background:var(--slate); color:#fff; }
-  .icon-btn.resolve:hover{ background:var(--slate-darker); }
-  .icon-btn.remove{ background:#fff; color:var(--high); border-color:#F0C1BC; }
-  .icon-btn.remove:hover{ background:var(--high-bg); }
-  .icon-btn:disabled{ opacity:.4; cursor:not-allowed; }
-
-  .empty-state{ text-align:center; padding:44px 16px; color:var(--muted); font-size:13px; }
-  .empty-state svg.icon{ width:28px; height:28px; color:#C7CEDA; margin-bottom:10px; }
-  footer{ text-align:center; padding:22px; font-size:11.5px; color:var(--muted); border-top:1px solid var(--line); }
-
-  @media (max-width:640px){
-    .form-actions{ justify-content:stretch; } .form-actions button{ flex:1; }
-    table, thead, tbody, th, td, tr{ display:block; }
-    thead{ display:none; }
-    tbody tr{ border:1px solid var(--line); border-radius:10px; margin-bottom:12px; padding:8px; }
-    tbody td{ border:none; padding:7px 10px; display:flex; justify-content:space-between; gap:10px; text-align:right; }
-    tbody td::before{ content:attr(data-label); font-weight:700; color:var(--muted); text-align:left; font-size:11px; }
-  }
-</style>
+<!-- Bootstrap CSS (site-wide navbar/footer) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="complaint.css">
 </head>
 <body>
+
+<!-- Site Navbar -->
+<nav class="navbar navbar-expand-lg navbar-kd sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
+    <div class="d-flex align-items-center order-lg-3">
+      <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list navbar-toggler-icon-custom"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto text-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="notice.html">Notice</a></li>
+        <li class="nav-item"><a class="nav-link" href="registration.html">Student Registration</a></li>
+        <li class="nav-item"><a class="nav-link" href="allocation.html">Smart Room Allocation</a></li>
+        <li class="nav-item"><a class="nav-link" href="visitor.html">Visitor Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
+        <li class="nav-item"><a class="nav-link active" href="complaint.html">Complaint Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
+        <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
+        <li class="nav-item"><a class="nav-link" href="security.html">Security &amp; Surveillance</a></li>
+        <li class="nav-item"><a class="nav-link" href="support.html">24/7 Student Support</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
 <header class="masthead">
   <div class="masthead-inner">
@@ -213,12 +52,9 @@
       </div>
     </a>
     <nav class="tabs">
-      <a href="index.html" class="module-link">Home</a>
       <button class="nav-btn active" data-page="dashPage">Dashboard</button>
       <button class="nav-btn" data-page="formPage">Complaint Form</button>
       <button class="nav-btn" data-page="historyPage">Complaint History</button>
-      <a href="visitor.html" class="module-link">Visitor Management</a>
-      <a href="mess.html" class="module-link">Mess Management</a>
     </nav>
   </div>
 </header>
@@ -390,233 +226,61 @@
 
 </main>
 
-<footer>K.D.P Hostel · Complaint Management · complaints are kept for this session only</footer>
+<!-- Footer -->
+<footer class="footer-kd">
+  <div class="container">
+    <div class="row g-4">
 
-<script>
-  /* ---------------- Page navigation ---------------- */
-  const pages = document.querySelectorAll('.page');
-  const navBtns = document.querySelectorAll('.nav-btn[data-page]');
-  navBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      navBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      pages.forEach(p => p.classList.remove('active'));
-      document.getElementById(btn.dataset.page).classList.add('active');
-    });
-  });
+      <div class="col-lg-3 col-md-6">
+        <img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo">
+        <h5>K. D. HOSTEL</h5>
+        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+      </div>
 
-  const $ = (sel) => document.querySelector(sel);
-  function escapeHtml(str){
-    if(str === undefined || str === null) return '';
-    return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
-  }
+      <div class="col-lg-3 col-md-6">
+        <h5>Quick Links</h5>
+        <a href="index.html">Home</a>
+        <a href="notice.html">Notice</a>
+        <a href="registration.html">Student Registration</a>
+        <a href="fee.html">Fee Management</a>
+        <a href="complaint.html">Complaint Management</a>
+      </div>
 
-  /* Shared student directory (same generation as Visitor / Mess modules) */
-  const firstNames = ["Aarav","Vivaan","Aditya","Vihaan","Arjun","Sai","Reyansh","Krishna","Ishaan","Rohan",
-                       "Ananya","Diya","Saanvi","Aadhya","Kiara","Myra","Anika","Navya","Riya","Priya"];
-  const lastNames  = ["Patel","Shah","Chaudhary","Thakor","Prajapati","Rajput","Solanki","Rathod",
-                       "Desai","Joshi","Vaghela","Parmar","Mehta","Chauhan","Bharwad"];
-  const blocks = ["A","B","C","D"];
-  const students = [];
-  for(let i = 0; i < 50; i++){
-    const name = `${firstNames[i % firstNames.length]} ${lastNames[i % lastNames.length]}`;
-    const block = blocks[i % blocks.length];
-    const floor = Math.floor(i / blocks.length) % 4 + 1;
-    const room = `${block}-${floor}0${(i % 9) + 1}`;
-    students.push({ id:`KDP${1001+i}`, name, room });
-  }
-  const datalist = $('#studentList');
-  students.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s.name;
-    datalist.appendChild(opt);
-  });
-  $('#cName').addEventListener('input', () => {
-    const val = $('#cName').value.trim().toLowerCase();
-    const match = students.find(s => s.name.toLowerCase() === val);
-    const msg = $('#verified-cName');
-    if(match){
-      $('#cRoom').value = match.room;
-      $('#cName').classList.add('verified');
-      msg.classList.add('show');
-    } else {
-      $('#cName').classList.remove('verified');
-      msg.classList.remove('show');
-    }
-  });
+      <div class="col-lg-3 col-md-6">
+        <h5>Facilities</h5>
+        <a href="boys.html">Boys Block</a>
+        <a href="girls.html">Girls Block</a>
+        <a href="mess.html">Mess &amp; Dining</a>
+        <a href="#">Common Room</a>
+        <a href="#">Sports Room</a>
+      </div>
 
-  /* Priority selector */
-  let selectedPriority = '';
-  document.querySelectorAll('.priority-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      selectedPriority = btn.dataset.val;
-      document.querySelectorAll('.priority-btn').forEach(b => b.classList.toggle('selected', b.dataset.val === selectedPriority));
-      $('#err-cPriority').classList.remove('show');
-    });
-  });
-
-  /* Validation */
-  const reqIds = ['cName','cRoom','cCategory','cDesc'];
-  function clearErrors(){
-    reqIds.forEach(id => { $('#'+id).classList.remove('invalid'); $('#err-'+id).classList.remove('show'); });
-    $('#err-cPriority').classList.remove('show');
-    $('#formBanner').classList.remove('show');
-  }
-  function validate(){
-    let valid = true;
-    ['cName','cRoom','cDesc'].forEach(id => {
-      const bad = !$('#'+id).value.trim();
-      $('#'+id).classList.toggle('invalid', bad);
-      $('#err-'+id).classList.toggle('show', bad);
-      if(bad) valid = false;
-    });
-    const cat = $('#cCategory').value;
-    $('#cCategory').classList.toggle('invalid', !cat);
-    $('#err-cCategory').classList.toggle('show', !cat);
-    if(!cat) valid = false;
-
-    const priBad = !selectedPriority;
-    $('#err-cPriority').classList.toggle('show', priBad);
-    if(priBad) valid = false;
-
-    $('#formBanner').classList.toggle('show', !valid);
-    $('#successBanner').classList.remove('show');
-    return valid;
-  }
-  reqIds.forEach(id => {
-    $('#'+id).addEventListener('input', () => { if($('#'+id).classList.contains('invalid')) validate(); });
-    $('#'+id).addEventListener('change', () => { if($('#'+id).classList.contains('invalid')) validate(); });
-  });
-
-  /* Complaint records */
-  let complaints = [];
-  let nextId = 1;
-  let cSearchTerm = '';
-  let cStatusFilter = 'all';
-
-  $('#cForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    if(!validate()){
-      $('#formBanner').scrollIntoView({ behavior:'smooth', block:'center' });
-      return;
-    }
-    complaints.unshift({
-      id: `CMP${1000 + nextId}`,
-      _seq: nextId++,
-      student: $('#cName').value.trim(),
-      room: $('#cRoom').value.trim(),
-      category: $('#cCategory').value,
-      priority: selectedPriority,
-      desc: $('#cDesc').value.trim(),
-      status: 'Pending',
-      date: new Date().toISOString().slice(0,10)
-    });
-    $('#cForm').reset();
-    clearErrors();
-    selectedPriority = '';
-    document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('selected'));
-    $('#cName').classList.remove('verified');
-    $('#verified-cName').classList.remove('show');
-    $('#successBanner').classList.add('show');
-    setTimeout(() => $('#successBanner').classList.remove('show'), 3000);
-    render();
-  });
-  $('#clearBtn').addEventListener('click', () => {
-    setTimeout(() => {
-      clearErrors();
-      selectedPriority = '';
-      document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('selected'));
-      $('#cName').classList.remove('verified');
-      $('#verified-cName').classList.remove('show');
-    }, 0);
-  });
-
-  function markSolved(seq){
-    const c = complaints.find(c => c._seq === seq);
-    if(c && c.status === 'Pending'){ c.status = 'Solved'; render(); }
-  }
-  function removeComplaint(seq){
-    complaints = complaints.filter(c => c._seq !== seq);
-    render();
-  }
-  window.markSolved = markSolved;
-  window.removeComplaint = removeComplaint;
-
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      cStatusFilter = chip.dataset.status;
-      render();
-    });
-  });
-  $('#cSearch').addEventListener('input', (e) => { cSearchTerm = e.target.value.trim().toLowerCase(); render(); });
-
-  function render(){
-    const list = complaints.filter(c => {
-      if(cStatusFilter !== 'all' && c.status !== cStatusFilter) return false;
-      if(cSearchTerm){
-        const hay = `${c.student} ${c.room} ${c.category}`.toLowerCase();
-        if(!hay.includes(cSearchTerm)) return false;
-      }
-      return true;
-    });
-
-    $('#cBody').innerHTML = list.map(c => `
-      <tr>
-        <td data-label="ID" class="mono">${escapeHtml(c.id)}</td>
-        <td data-label="Student"><div class="cname">${escapeHtml(c.student)}</div><div class="csub">${escapeHtml(c.desc).slice(0,40)}${c.desc.length>40?'…':''}</div></td>
-        <td data-label="Room">${escapeHtml(c.room)}</td>
-        <td data-label="Category">${escapeHtml(c.category)}</td>
-        <td data-label="Priority"><span class="badge ${c.priority.toLowerCase()}">${escapeHtml(c.priority)}</span></td>
-        <td data-label="Status"><span class="badge ${c.status.toLowerCase()}">${escapeHtml(c.status)}</span></td>
-        <td data-label="Date" class="mono">${escapeHtml(c.date)}</td>
-        <td data-label="Action">
-          <div class="row-actions">
-            <button class="icon-btn resolve" onclick="markSolved(${c._seq})" ${c.status === 'Solved' ? 'disabled' : ''}>Mark Solved</button>
-            <button class="icon-btn remove" onclick="removeComplaint(${c._seq})">Delete</button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
-
-    $('#cCount').textContent = `Showing ${list.length} of ${complaints.length} complaints`;
-    $('#cEmpty').style.display = list.length ? 'none' : 'block';
-
-    $('#statTotal').textContent = complaints.length;
-    $('#statPending').textContent = complaints.filter(c => c.status === 'Pending').length;
-    $('#statSolved').textContent = complaints.filter(c => c.status === 'Solved').length;
-    $('#statHigh').textContent = complaints.filter(c => c.status === 'Pending' && c.priority === 'High').length;
-
-    /* Dashboard: recent complaints preview (latest 5) */
-    const recent = complaints.slice(0, 5);
-    if(recent.length === 0){
-      $('#recentEmpty').style.display = 'block';
-    } else {
-      $('#recentEmpty').style.display = 'none';
-    }
-    const existingList = document.getElementById('recentList');
-    if(existingList) existingList.remove();
-    if(recent.length){
-      const wrap = document.createElement('div');
-      wrap.id = 'recentList';
-      wrap.style.padding = '10px 22px 6px';
-      wrap.innerHTML = recent.map(c => `
-        <div class="activity-item" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);font-size:13.5px;">
-          <div>
-            <div class="cname">${escapeHtml(c.student)} <span class="mono">· ${escapeHtml(c.id)}</span></div>
-            <div class="csub">${escapeHtml(c.category)} — ${escapeHtml(c.desc).slice(0,50)}${c.desc.length>50?'…':''}</div>
-          </div>
-          <div style="display:flex;gap:6px;">
-            <span class="badge ${c.priority.toLowerCase()}">${escapeHtml(c.priority)}</span>
-            <span class="badge ${c.status.toLowerCase()}">${escapeHtml(c.status)}</span>
-          </div>
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact Us</h5>
+        <div class="contact-line">
+          <i class="bi bi-geo-alt-fill"></i>
+          <span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
         </div>
-      `).join('');
-      $('#recentBody').appendChild(wrap);
-    }
-  }
-  render();
-</script>
+        <div class="contact-line">
+          <i class="bi bi-telephone-fill"></i>
+          <a href="tel:02766220419">02766-220419</a>
+        </div>
+        <div class="contact-line">
+          <i class="bi bi-envelope-fill"></i>
+          <a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
+      <p class="mb-0">Complaint records above are kept for this session only.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="complaint.js"></script>
 </body>
 </html>
