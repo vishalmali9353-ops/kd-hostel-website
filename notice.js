@@ -12,35 +12,40 @@
       description: "Last date to pay hostel fees for this semester has been extended to the 5th of next month. Late fee will apply after that.",
       category: "Fee",
       date: "2026-07-25",
-      pinned: true
+      pinned: true,
+      postedBy: "Y.R PATEL"
     },
     {
       title: "Mess Menu Update for August",
       description: "The revised mess menu for August has been finalized based on student feedback. Check the mess notice board for details.",
       category: "Mess",
       date: "2026-07-24",
-      pinned: false
+      pinned: false,
+      postedBy: "M.R THAKKAR"
     },
     {
       title: "Scheduled Water Supply Maintenance",
       description: "Water supply will be temporarily stopped on Sunday from 10 AM to 1 PM for tank cleaning in Boys Block.",
       category: "Maintenance",
       date: "2026-07-22",
-      pinned: false
+      pinned: false,
+      postedBy: "C.D PATEL"
     },
     {
       title: "Independence Day Celebration",
       description: "All residents are invited to the flag hoisting ceremony in the common ground, followed by cultural activities.",
       category: "Event",
       date: "2026-07-20",
-      pinned: false
+      pinned: false,
+      postedBy: "N.A PATEL"
     },
     {
       title: "ID Card Verification Drive",
       description: "All students must get their hostel ID cards verified at the office by end of this week.",
       category: "General",
       date: "2026-07-18",
-      pinned: false
+      pinned: false,
+      postedBy: "M.R THAKKAR"
     }
   ];
 
@@ -84,7 +89,10 @@
           <span class="notice-date"><i class="bi bi-calendar3"></i> ${formatDate(n.date)}</span>
         </div>
         <p>${n.description}</p>
-        <span class="category-tag">${n.category}</span>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="category-tag">${n.category}</span>
+          ${n.postedBy ? `<span class="notice-postedby"><i class="bi bi-person-badge"></i> ${n.postedBy}</span>` : ''}
+        </div>
       `;
       list.appendChild(card);
     });
@@ -173,7 +181,9 @@
       return;
     }
 
-    const newNotice = { title, description, category, date, pinned };
+    const staffNames = ["Y.R PATEL", "M.R THAKKAR", "C.D PATEL", "N.A PATEL"];
+    const postedBy = staffNames[Math.floor(Math.random() * staffNames.length)];
+    const newNotice = { title, description, category, date, pinned, postedBy };
 
     if (!GAS_URL){
       // No backend configured yet — just show it locally
@@ -209,4 +219,5 @@
   }
 
   loadNotices();
+
 
