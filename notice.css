@@ -171,6 +171,13 @@
     margin-top:10px;
   }
 
+  .notice-card .notice-postedby{
+    font-size:0.78rem;
+    color:#888;
+    font-style:italic;
+    margin-top:10px;
+  }
+
   .state-box{
     text-align:center;
     padding:50px 20px;
@@ -249,3 +256,6 @@
     font-size:0.85rem;
     color:#8ea0ae;
   }
+
+
+
