@@ -65,6 +65,12 @@
   <div class="stat"><div class="num mono" id="statAvg">0</div><div class="lbl">Avg Risk Score</div></div>
 </section>
 
+<div class="alert-banner" id="alertBanner" style="display:none;">
+  <i class="bi bi-exclamation-triangle-fill"></i>
+  <span id="alertBannerText"></span>
+  <button class="alert-dismiss" id="alertDismiss" aria-label="Dismiss">&times;</button>
+</div>
+
 <div class="controls">
   <input type="text" id="searchBox" placeholder="Search room or block…" style="min-width:180px;">
   <select id="filterType">
@@ -84,6 +90,8 @@
     <option value="healthy">Healthy</option>
   </select>
   <div class="spacer"></div>
+  <button class="ghost-btn" id="exportCsvBtn"><i class="bi bi-download"></i> Export CSV</button>
+  <button class="ghost-btn" id="addAssetBtn" style="background:var(--brass); color:var(--ink); border:none; font-weight:600;"><i class="bi bi-plus-lg"></i> Add asset</button>
   <span class="sort-label">Sort</span>
   <select id="sortBy">
     <option value="risk">Risk score (high → low)</option>
@@ -163,6 +171,78 @@ function jsonOut(obj) {
   </details>
   <p style="margin-top:-4px;">Deploy → <span class="mono" style="color:var(--brass-light);">Execute as: Me</span>, <span class="mono" style="color:var(--brass-light);">Who has access: Anyone</span>. Paste the resulting <span class="mono">/exec</span> URL above.</p>
 </section>
+
+<!-- Asset detail modal -->
+<div class="modal fade kd-modal" id="detailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailModalTitle">Asset</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="detailModalBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Add asset modal -->
+<div class="modal fade kd-modal" id="addAssetModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add a new asset</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addAssetForm">
+          <div class="form-grid">
+            <label>Room number
+              <input type="text" id="fRoom" required placeholder="105">
+            </label>
+            <label>Block
+              <input type="text" id="fBlock" required placeholder="A">
+            </label>
+            <label>System type
+              <select id="fType" required>
+                <option value="AC">AC</option>
+                <option value="Geyser">Geyser</option>
+                <option value="Plumbing">Plumbing</option>
+                <option value="Electrical">Electrical</option>
+                <option value="Furniture">Furniture</option>
+                <option value="FireSafety">Fire Safety</option>
+              </select>
+            </label>
+            <label>Usage intensity
+              <select id="fUsage">
+                <option value="Low">Low</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="High">High</option>
+              </select>
+            </label>
+            <label>Install date
+              <input type="date" id="fInstall" required>
+            </label>
+            <label>Last maintenance date
+              <input type="date" id="fLast" required>
+            </label>
+            <label>Complaints (last 30d)
+              <input type="number" id="fC30" min="0" value="0">
+            </label>
+            <label>Complaints (last 90d)
+              <input type="number" id="fC90" min="0" value="0">
+            </label>
+          </div>
+          <p class="form-hint" id="addAssetError"></p>
+          <div class="form-actions">
+            <button type="button" class="ghost-btn" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn-log" style="flex:none; padding:10px 22px;">Add asset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Footer -->
 <footer class="footer-kd">
   <div class="container">
