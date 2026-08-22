@@ -1,0 +1,1545 @@
+/* =============================================================================
+   K.D. HOSTEL, PATAN
+   STUDENT REGISTRATION PAGE STYLESHEET
+   =============================================================================
+   File      : registration.css
+   Used by   : registration.html
+
+   This stylesheet is organised top-to-bottom in the following order:
+
+     1.  Root color variables and base typography
+     2.  Navbar
+     3.  Page header (hero banner)
+     4.  Shared toolbar / notice card styles (reused from other pages)
+     5.  Fee / registration card and form field styling
+     6.  Guideline & FAQ accordion cards
+     7.  Registration progress stepper
+     8.  Terms checkbox, review/confirmation modal
+     9.  Footer
+    10.  Responsive breakpoints (mobile-first, following Bootstrap's
+         xs / sm / md / lg / xl / xxl convention)
+    11.  Print stylesheet (clean layout when the page is printed)
+    12.  Reduced motion & forced-colors accessibility support
+    13.  Optional dark mode (activated by the OS color scheme setting)
+    14.  Reusable utility class library:
+           - spacing scale (margin / padding)
+           - typography scale (font-size, line-height, letter-spacing)
+           - border-radius scale
+           - shadow scale
+           - extended color palette
+           - z-index scale
+           - flex / gap helpers
+           - alert box variants
+           - hover-lift helper
+
+   Colour palette quick reference:
+     --navy      : primary brand navy blue
+     --navy-deep : darker navy for large surfaces (navbar, footer)
+     --gold      : accent color for buttons, links, focus rings
+     --cream     : light background tint for secondary surfaces
+     --ink       : default body text color
+
+   Typography:
+     Headings  -> 'Playfair Display', serif
+     Body text -> 'Source Sans 3', sans-serif
+   ============================================================================= */
+
+:root{
+    --navy:#1D5FD6;
+    --navy-deep:#0F2A5C;
+    --gold:#4C86EA;
+    --cream:#F4F8FE;
+    --ink:#2b2b2b;
+  }
+
+
+  .kd-logo{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#fff;border:2px solid #fff;box-shadow:0 2px 6px rgba(15,42,92,0.35);flex-shrink:0;}
+  .footer-kd .kd-logo{ margin-bottom:14px; }
+
+  body{
+    font-family:'Source Sans 3', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+  }
+
+  h1,h2,h3,.brand{
+    font-family:'Playfair Display', serif;
+  }
+
+  /* Navbar */
+  .navbar-kd{
+    background:var(--navy-deep);
+    border-bottom:3px solid var(--gold);
+  }
+  .navbar-kd .navbar-brand{
+    color:var(--gold);
+    font-weight:700;
+    font-size:1.5rem;
+    letter-spacing:0.5px;
+  }
+  .navbar-kd .nav-link{
+    color:#e9e4d8;
+    font-weight:600;
+    font-size:0.92rem;
+    margin:0 4px;
+  }
+  .navbar-kd .nav-link:hover,
+  .navbar-kd .nav-link.active{
+    color:var(--gold);
+  }
+  .navbar-kd .navbar-phone{
+    color:var(--gold);
+    font-weight:600;
+    font-size:0.92rem;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-right:14px;
+    white-space:nowrap;
+  }
+  .navbar-kd .navbar-phone:hover{
+    color:#fff;
+  }
+  .navbar-kd .navbar-toggler{
+    border-color:var(--gold);
+  }
+  .navbar-kd .navbar-toggler-icon-custom{
+    color:var(--gold);
+    font-size:1.6rem;
+    line-height:1;
+  }
+
+  /* Page header (hero variant for inner pages) */
+  .page-header{
+    background:linear-gradient(rgba(15,42,92,0.88), rgba(15,42,92,0.88)),
+      url('https://images.unsplash.com/photo-1519452575417-564c1401ecc0?q=80&w=1600') center/cover no-repeat;
+    color:#fff;
+    padding:70px 0 60px;
+    text-align:center;
+    border-bottom:4px solid var(--gold);
+  }
+  .page-header h1{
+    font-size:2.3rem;
+    font-weight:700;
+  }
+  .page-header .divider{
+    width:70px;
+    height:3px;
+    background:var(--gold);
+    margin:16px auto 0;
+  }
+
+  /* Toolbar */
+  .notice-toolbar{
+    margin:40px 0 30px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .notice-toolbar .form-control,
+  .notice-toolbar .form-select{
+    border-color:#e4ddc9;
+  }
+  .notice-toolbar .form-control:focus,
+  .notice-toolbar .form-select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 0.2rem rgba(200,162,74,0.2);
+  }
+
+  /* Notice cards */
+  .notice-card{
+    background:#fff;
+    border:1px solid #e4ddc9;
+    border-left:4px solid var(--navy);
+    border-radius:4px;
+    padding:22px 24px;
+    margin-bottom:18px;
+    transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    position:relative;
+  }
+  .notice-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 22px rgba(22,50,74,0.1);
+    border-left-color:var(--gold);
+  }
+  .notice-card.pinned{
+    border-left-color:var(--gold);
+    background:#fffdf6;
+  }
+  .notice-card .notice-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .notice-card h3{
+    font-size:1.05rem;
+    color:var(--navy);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .notice-card .notice-date{
+    font-size:0.8rem;
+    color:#888;
+    white-space:nowrap;
+  }
+  .notice-card p{
+    font-size:0.92rem;
+    color:#555;
+    margin:8px 0 0;
+  }
+  .notice-card .badge-new{
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-weight:700;
+    font-size:0.7rem;
+    padding:4px 9px;
+    border-radius:20px;
+    margin-left:8px;
+  }
+  .notice-card .badge-pin{
+    color:var(--gold);
+    margin-right:6px;
+  }
+  .notice-card .category-tag{
+    display:inline-block;
+    font-size:0.72rem;
+    font-weight:600;
+    color:var(--navy);
+    background:var(--cream);
+    border:1px solid #e4ddc9;
+    border-radius:20px;
+    padding:2px 10px;
+    margin-top:10px;
+  }
+
+  /* Fee Management card */
+  .fee-card{
+    background:#fff;
+    border:1px solid #e4ddc9;
+    border-radius:6px;
+    padding:40px 36px;
+    margin:45px 0 60px;
+    box-shadow:0 6px 20px rgba(22,50,74,0.06);
+  }
+  .fee-card h2{
+    text-align:center;
+    color:var(--navy);
+    font-weight:700;
+    font-size:1.9rem;
+  }
+  .fee-card .divider-orange{
+    width:70px;
+    height:3px;
+    background:var(--gold);
+    margin:16px auto 28px;
+  }
+  .fee-card p{
+    font-size:1rem;
+    line-height:1.7;
+    color:#444;
+  }
+  .payment-link-box{
+    background:var(--cream);
+    border:1px solid #e4ddc9;
+    border-radius:4px;
+    padding:14px 18px;
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .payment-link-box .pl-label{
+    font-weight:700;
+    color:var(--navy);
+    white-space:nowrap;
+  }
+  .payment-link-box a{
+    color:#1a5aa8;
+    word-break:break-all;
+    text-decoration:none;
+  }
+  .payment-link-box a:hover{
+    text-decoration:underline;
+  }
+  .pay-btn{
+    background:var(--gold);
+    color:var(--navy-deep);
+    font-weight:700;
+    padding:12px 30px;
+    border-radius:30px;
+    font-size:1rem;
+  }
+  .pay-btn:hover{
+    background:var(--navy);
+    color:#fff;
+  }
+  .steps-title{
+    color:var(--navy);
+    font-size:1.15rem;
+    font-weight:700;
+  }
+  .steps-list{
+    color:#444;
+    font-size:0.95rem;
+    line-height:1.9;
+    padding-left:22px;
+  }
+
+  .section-title{
+    color:var(--navy);
+    font-size:1.05rem;
+    font-weight:700;
+    border-left:4px solid var(--gold);
+    padding-left:10px;
+    margin-bottom:14px;
+  }
+  #regForm .form-label{
+    font-size:0.85rem;
+    font-weight:600;
+    color:#444;
+  }
+  #regForm .form-control:focus,
+  #regForm .form-select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 0.2rem rgba(200,162,74,0.2);
+  }
+  #regForm .form-text{
+    font-size:0.78rem;
+    color:#888;
+    margin-top:4px;
+  }
+
+  /* Bootstrap validation states for the registration form.
+     These classes are toggled automatically once the form
+     gets the "was-validated" class in registration.js       */
+  #regForm.was-validated .form-control:invalid,
+  #regForm.was-validated .form-select:invalid{
+    border-color:#dc3545;
+  }
+  #regForm.was-validated .form-control:valid,
+  #regForm.was-validated .form-select:valid{
+    border-color:#3fa34d;
+  }
+  #regForm .invalid-feedback{
+    font-size:0.78rem;
+  }
+
+  /* Status message under the Register button */
+  #reg_status{
+    min-height:22px;
+    font-weight:600;
+  }
+  #reg_status .bi-arrow-repeat{
+    animation:kd-spin 0.9s linear infinite;
+    display:inline-block;
+  }
+  @keyframes kd-spin{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+  }
+
+  #regTable thead th{
+    color:var(--navy);
+    font-size:0.85rem;
+    font-weight:700;
+  }
+  #regTable td{
+    font-size:0.9rem;
+  }
+
+  .state-box{
+    text-align:center;
+    padding:50px 20px;
+    color:#888;
+  }
+  .state-box i{
+    font-size:2rem;
+    color:var(--gold);
+    display:block;
+    margin-bottom:12px;
+  }
+
+  /* Footer */
+  .footer-kd{
+    background:var(--navy-deep);
+    color:#b9c2ca;
+    padding:60px 0 0;
+    margin-top:70px;
+    border-top:3px solid var(--gold);
+  }
+  .footer-kd h5{
+    color:#fff;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:22px;
+  }
+  .footer-kd a{
+    color:#b9c2ca;
+    text-decoration:none;
+    display:block;
+    margin-bottom:14px;
+    font-size:0.95rem;
+    transition:color .15s ease;
+  }
+  .footer-kd a:hover{
+    color:var(--gold);
+  }
+  .footer-kd .social-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#2a4054;
+    color:#fff;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.1rem;
+    margin-top:6px;
+  }
+  .footer-kd .social-icon:hover{
+    background:var(--gold);
+    color:var(--navy-deep);
+  }
+  .footer-kd .contact-line{
+    display:flex;
+    gap:12px;
+    margin-bottom:16px;
+    font-size:0.95rem;
+    color:#b9c2ca;
+  }
+  .footer-kd .contact-line i{
+    color:var(--gold);
+    font-size:1.05rem;
+    margin-top:2px;
+  }
+  .footer-kd .contact-line a{
+    margin-bottom:0;
+    display:inline;
+  }
+  .footer-bottom{
+    border-top:1px solid #2a4054;
+    margin-top:40px;
+    padding:22px 0;
+    text-align:center;
+    font-size:0.85rem;
+    color:#8ea0ae;
+  }
+
+/* =============================================================
+   NEW COMPONENT: REGISTRATION GUIDELINES CARD (ACCORDION)
+   Wraps the eligibility / documents / privacy accordion shown
+   above the registration form.
+   ============================================================= */
+.guideline-card{
+  background:#fff;
+  border:1px solid #e4ddc9;
+  border-radius:6px;
+  padding:28px 30px;
+  margin:40px 0 0;
+  box-shadow:0 4px 14px rgba(22,50,74,0.05);
+}
+.guideline-title{
+  color:var(--navy);
+  font-size:1.3rem;
+  font-weight:700;
+  margin-bottom:18px;
+}
+.guideline-title i{
+  color:var(--gold);
+  margin-right:6px;
+}
+.guideline-list{
+  margin:0;
+  padding-left:20px;
+  color:#444;
+  font-size:0.92rem;
+  line-height:1.8;
+}
+#guidelineAccordion .accordion-item{
+  border:1px solid #eee2c2;
+  margin-bottom:8px;
+  border-radius:4px;
+  overflow:hidden;
+}
+#guidelineAccordion .accordion-button{
+  font-weight:600;
+  font-size:0.95rem;
+  color:var(--navy);
+  background:var(--cream);
+}
+#guidelineAccordion .accordion-button:not(.collapsed){
+  color:var(--navy-deep);
+  background:#fff6df;
+  box-shadow:none;
+}
+#guidelineAccordion .accordion-button:focus{
+  box-shadow:0 0 0 0.15rem rgba(200,162,74,0.25);
+}
+#guidelineAccordion .accordion-body{
+  font-size:0.9rem;
+}
+
+/* =============================================================
+   NEW COMPONENT: REGISTRATION PROGRESS STEPS
+   A purely visual 1-2-3 stepper shown above the form so the
+   student understands the form is split into three parts.
+   The "active" class is toggled by registration.js as the
+   student scrolls through / focuses each section.
+   ============================================================= */
+.progress-steps{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin:34px 0 0;
+  flex-wrap:wrap;
+}
+.progress-step{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  opacity:0.55;
+  transition:opacity .25s ease;
+}
+.progress-step.active{
+  opacity:1;
+}
+.progress-step .step-circle{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid #d8d0b4;
+  color:#888;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:0.95rem;
+  transition:border-color .25s ease, color .25s ease, background .25s ease;
+}
+.progress-step.active .step-circle{
+  border-color:var(--gold);
+  background:var(--gold);
+  color:var(--navy-deep);
+}
+.progress-step .step-label{
+  font-size:0.78rem;
+  font-weight:600;
+  color:#777;
+  text-transform:uppercase;
+  letter-spacing:0.4px;
+}
+.progress-step.active .step-label{
+  color:var(--navy);
+}
+.progress-line{
+  width:60px;
+  height:2px;
+  background:#d8d0b4;
+  margin-bottom:22px;
+}
+
+/* Required field marker */
+.req-star{
+  color:#dc3545;
+  font-weight:700;
+}
+
+/* Terms & conditions checkbox row */
+.terms-check{
+  background:var(--cream);
+  border:1px solid #e4ddc9;
+  border-radius:4px;
+  padding:14px 16px;
+  margin-top:4px;
+}
+.terms-check .form-check-label{
+  font-size:0.88rem;
+  color:#444;
+}
+.terms-check .form-check-input:checked{
+  background-color:var(--navy);
+  border-color:var(--navy);
+}
+.terms-check .form-check-input:focus{
+  box-shadow:0 0 0 0.2rem rgba(200,162,74,0.25);
+}
+
+/* Review / confirmation table shared by the inline preview panel */
+.review-table th,
+.review-table td{
+  font-size:0.88rem;
+  vertical-align:top;
+}
+.review-table th{
+  width:42%;
+  color:var(--navy);
+  font-weight:700;
+  border-color:#eee2c2;
+}
+.review-table td{
+  color:#333;
+  border-color:#eee2c2;
+}
+
+/* =============================================================
+   INLINE REVIEW / PREVIEW PANEL
+   Shown directly below the "Preview & Submit" button (no popup
+   modal). Slides/fades into view once every field passes
+   validation, showing a read-only summary with an Edit and a
+   Submit action right underneath it.
+   ============================================================= */
+.review-preview{
+  margin-top:24px;
+  padding:22px 24px;
+  background:var(--cream);
+  border:1px solid #e4ddc9;
+  border-radius:6px;
+  animation:kd-fade-in-up 0.35s ease both;
+}
+.review-preview-title{
+  color:var(--navy);
+  font-size:1.1rem;
+  font-weight:700;
+  margin-bottom:4px;
+}
+.review-preview-title i{
+  color:var(--gold);
+  margin-right:6px;
+}
+.review-preview .table{
+  background:#fff;
+  border-radius:4px;
+  overflow:hidden;
+}
+.page-header-sub{
+  color:#e9e4d8;
+  font-size:0.95rem;
+  margin-top:10px;
+}
+
+/* =============================================================
+   SECTION: BUTTON VARIANTS
+   Additional button styles used around the registration flow
+   (outline / ghost buttons for secondary actions such as the
+   "Edit" button inside the confirmation modal).
+   ============================================================= */
+.btn-outline-secondary{
+  border-radius:30px;
+  font-weight:600;
+  font-size:0.9rem;
+}
+.btn-outline-secondary:hover{
+  background:var(--navy-deep);
+  border-color:var(--navy-deep);
+  color:#fff;
+}
+
+/* =============================================================
+   SECTION: FORM FIELD MICRO-INTERACTIONS
+   Small transition/animation touches that make the form feel
+   more responsive without affecting functionality.
+   ============================================================= */
+#regForm .form-control,
+#regForm .form-select{
+  transition:border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+#regForm .form-control::placeholder{
+  color:#aaa;
+  font-size:0.9rem;
+}
+#regForm .form-check-input{
+  cursor:pointer;
+}
+#regForm label.form-label{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+/* =============================================================
+   SECTION: SCROLLBAR STYLING (WEBKIT BROWSERS)
+   Cosmetic only - falls back to default scrollbar elsewhere.
+   ============================================================= */
+::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+}
+::-webkit-scrollbar-track{
+  background:var(--cream);
+}
+::-webkit-scrollbar-thumb{
+  background:#d8d0b4;
+  border-radius:10px;
+}
+::-webkit-scrollbar-thumb:hover{
+  background:var(--gold);
+}
+
+/* =============================================================
+   SECTION: FOCUS VISIBILITY / ACCESSIBILITY
+   Ensures keyboard users can always see which element is
+   focused, independent of the mouse-based hover styles above.
+   ============================================================= */
+a:focus-visible,
+button:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+}
+.visually-hidden-but-focusable:not(:focus){
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+}
+
+/* =============================================================
+   SECTION: GENERIC UTILITY CLASSES
+   Small reusable helper classes that keep inline styling out
+   of the HTML markup.
+   ============================================================= */
+.u-mt-0{ margin-top:0 !important; }
+.u-mt-8{ margin-top:8px !important; }
+.u-mt-16{ margin-top:16px !important; }
+.u-mt-24{ margin-top:24px !important; }
+.u-mt-32{ margin-top:32px !important; }
+.u-mb-0{ margin-bottom:0 !important; }
+.u-mb-8{ margin-bottom:8px !important; }
+.u-mb-16{ margin-bottom:16px !important; }
+.u-mb-24{ margin-bottom:24px !important; }
+.u-p-0{ padding:0 !important; }
+.u-p-8{ padding:8px !important; }
+.u-p-16{ padding:16px !important; }
+.u-text-center{ text-align:center !important; }
+.u-text-left{ text-align:left !important; }
+.u-text-right{ text-align:right !important; }
+.u-text-muted{ color:#888 !important; }
+.u-text-navy{ color:var(--navy) !important; }
+.u-text-gold{ color:var(--gold) !important; }
+.u-font-bold{ font-weight:700 !important; }
+.u-font-semibold{ font-weight:600 !important; }
+.u-rounded{ border-radius:6px !important; }
+.u-rounded-pill{ border-radius:30px !important; }
+.u-shadow-sm{ box-shadow:0 2px 8px rgba(22,50,74,0.06) !important; }
+.u-shadow-md{ box-shadow:0 6px 20px rgba(22,50,74,0.10) !important; }
+.u-hidden{ display:none !important; }
+.u-block{ display:block !important; }
+.u-flex{ display:flex !important; }
+.u-flex-center{ display:flex; align-items:center; justify-content:center; }
+.u-flex-between{ display:flex; align-items:center; justify-content:space-between; }
+.u-w-100{ width:100% !important; }
+.u-max-w-600{ max-width:600px !important; }
+
+/* =============================================================
+   SECTION: SIMPLE ENTRANCE ANIMATIONS
+   Applied to cards as they come into view; purely cosmetic.
+   ============================================================= */
+@keyframes kd-fade-in-up{
+  from{
+    opacity:0;
+    transform:translateY(14px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+.fee-card,
+.guideline-card{
+  animation:kd-fade-in-up 0.5s ease both;
+}
+@keyframes kd-fade-in{
+  from{ opacity:0; }
+  to{ opacity:1; }
+}
+.page-header{
+  animation:kd-fade-in 0.6s ease both;
+}
+
+/* =============================================================
+   SECTION: STATUS BADGES
+   Reusable small badges that could be used to flag a
+   registration's status if displayed later in an admin table.
+   ============================================================= */
+.status-badge{
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.3px;
+  text-transform:uppercase;
+}
+.status-badge.pending{
+  background:#fff3cd;
+  color:#7a5b00;
+}
+.status-badge.approved{
+  background:#d7f3df;
+  color:#186a35;
+}
+.status-badge.rejected{
+  background:#fbdada;
+  color:#9c2626;
+}
+
+/* =============================================================
+   RESPONSIVE DESIGN
+   Breakpoints follow Bootstrap 5 conventions:
+     <576px   : phones (default rules above already mobile-first)
+     >=576px  : sm
+     >=768px  : md
+     >=992px  : lg
+     >=1200px : xl
+     >=1400px : xxl
+   ============================================================= */
+
+/* ---- Extra small phones (<400px) ---- */
+@media (max-width:399.98px){
+  .page-header h1{
+    font-size:1.6rem;
+  }
+  .fee-card{
+    padding:24px 16px;
+  }
+  .guideline-card{
+    padding:20px 16px;
+  }
+  .progress-step .step-label{
+    font-size:0.68rem;
+  }
+  .progress-line{
+    width:30px;
+  }
+}
+
+/* ---- Small devices (phones, >=576px) ---- */
+@media (min-width:576px){
+  .fee-card{
+    padding:32px 28px;
+  }
+}
+
+/* ---- Medium devices (tablets, >=768px) ---- */
+@media (min-width:768px){
+  .page-header h1{
+    font-size:2.1rem;
+  }
+  .progress-line{
+    width:80px;
+  }
+}
+
+/* ---- Large devices (desktops, >=992px) ---- */
+@media (min-width:992px){
+  .fee-card{
+    padding:40px 36px;
+  }
+  .guideline-card{
+    padding:32px 34px;
+  }
+}
+
+/* ---- Extra large devices (large desktops, >=1200px) ---- */
+@media (min-width:1200px){
+  .container{
+    max-width:1140px;
+  }
+}
+
+/* ---- Landscape phones / short viewports ---- */
+@media (max-height:480px) and (orientation:landscape){
+  .page-header{
+    padding:40px 0 30px;
+  }
+}
+
+/* =============================================================
+   PRINT STYLESHEET
+   Lets a warden print a filled/submitted confirmation view of
+   the registration form if the browser print dialog is used.
+   Navigation, footer and buttons are hidden; only the core
+   form content prints, in a clean black-and-white layout.
+   ============================================================= */
+@media print{
+  .navbar-kd,
+  .footer-kd,
+  .progress-steps,
+  .guideline-card,
+  #reviewBtn,
+  .pay-btn,
+  .accordion-button::after{
+    display:none !important;
+  }
+  body{
+    background:#fff !important;
+    color:#000 !important;
+  }
+  .fee-card{
+    box-shadow:none !important;
+    border:1px solid #000 !important;
+  }
+  .page-header{
+    background:none !important;
+    color:#000 !important;
+    padding:10px 0 !important;
+    border-bottom:1px solid #000 !important;
+  }
+  a[href]::after{
+    content:"";
+  }
+}
+
+/* =============================================================
+   REDUCED MOTION PREFERENCE
+   Respects users who have asked their OS to minimise animation.
+   ============================================================= */
+@media (prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation-duration:0.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.001ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* =============================================================
+   HIGH CONTRAST / FORCED-COLORS MODE SUPPORT
+   Keeps focus outlines visible under Windows High Contrast Mode.
+   ============================================================= */
+@media (forced-colors:active){
+  .pay-btn,
+  .btn-outline-secondary{
+    border:1px solid ButtonText;
+  }
+}
+
+/* =============================================================
+   OPTIONAL DARK MODE SUPPORT
+   Activated automatically when the visitor's operating system
+   is set to a dark color scheme. Colors are chosen to keep the
+   same navy/gold identity while remaining readable on dark
+   backgrounds.
+   ============================================================= */
+@media (prefers-color-scheme:dark){
+  body{
+    background:#10161d;
+    color:#dfe6ee;
+  }
+  .fee-card,
+  .guideline-card{
+    background:#1a222c;
+    border-color:#2a3542;
+    box-shadow:0 6px 20px rgba(0,0,0,0.35);
+  }
+  .fee-card h2,
+  .guideline-title,
+  .section-title{
+    color:#7fb0ff;
+  }
+  #regForm .form-label{
+    color:#c7d0da;
+  }
+  #regForm .form-control,
+  #regForm .form-select{
+    background:#141b23;
+    color:#dfe6ee;
+    border-color:#2a3542;
+  }
+  #regForm .form-control::placeholder{
+    color:#5c6773;
+  }
+  .terms-check{
+    background:#141b23;
+    border-color:#2a3542;
+  }
+  .terms-check .form-check-label{
+    color:#c7d0da;
+  }
+  #guidelineAccordion .accordion-button{
+    background:#141b23;
+    color:#7fb0ff;
+  }
+  #guidelineAccordion .accordion-button:not(.collapsed){
+    background:#1f2937;
+    color:#a9cbff;
+  }
+  #guidelineAccordion .accordion-item{
+    border-color:#2a3542;
+  }
+  .review-table th,
+  .review-table td{
+    border-color:#2a3542;
+    color:#c7d0da;
+  }
+  ::-webkit-scrollbar-track{
+    background:#10161d;
+  }
+  ::-webkit-scrollbar-thumb{
+    background:#2a3542;
+  }
+}
+
+/* =============================================================
+   COLOR REFERENCE / STYLE GUIDE (COMMENT-ONLY SECTION)
+   -------------------------------------------------------------
+   The palette used across this stylesheet, documented here for
+   quick reference by anyone maintaining the page later:
+
+     --navy        : primary brand navy blue, used for headings,
+                      links and the navbar accent.
+     --navy-deep   : darker navy, used for large surfaces such as
+                      the navbar background and footer background.
+     --gold        : accent color, used for buttons, highlights,
+                      focus rings and hover states.
+     --cream       : very light background tint, used for
+                      secondary surfaces (form-text hints, toolbar).
+     --ink         : default body text color.
+
+   Typography:
+     Headings (h1-h3, .brand)  -> 'Playfair Display', serif
+     Body text                  -> 'Source Sans 3', sans-serif
+
+   Spacing rhythm used throughout the page:
+     Small gap   : 8px  / 0.5rem
+     Medium gap   : 16px / 1rem
+     Large gap    : 24px / 1.5rem
+     Section gap  : 40-70px depending on section importance
+   ============================================================= */
+
+/* =============================================================
+   SECTION: FORM SECTION DIVIDERS
+   Thin horizontal rules that can optionally separate each part
+   of the registration form for extra visual clarity on very
+   long forms viewed on large monitors.
+   ============================================================= */
+.form-section-divider{
+  border:none;
+  border-top:1px dashed #e4ddc9;
+  margin:28px 0;
+}
+
+/* =============================================================
+   SECTION: TOOLTIP-STYLE HELP BUBBLES
+   Small inline help icon + bubble that can be attached next to
+   any label if additional clarification is required later.
+   ============================================================= */
+.help-bubble{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--cream);
+  border:1px solid #d8d0b4;
+  color:var(--navy);
+  font-size:0.7rem;
+  font-weight:700;
+  cursor:help;
+  margin-left:4px;
+}
+.help-bubble:hover{
+  background:var(--gold);
+  color:var(--navy-deep);
+  border-color:var(--gold);
+}
+
+/* =============================================================
+   SECTION: EMPTY / LOADING STATE PLACEHOLDERS
+   Generic placeholder blocks that mimic content while data is
+   loading; not currently wired to the registration form itself
+   but kept available for future dashboard-style pages that may
+   reuse this stylesheet.
+   ============================================================= */
+.skeleton-line{
+  height:12px;
+  border-radius:4px;
+  background:linear-gradient(90deg, #eee 25%, #f5f5f5 37%, #eee 63%);
+  background-size:400% 100%;
+  animation:kd-skeleton 1.4s ease infinite;
+  margin-bottom:8px;
+}
+@keyframes kd-skeleton{
+  0%{ background-position:100% 50%; }
+  100%{ background-position:0 50%; }
+}
+
+/* =============================================================
+   SECTION: FORM STEP COMPLETION CHECKMARK
+   Small green check that can be shown next to a section title
+   once every field in that section has passed validation.
+   Toggled by registration.js via the "section-complete" class.
+   ============================================================= */
+.section-title.section-complete::after{
+  content:"\2713";
+  display:inline-block;
+  margin-left:8px;
+  color:#3fa34d;
+  font-weight:700;
+}
+
+/* =============================================================
+   SECTION: SUBMIT BUTTON LOADING STATE
+   Applied to .pay-btn while the fetch() request to the Google
+   Apps Script Web App is in flight, to prevent double clicks
+   and give a clear busy indication.
+   ============================================================= */
+.pay-btn:disabled,
+.pay-btn.is-loading{
+  opacity:0.7;
+  cursor:not-allowed;
+  pointer-events:none;
+}
+
+/* =============================================================
+   SECTION: MISC FINE-TUNING
+   Small final touches gathered at the end of the stylesheet.
+   ============================================================= */
+.table-sm td, .table-sm th{
+  padding:0.4rem 0.5rem;
+}
+.modal-content{
+  border-radius:8px;
+  overflow:hidden;
+  border:none;
+}
+.modal-footer{
+  border-top:1px solid #eee2c2;
+}
+strong{
+  color:inherit;
+}
+
+/* =============================================================
+   SECTION: SPACING UTILITY SCALE
+   A small, consistent spacing scale (in pixels) that can be
+   used anywhere on the site instead of one-off inline styles.
+   Naming convention: kd-<property><size>, e.g. kd-mt16 sets
+   margin-top:16px, kd-p24 sets padding:24px on all sides.
+   ============================================================= */
+.kd-mt0{ margin-top:0px !important; }
+.kd-mt4{ margin-top:4px !important; }
+.kd-mt8{ margin-top:8px !important; }
+.kd-mt12{ margin-top:12px !important; }
+.kd-mt16{ margin-top:16px !important; }
+.kd-mt20{ margin-top:20px !important; }
+.kd-mt24{ margin-top:24px !important; }
+.kd-mt28{ margin-top:28px !important; }
+.kd-mt32{ margin-top:32px !important; }
+.kd-mt36{ margin-top:36px !important; }
+.kd-mt40{ margin-top:40px !important; }
+.kd-mt48{ margin-top:48px !important; }
+.kd-mt56{ margin-top:56px !important; }
+.kd-mt64{ margin-top:64px !important; }
+.kd-mt72{ margin-top:72px !important; }
+.kd-mt80{ margin-top:80px !important; }
+
+.kd-mb0{ margin-bottom:0px !important; }
+.kd-mb4{ margin-bottom:4px !important; }
+.kd-mb8{ margin-bottom:8px !important; }
+.kd-mb12{ margin-bottom:12px !important; }
+.kd-mb16{ margin-bottom:16px !important; }
+.kd-mb20{ margin-bottom:20px !important; }
+.kd-mb24{ margin-bottom:24px !important; }
+.kd-mb28{ margin-bottom:28px !important; }
+.kd-mb32{ margin-bottom:32px !important; }
+.kd-mb36{ margin-bottom:36px !important; }
+.kd-mb40{ margin-bottom:40px !important; }
+.kd-mb48{ margin-bottom:48px !important; }
+.kd-mb56{ margin-bottom:56px !important; }
+.kd-mb64{ margin-bottom:64px !important; }
+.kd-mb72{ margin-bottom:72px !important; }
+.kd-mb80{ margin-bottom:80px !important; }
+
+.kd-ml0{ margin-left:0px !important; }
+.kd-ml4{ margin-left:4px !important; }
+.kd-ml8{ margin-left:8px !important; }
+.kd-ml12{ margin-left:12px !important; }
+.kd-ml16{ margin-left:16px !important; }
+.kd-ml20{ margin-left:20px !important; }
+.kd-ml24{ margin-left:24px !important; }
+.kd-ml28{ margin-left:28px !important; }
+.kd-ml32{ margin-left:32px !important; }
+.kd-ml36{ margin-left:36px !important; }
+.kd-ml40{ margin-left:40px !important; }
+.kd-ml48{ margin-left:48px !important; }
+.kd-ml56{ margin-left:56px !important; }
+.kd-ml64{ margin-left:64px !important; }
+.kd-ml72{ margin-left:72px !important; }
+.kd-ml80{ margin-left:80px !important; }
+
+.kd-mr0{ margin-right:0px !important; }
+.kd-mr4{ margin-right:4px !important; }
+.kd-mr8{ margin-right:8px !important; }
+.kd-mr12{ margin-right:12px !important; }
+.kd-mr16{ margin-right:16px !important; }
+.kd-mr20{ margin-right:20px !important; }
+.kd-mr24{ margin-right:24px !important; }
+.kd-mr28{ margin-right:28px !important; }
+.kd-mr32{ margin-right:32px !important; }
+.kd-mr36{ margin-right:36px !important; }
+.kd-mr40{ margin-right:40px !important; }
+.kd-mr48{ margin-right:48px !important; }
+.kd-mr56{ margin-right:56px !important; }
+.kd-mr64{ margin-right:64px !important; }
+.kd-mr72{ margin-right:72px !important; }
+.kd-mr80{ margin-right:80px !important; }
+
+.kd-m0{ margin:0px !important; }
+.kd-m4{ margin:4px !important; }
+.kd-m8{ margin:8px !important; }
+.kd-m12{ margin:12px !important; }
+.kd-m16{ margin:16px !important; }
+.kd-m20{ margin:20px !important; }
+.kd-m24{ margin:24px !important; }
+.kd-m28{ margin:28px !important; }
+.kd-m32{ margin:32px !important; }
+.kd-m36{ margin:36px !important; }
+.kd-m40{ margin:40px !important; }
+.kd-m48{ margin:48px !important; }
+.kd-m56{ margin:56px !important; }
+.kd-m64{ margin:64px !important; }
+.kd-m72{ margin:72px !important; }
+.kd-m80{ margin:80px !important; }
+
+.kd-pt0{ padding-top:0px !important; }
+.kd-pt4{ padding-top:4px !important; }
+.kd-pt8{ padding-top:8px !important; }
+.kd-pt12{ padding-top:12px !important; }
+.kd-pt16{ padding-top:16px !important; }
+.kd-pt20{ padding-top:20px !important; }
+.kd-pt24{ padding-top:24px !important; }
+.kd-pt28{ padding-top:28px !important; }
+.kd-pt32{ padding-top:32px !important; }
+.kd-pt36{ padding-top:36px !important; }
+.kd-pt40{ padding-top:40px !important; }
+.kd-pt48{ padding-top:48px !important; }
+.kd-pt56{ padding-top:56px !important; }
+.kd-pt64{ padding-top:64px !important; }
+.kd-pt72{ padding-top:72px !important; }
+.kd-pt80{ padding-top:80px !important; }
+
+.kd-pb0{ padding-bottom:0px !important; }
+.kd-pb4{ padding-bottom:4px !important; }
+.kd-pb8{ padding-bottom:8px !important; }
+.kd-pb12{ padding-bottom:12px !important; }
+.kd-pb16{ padding-bottom:16px !important; }
+.kd-pb20{ padding-bottom:20px !important; }
+.kd-pb24{ padding-bottom:24px !important; }
+.kd-pb28{ padding-bottom:28px !important; }
+.kd-pb32{ padding-bottom:32px !important; }
+.kd-pb36{ padding-bottom:36px !important; }
+.kd-pb40{ padding-bottom:40px !important; }
+.kd-pb48{ padding-bottom:48px !important; }
+.kd-pb56{ padding-bottom:56px !important; }
+.kd-pb64{ padding-bottom:64px !important; }
+.kd-pb72{ padding-bottom:72px !important; }
+.kd-pb80{ padding-bottom:80px !important; }
+
+.kd-pl0{ padding-left:0px !important; }
+.kd-pl4{ padding-left:4px !important; }
+.kd-pl8{ padding-left:8px !important; }
+.kd-pl12{ padding-left:12px !important; }
+.kd-pl16{ padding-left:16px !important; }
+.kd-pl20{ padding-left:20px !important; }
+.kd-pl24{ padding-left:24px !important; }
+.kd-pl28{ padding-left:28px !important; }
+.kd-pl32{ padding-left:32px !important; }
+.kd-pl36{ padding-left:36px !important; }
+.kd-pl40{ padding-left:40px !important; }
+.kd-pl48{ padding-left:48px !important; }
+.kd-pl56{ padding-left:56px !important; }
+.kd-pl64{ padding-left:64px !important; }
+.kd-pl72{ padding-left:72px !important; }
+.kd-pl80{ padding-left:80px !important; }
+
+.kd-pr0{ padding-right:0px !important; }
+.kd-pr4{ padding-right:4px !important; }
+.kd-pr8{ padding-right:8px !important; }
+.kd-pr12{ padding-right:12px !important; }
+.kd-pr16{ padding-right:16px !important; }
+.kd-pr20{ padding-right:20px !important; }
+.kd-pr24{ padding-right:24px !important; }
+.kd-pr28{ padding-right:28px !important; }
+.kd-pr32{ padding-right:32px !important; }
+.kd-pr36{ padding-right:36px !important; }
+.kd-pr40{ padding-right:40px !important; }
+.kd-pr48{ padding-right:48px !important; }
+.kd-pr56{ padding-right:56px !important; }
+.kd-pr64{ padding-right:64px !important; }
+.kd-pr72{ padding-right:72px !important; }
+.kd-pr80{ padding-right:80px !important; }
+
+.kd-p0{ padding:0px !important; }
+.kd-p4{ padding:4px !important; }
+.kd-p8{ padding:8px !important; }
+.kd-p12{ padding:12px !important; }
+.kd-p16{ padding:16px !important; }
+.kd-p20{ padding:20px !important; }
+.kd-p24{ padding:24px !important; }
+.kd-p28{ padding:28px !important; }
+.kd-p32{ padding:32px !important; }
+.kd-p36{ padding:36px !important; }
+.kd-p40{ padding:40px !important; }
+.kd-p48{ padding:48px !important; }
+.kd-p56{ padding:56px !important; }
+.kd-p64{ padding:64px !important; }
+.kd-p72{ padding:72px !important; }
+.kd-p80{ padding:80px !important; }
+
+
+/* =============================================================
+   SECTION: TYPOGRAPHY SCALE
+   A small set of reusable font-size utility classes, following
+   roughly the same rhythm as Bootstrap's own scale so they can
+   be mixed with Bootstrap classes without feeling inconsistent.
+   ============================================================= */
+.kd-fs-10{ font-size:0.625rem !important; }
+.kd-fs-12{ font-size:0.75rem !important; }
+.kd-fs-14{ font-size:0.875rem !important; }
+.kd-fs-16{ font-size:1rem !important; }
+.kd-fs-18{ font-size:1.125rem !important; }
+.kd-fs-20{ font-size:1.25rem !important; }
+.kd-fs-24{ font-size:1.5rem !important; }
+.kd-fs-28{ font-size:1.75rem !important; }
+.kd-fs-32{ font-size:2rem !important; }
+.kd-fs-40{ font-size:2.5rem !important; }
+
+.kd-lh-tight{ line-height:1.2 !important; }
+.kd-lh-normal{ line-height:1.5 !important; }
+.kd-lh-loose{ line-height:1.8 !important; }
+
+.kd-tracking-tight{ letter-spacing:-0.02em !important; }
+.kd-tracking-normal{ letter-spacing:0 !important; }
+.kd-tracking-wide{ letter-spacing:0.05em !important; }
+
+/* =============================================================
+   SECTION: BORDER RADIUS SCALE
+   ============================================================= */
+.kd-radius-0{ border-radius:0 !important; }
+.kd-radius-2{ border-radius:2px !important; }
+.kd-radius-4{ border-radius:4px !important; }
+.kd-radius-6{ border-radius:6px !important; }
+.kd-radius-8{ border-radius:8px !important; }
+.kd-radius-12{ border-radius:12px !important; }
+.kd-radius-16{ border-radius:16px !important; }
+.kd-radius-full{ border-radius:9999px !important; }
+
+/* =============================================================
+   SECTION: SHADOW SCALE
+   ============================================================= */
+.kd-shadow-none{ box-shadow:none !important; }
+.kd-shadow-xs{ box-shadow:0 1px 2px rgba(22,50,74,0.05) !important; }
+.kd-shadow-sm{ box-shadow:0 2px 8px rgba(22,50,74,0.08) !important; }
+.kd-shadow-md{ box-shadow:0 6px 20px rgba(22,50,74,0.10) !important; }
+.kd-shadow-lg{ box-shadow:0 14px 34px rgba(22,50,74,0.16) !important; }
+.kd-shadow-xl{ box-shadow:0 24px 48px rgba(22,50,74,0.22) !important; }
+
+/* =============================================================
+   SECTION: EXTENDED COLOR PALETTE
+   Tints and shades of the two brand colors, useful for subtle
+   backgrounds, borders and hover states without introducing an
+   entirely new color into the design.
+   ============================================================= */
+.kd-bg-navy-050{ background:#eef4ff !important; }
+.kd-bg-navy-100{ background:#d7e6ff !important; }
+.kd-bg-navy-200{ background:#aecbff !important; }
+.kd-bg-navy-500{ background:var(--navy) !important; }
+.kd-bg-navy-900{ background:var(--navy-deep) !important; }
+
+.kd-bg-gold-050{ background:#eef4ff !important; }
+.kd-bg-gold-100{ background:#dce9ff !important; }
+.kd-bg-gold-500{ background:var(--gold) !important; }
+
+.kd-text-navy-500{ color:var(--navy) !important; }
+.kd-text-navy-900{ color:var(--navy-deep) !important; }
+.kd-text-gold-500{ color:var(--gold) !important; }
+.kd-text-muted-light{ color:#aaa !important; }
+.kd-text-muted-dark{ color:#666 !important; }
+
+.kd-border-navy{ border-color:var(--navy) !important; }
+.kd-border-gold{ border-color:var(--gold) !important; }
+.kd-border-light{ border-color:#e4ddc9 !important; }
+
+/* =============================================================
+   SECTION: Z-INDEX SCALE
+   Named z-index levels so stacking order stays predictable
+   across the whole site instead of arbitrary magic numbers.
+   ============================================================= */
+.kd-z-base{ z-index:1 !important; }
+.kd-z-dropdown{ z-index:1000 !important; }
+.kd-z-sticky{ z-index:1020 !important; }
+.kd-z-fixed{ z-index:1030 !important; }
+.kd-z-modal-backdrop{ z-index:1040 !important; }
+.kd-z-modal{ z-index:1050 !important; }
+.kd-z-tooltip{ z-index:1070 !important; }
+
+/* =============================================================
+   SECTION: FLEX / GRID HELPERS
+   Small additional flex utilities not already covered by
+   Bootstrap's own flex classes, kept short and single-purpose.
+   ============================================================= */
+.kd-flex-col{ display:flex; flex-direction:column; }
+.kd-flex-row{ display:flex; flex-direction:row; }
+.kd-flex-wrap{ flex-wrap:wrap; }
+.kd-flex-nowrap{ flex-wrap:nowrap; }
+.kd-flex-1{ flex:1 1 0% !important; }
+.kd-flex-none{ flex:none !important; }
+.kd-gap-4{ gap:4px !important; }
+.kd-gap-8{ gap:8px !important; }
+.kd-gap-12{ gap:12px !important; }
+.kd-gap-16{ gap:16px !important; }
+.kd-gap-24{ gap:24px !important; }
+
+/* =============================================================
+   SECTION: FORM FLOATING LABEL SUPPORT (RESERVED)
+   Not currently used by registration.html (which uses standard
+   top-aligned labels for clarity), but kept available in case a
+   future revision of the form wants Bootstrap's floating-label
+   style instead.
+   ============================================================= */
+.form-floating > .form-control,
+.form-floating > .form-select{
+  height:calc(3.2rem + 2px);
+}
+.form-floating > label{
+  color:#888;
+}
+
+/* =============================================================
+   SECTION: ALERT BOX VARIANTS
+   Reusable alert/notice boxes matching the site's color scheme,
+   available for any future informational banners on this page.
+   ============================================================= */
+.kd-alert{
+  border-radius:6px;
+  padding:14px 18px;
+  font-size:0.9rem;
+  border:1px solid transparent;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.kd-alert i{
+  font-size:1.1rem;
+  margin-top:1px;
+}
+.kd-alert-info{
+  background:#eaf2ff;
+  border-color:#c9ddff;
+  color:#1a3f7a;
+}
+.kd-success-toast{
+  background:var(--navy-deep);
+  color:#fff;
+  border:1px solid var(--gold);
+  border-radius:6px;
+  font-weight:600;
+  box-shadow:0 8px 20px rgba(15,42,92,0.35);
+}
+.kd-success-toast .bi-check-circle-fill{
+  color:#4CD964;
+}
+
+.kd-alert-success{
+  background:#e8f8ed;
+  border-color:#c3ecd0;
+  color:#1c6b34;
+}
+.kd-alert-warning{
+  background:#fff8e6;
+  border-color:#ffe6a8;
+  color:#7a5b00;
+}
+.kd-alert-danger{
+  background:#fdecec;
+  border-color:#f6c3c3;
+  color:#8a1f1f;
+}
+
+/* =============================================================
+   SECTION: CARD HOVER LIFT (GENERIC)
+   Optional class that can be added to any card-like element to
+   get the same subtle hover lift effect used on the notice
+   cards, without duplicating the transition rules everywhere.
+   ============================================================= */
+.kd-lift-on-hover{
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.kd-lift-on-hover:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 22px rgba(22,50,74,0.12);
+}
+
+/* =============================================================
+   END OF STYLESHEET
+   Total sections in this file (for quick reference):
+     1. Root variables & base typography
+     2. Navbar
+     3. Page header
+     4. Toolbar / notice cards (shared across other hostel pages)
+     5. Fee / registration card + form
+     6. Guideline accordion
+     7. Progress steps
+     8. Terms checkbox + review modal
+     9. Footer
+    10. Responsive breakpoints
+    11. Print stylesheet
+    12. Reduced motion / forced colors accessibility support
+    13. Dark mode
+    14. Utility class library (spacing, typography, color, shadow,
+        z-index, flex, alerts, hover lift)
+   ============================================================= */
+
+/* =============================================================
+   SECTION: FAQ ACCORDION SPECIFIC OVERRIDES
+   Uses the same base styling as the guideline accordion above,
+   with a couple of small tweaks so the FAQ section feels like a
+   distinct block when both are on the same page.
+   ============================================================= */
+#faqAccordion .accordion-item{
+  border:1px solid #eee2c2;
+  margin-bottom:8px;
+  border-radius:4px;
+  overflow:hidden;
+}
+#faqAccordion .accordion-button{
+  font-weight:600;
+  font-size:0.95rem;
+  color:var(--navy);
+  background:#fff;
+}
+#faqAccordion .accordion-button:not(.collapsed){
+  color:var(--navy-deep);
+  background:var(--cream);
+  box-shadow:none;
+}
+#faqAccordion .accordion-button:focus{
+  box-shadow:0 0 0 0.15rem rgba(200,162,74,0.25);
+}
+#faqAccordion .accordion-body{
+  font-size:0.9rem;
+  color:#555;
+}
+.page-header-sub + .page-header-sub{
+  margin-top:2px;
+  opacity:0.85;
+  font-size:0.85rem;
+}
+
