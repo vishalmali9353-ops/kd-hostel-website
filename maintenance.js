@@ -74,6 +74,18 @@ function demoData() {
 /* ---------------- State ---------------- */
 let rawAssets = [];
 let gasUrl = null;
+let assetHistory = {};     // id -> [{date, note}]
+let currentItems = [];     // last rendered (filtered+sorted) items, for CSV export
+let alertDismissed = false;
+let detailModal = null;
+let addAssetModal = null;
+
+function ensureHistory(id, seedDate) {
+  if (!assetHistory[id]) {
+    assetHistory[id] = seedDate ? [{ date: seedDate, note: 'Earliest record on file' }] : [];
+  }
+  return assetHistory[id];
+}
 
 function fmtDate(dt) {
   return dt.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -124,6 +136,8 @@ function render() {
     items.forEach(({ asset, risk }) => grid.appendChild(buildCard(asset, risk)));
   }
 
+  currentItems = items;
+
   const all = rawAssets.map(a => computeRisk(a, today));
   document.getElementById('statCritical').textContent = all.filter(r => r.level === 'critical').length;
   document.getElementById('statWarning').textContent = all.filter(r => r.level === 'warning').length;
@@ -132,6 +146,22 @@ function render() {
   document.getElementById('statAvg').textContent = all.length
     ? Math.round(all.reduce((s, r) => s + r.score, 0) / all.length)
     : 0;
+
+  renderAlertBanner(rawAssets.map(a => ({ asset: a, risk: computeRisk(a, today) })));
+}
+
+function renderAlertBanner(allItems) {
+  const banner = document.getElementById('alertBanner');
+  const criticalRooms = allItems.filter(({ risk }) => risk.level === 'critical');
+  if (alertDismissed || criticalRooms.length === 0) {
+    banner.style.display = 'none';
+    return;
+  }
+  const names = criticalRooms.slice(0, 5).map(({ asset }) => `Room ${asset.Room} (${asset.Type})`).join(', ');
+  const more = criticalRooms.length > 5 ? ` +${criticalRooms.length - 5} more` : '';
+  document.getElementById('alertBannerText').textContent =
+    `${criticalRooms.length} asset${criticalRooms.length > 1 ? 's' : ''} overdue or critical: ${names}${more}`;
+  banner.style.display = 'flex';
 }
 
 function buildCard(asset, risk) {
@@ -162,10 +192,52 @@ function buildCard(asset, risk) {
     </div>
     <div class="card-actions">
       <button class="btn-log" data-id="${asset.ID}">Log maintenance done today</button>
+      <button class="btn-details" data-id="${asset.ID}">Details</button>
     </div>
   `;
   card.querySelector('.btn-log').addEventListener('click', (e) => logMaintenance(asset.ID, e.target));
+  card.querySelector('.btn-details').addEventListener('click', () => openDetailModal(asset.ID));
   return card;
+}
+
+function openDetailModal(id) {
+  const today = new Date();
+  const asset = rawAssets.find(a => a.ID === id);
+  if (!asset) return;
+  const risk = computeRisk(asset, today);
+  const hist = ensureHistory(id, asset.LastMaintenance).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  document.getElementById('detailModalTitle').textContent = `Room ${asset.Room} · ${asset.ID}`;
+  document.getElementById('detailModalBody').innerHTML = `
+    <div class="tag-wrap" style="margin-top:0;">
+      <div class="dial" style="background:${conicFor(risk.level)}">
+        <div class="dial-inner">
+          <div class="score mono">${risk.score}</div>
+          <div class="score-lbl">risk</div>
+        </div>
+      </div>
+      <div class="tag-info">
+        <div class="status-word ${risk.level}">${STATUS_WORD[risk.level]}</div>
+        <div class="next-date">Next: ${fmtDate(risk.nextDate)} · ${dueLabel(risk.daysUntil)}</div>
+      </div>
+    </div>
+    <dl class="detail-grid">
+      <div><dt>Block</dt><dd>${asset.Block}</dd></div>
+      <div><dt>System</dt><dd>${asset.Type.replace(/([A-Z])/g, ' $1').trim()}</dd></div>
+      <div><dt>Installed</dt><dd>${fmtDate(new Date(asset.InstallDate))}</dd></div>
+      <div><dt>Last serviced</dt><dd>${fmtDate(new Date(asset.LastMaintenance))}</dd></div>
+      <div><dt>Complaints (30d)</dt><dd>${Number(asset.Complaints30d) || 0}</dd></div>
+      <div><dt>Complaints (90d)</dt><dd>${Number(asset.Complaints90d) || 0}</dd></div>
+      <div><dt>Usage intensity</dt><dd>${asset.UsageIntensity || '—'}</dd></div>
+      <div><dt>Risk factors</dt><dd style="font-weight:400;">${risk.factors.join(', ')}</dd></div>
+    </dl>
+    <div class="detail-section-title">Maintenance history</div>
+    <ul class="history-list">
+      ${hist.length ? hist.map(h => `<li><span>${fmtDate(new Date(h.date))}</span><span class="hist-tag">${h.note || 'Serviced'}</span></li>`).join('') : '<li>No logged visits yet.</li>'}
+    </ul>
+  `;
+  if (!detailModal) detailModal = new bootstrap.Modal(document.getElementById('detailModal'));
+  detailModal.show();
 }
 
 async function logMaintenance(id, btnEl) {
@@ -187,6 +259,7 @@ async function logMaintenance(id, btnEl) {
     }
   }
   asset.LastMaintenance = todayStr;
+  ensureHistory(id).push({ date: todayStr, note: 'Serviced' });
   render();
 }
 
@@ -198,6 +271,8 @@ async function loadFromSheet(url) {
     const data = await res.json();
     if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
     rawAssets = data;
+    assetHistory = {};
+    rawAssets.forEach(a => ensureHistory(a.ID, a.LastMaintenance));
     gasUrl = url;
     document.getElementById('syncDot').className = 'dot pulse';
     document.getElementById('syncText').textContent = 'Live · synced with Google Sheet';
@@ -206,6 +281,8 @@ async function loadFromSheet(url) {
     document.getElementById('syncDot').className = 'dot off';
     document.getElementById('syncText').textContent = 'Could not reach Sheet · showing demo data';
     rawAssets = demoData();
+    assetHistory = {};
+    rawAssets.forEach(a => ensureHistory(a.ID, a.LastMaintenance));
     gasUrl = null;
     render();
   }
@@ -213,6 +290,8 @@ async function loadFromSheet(url) {
 
 function loadDemo() {
   rawAssets = demoData();
+  assetHistory = {};
+  rawAssets.forEach(a => ensureHistory(a.ID, a.LastMaintenance));
   gasUrl = null;
   document.getElementById('syncDot').className = 'dot off';
   document.getElementById('syncText').textContent = 'Demo data · not connected to Sheet';
@@ -231,5 +310,85 @@ document.getElementById('connectBtn').addEventListener('click', () => {
 document.getElementById('demoBtn').addEventListener('click', loadDemo);
 ['searchBox'].forEach(id => document.getElementById(id).addEventListener('input', render));
 ['filterType', 'filterRisk', 'sortBy'].forEach(id => document.getElementById(id).addEventListener('change', render));
+
+document.getElementById('alertDismiss').addEventListener('click', () => {
+  alertDismissed = true;
+  document.getElementById('alertBanner').style.display = 'none';
+});
+
+/* ---- Add asset ---- */
+document.getElementById('addAssetBtn').addEventListener('click', () => {
+  document.getElementById('addAssetForm').reset();
+  document.getElementById('addAssetError').textContent = '';
+  if (!addAssetModal) addAssetModal = new bootstrap.Modal(document.getElementById('addAssetModal'));
+  addAssetModal.show();
+});
+
+document.getElementById('addAssetForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const room = document.getElementById('fRoom').value.trim();
+  const block = document.getElementById('fBlock').value.trim();
+  const type = document.getElementById('fType').value;
+  const usage = document.getElementById('fUsage').value;
+  const install = document.getElementById('fInstall').value;
+  const last = document.getElementById('fLast').value;
+  const c30 = document.getElementById('fC30').value;
+  const c90 = document.getElementById('fC90').value;
+  const errEl = document.getElementById('addAssetError');
+
+  if (!room || !block || !install || !last) {
+    errEl.textContent = 'Please fill in room, block, and both dates.';
+    return;
+  }
+  if (new Date(last) > new Date()) {
+    errEl.textContent = 'Last maintenance date can\'t be in the future.';
+    return;
+  }
+  if (new Date(install) > new Date(last)) {
+    errEl.textContent = 'Install date must be before the last maintenance date.';
+    return;
+  }
+
+  const typeCode = { AC: 'AC', Geyser: 'GY', Plumbing: 'PL', Electrical: 'EL', Furniture: 'FU', FireSafety: 'FS' }[type];
+  let id = `${block}${room}-${typeCode}`;
+  let suffix = 1;
+  while (rawAssets.some(a => a.ID === id)) {
+    suffix += 1;
+    id = `${block}${room}-${typeCode}${suffix}`;
+  }
+
+  const asset = {
+    ID: id, Room: room, Block: block, Type: type,
+    InstallDate: install, LastMaintenance: last,
+    Complaints30d: Number(c30) || 0, Complaints90d: Number(c90) || 0,
+    UsageIntensity: usage
+  };
+  rawAssets.push(asset);
+  ensureHistory(id, last);
+  errEl.textContent = '';
+  addAssetModal.hide();
+  render();
+});
+
+/* ---- CSV export ---- */
+document.getElementById('exportCsvBtn').addEventListener('click', () => {
+  if (currentItems.length === 0) return;
+  const headers = ['ID', 'Room', 'Block', 'Type', 'InstallDate', 'LastMaintenance', 'Complaints30d', 'Complaints90d', 'UsageIntensity', 'RiskScore', 'RiskLevel', 'NextDue'];
+  const rows = currentItems.map(({ asset, risk }) => [
+    asset.ID, asset.Room, asset.Block, asset.Type, asset.InstallDate, asset.LastMaintenance,
+    asset.Complaints30d, asset.Complaints90d, asset.UsageIntensity,
+    risk.score, risk.level, risk.nextDate.toISOString().slice(0, 10)
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `maintenance-report-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
 
 loadDemo();
