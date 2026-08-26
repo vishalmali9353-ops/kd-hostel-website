@@ -267,3 +267,19 @@
     border-top:3px solid var(--gold);
   }
   footer .gold{ color:var(--gold); font-weight:700; }
+/* Faculty button */
+.faculty-btn {
+  background: var(--gold);
+  color: var(--navy-deep) !important;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none !important;
+  margin-left: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+.faculty-btn:hover {
+  background: #fff;
+  color: var(--navy-deep) !important;
+}
