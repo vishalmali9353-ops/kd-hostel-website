@@ -30,7 +30,12 @@ function renderNotices(notices){
         <h3>${n.title}</h3>
         <span class="notice-date"><i class="bi bi-calendar3"></i> ${formatDate(n.date)}</span>
       </div>
-      <p>${n.content}</p>
+      <p>${n.description || n.content || ''}</p>
+      <div class="notice-meta">
+        <span><i class="bi bi-person-badge"></i> ${n.faculty_name || ''}</span>
+        <span><i class="bi bi-tag"></i> ${n.category || ''}</span>
+        ${n.pinned ? '<span class="pin-badge"><i class="bi bi-pin-angle-fill"></i> Pinned</span>' : ''}
+      </div>
     `;
     list.appendChild(card);
   });
@@ -39,7 +44,8 @@ function renderNotices(notices){
 function applyFilters(){
   const query = (document.getElementById('searchInput')?.value || '').toLowerCase();
   const filtered = allNotices.filter(n =>
-    n.title.toLowerCase().includes(query) || n.content.toLowerCase().includes(query)
+    n.title.toLowerCase().includes(query) ||
+    (n.description || n.content || '').toLowerCase().includes(query)
   );
   renderNotices(filtered);
 }
