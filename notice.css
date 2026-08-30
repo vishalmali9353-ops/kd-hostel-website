@@ -185,7 +185,22 @@
     font-style:italic;
     margin-top:10px;
   }
-
+.notice-doc{
+  margin-top:10px;
+}
+.doc-btn{
+  background:var(--gold);
+  color:#1a1a1a;
+  border:none;
+  padding:6px 14px;
+  border-radius:6px;
+  font-size:0.85rem;
+  font-weight:600;
+  cursor:pointer;
+}
+.doc-btn:hover{
+  opacity:0.85;
+}
   .state-box{
     text-align:center;
     padding:50px 20px;
