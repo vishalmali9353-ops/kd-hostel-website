@@ -36,6 +36,13 @@ function renderNotices(notices){
         <span><i class="bi bi-tag"></i> ${n.category || ''}</span>
         ${n.pinned ? '<span class="pin-badge"><i class="bi bi-pin-angle-fill"></i> Pinned</span>' : ''}
       </div>
+      ${n.document_url ? `
+        <div class="notice-doc">
+          <button class="doc-btn" onclick="window.open('${BACKEND_URL}${n.document_url}', '_blank')">
+            <i class="bi bi-file-earmark-arrow-down"></i> View Document
+          </button>
+        </div>
+      ` : ''}
     `;
     list.appendChild(card);
   });
