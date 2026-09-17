@@ -38,7 +38,7 @@ function addStudent(){
   data.queue.push({ id: 'q'+Date.now()+Math.random().toString(36).slice(2,6), name, gender, year, pref });
   save(data);
   document.getElementById('s-name').value='';
-  msg.textContent = name + ' added to queue.';
+  msg.textContent = name + ' added to waiting list.';
   msg.className='msg';
   render();
 }
@@ -111,14 +111,14 @@ function render(){
     <div class="stat"><b>${data.rooms.length}</b><span>Total rooms</span></div>
     <div class="stat"><b>${totalOcc}/${totalCap}</b><span>Beds filled</span></div>
     <div class="stat"><b>${full}</b><span>Full rooms</span></div>
-    <div class="stat"><b>${data.queue.length}</b><span>In queue</span></div>
+    <div class="stat"><b>${data.queue.length}</b><span>In waiting</span></div>
   `;
 
   // queue
   document.getElementById('queue-count').textContent = data.queue.length;
   const ql = document.getElementById('queue-list');
   ql.innerHTML = data.queue.length === 0
-    ? '<div class="empty-slot">Queue is empty — add a student above.</div>'
+    ? '<div class="empty-slot">Waiting list is empty — add a student above.</div>'
     : data.queue.map(s=>`
       <div class="queue-item">
         <span><span class="tag ${s.gender==='F'?'f':'m'}">${s.gender==='F'?'F':'M'}</span>&nbsp; ${s.name} · ${s.year} · pref ${s.pref==='any'?'any':s.pref+'-seater'}</span>
@@ -129,7 +129,7 @@ function render(){
   const blockFilter = document.getElementById('block-filter');
   const blocks = [...new Set(data.rooms.map(r=>r.id[0]))];
   const currentVal = blockFilter.value;
-  blockFilter.innerHTML = '<option value="all">All blocks</option>' + blocks.map(b=>`<option value="${b}">Block ${b}</option>`).join('');
+  blockFilter.innerHTML = '<option value="all">All blocks</option>' + blocks.map(b=><option value="${b}">Block ${b}</option>).join('');
   blockFilter.value = currentVal || 'all';
 
   // rooms grid
@@ -138,7 +138,7 @@ function render(){
   document.getElementById('room-grid').innerHTML = rooms.map(r=>{
     const pct = Math.round((r.occupants.length/r.cap)*100);
     const occHtml = r.occupants.length
-      ? r.occupants.map((o,i)=>`<div class="occupant"><span>${o.name} · ${o.year}</span><button class="small ghost" onclick="vacate('${r.id}',${i})">Vacate</button></div>`).join('')
+      ? r.occupants.map((o,i)=><div class="occupant"><span>${o.name} · ${o.year}</span><button class="small ghost" onclick="vacate('${r.id}',${i})">Vacate</button></div>).join('')
       : '<div class="empty-slot">No occupants yet</div>';
     return `<div class="room">
       <div class="room-head"><b>Room ${r.id}</b><span>${r.gender==='F'?'Female':'Male'} · Floor ${r.floor} · ${r.cap}-seater</span></div>
