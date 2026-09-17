@@ -133,7 +133,7 @@
 </main>
 
 <script>
-const STORE_KEY = 'kdh_room_allocation_v1';
+const STORE_KEY = 'kdp_room_allocation_v1';
 
 function defaultData(){
   const blocks = [];
@@ -152,14 +152,27 @@ function defaultData(){
   return { rooms: blocks, queue: [] };
 }
 
+// Storage may be unavailable (file:// in some browsers, private mode,
+// sandboxed frames). Never let that break the UI — fall back to memory.
+let storageOK = true;
+try{
+  localStorage.setItem('__kdh_test','1');
+  localStorage.removeItem('__kdh_test');
+}catch(e){ storageOK = false; }
+
 function load(){
+  if(!storageOK) return defaultData();
   try{
     const raw = localStorage.getItem(STORE_KEY);
     if(!raw) { const d = defaultData(); save(d); return d; }
-    return JSON.parse(raw);
-  }catch(e){ const d = defaultData(); save(d); return d; }
+    return JSON.parse(raw) || defaultData();
+  }catch(e){ return defaultData(); }
 }
-function save(d){ localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
+function save(d){
+  if(!storageOK) return;
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(d)); }
+  catch(e){ storageOK = false; }
+}
 
 let data = load();
 
@@ -264,7 +277,7 @@ function render(){
   const blockFilter = document.getElementById('block-filter');
   const blocks = [...new Set(data.rooms.map(r=>r.id[0]))];
   const currentVal = blockFilter.value;
-  blockFilter.innerHTML = '<option value="all">All blocks</option>' + blocks.map(b=><option value="${b}">Block ${b}</option>).join('');
+  blockFilter.innerHTML = '<option value="all">All blocks</option>' + blocks.map(b=>`<option value="${b}">Block ${b}</option>`).join('');
   blockFilter.value = currentVal || 'all';
 
   // rooms grid
@@ -273,7 +286,7 @@ function render(){
   document.getElementById('room-grid').innerHTML = rooms.map(r=>{
     const pct = Math.round((r.occupants.length/r.cap)*100);
     const occHtml = r.occupants.length
-      ? r.occupants.map((o,i)=><div class="occupant"><span>${o.name} · ${o.year}</span><button class="small ghost" onclick="vacate('${r.id}',${i})">Vacate</button></div>).join('')
+      ? r.occupants.map((o,i)=>`<div class="occupant"><span>${o.name} · ${o.year}</span><button class="small ghost" onclick="vacate('${r.id}',${i})">Vacate</button></div>`).join('')
       : '<div class="empty-slot">No occupants yet</div>';
     return `<div class="room">
       <div class="room-head"><b>Room ${r.id}</b><span>${r.gender==='F'?'Female':'Male'} · Floor ${r.floor} · ${r.cap}-seater</span></div>
