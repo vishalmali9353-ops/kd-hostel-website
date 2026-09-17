@@ -184,8 +184,24 @@ function switchTab(name){
   document.getElementById('panel-'+name).classList.add('active');
 }
 function timeNow(){ return new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}); }
-function loadJSON(key, fallback){ try{ return JSON.parse(localStorage.getItem(key)) || fallback; }catch(e){ return fallback; } }
-function saveJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
+// Storage may be unavailable (file:// in some browsers, private mode,
+// sandboxed frames). Never let that break the UI — fall back to memory.
+let storageOK = true;
+try{
+  localStorage.setItem('__kdh_test','1');
+  localStorage.removeItem('__kdh_test');
+}catch(e){ storageOK = false; }
+
+function loadJSON(key, fallback){
+  if(!storageOK) return fallback;
+  try{ return JSON.parse(localStorage.getItem(key)) || fallback; }
+  catch(e){ return fallback; }
+}
+function saveJSON(key, val){
+  if(!storageOK) return;
+  try{ localStorage.setItem(key, JSON.stringify(val)); }
+  catch(e){ storageOK = false; }
+}
 
 // ---- Visitors ----
 let visitors = loadJSON(V_KEY, []);
@@ -213,7 +229,7 @@ function renderVisitors(){
         <div class="entry-top"><b>${v.name}</b><span class="badge ${v.outTime?'out':'in'}">${v.outTime?'checked out':'inside'}</span></div>
         <div class="meta">Visiting ${v.student} · ${v.purpose} · ID: ${v.idType}</div>
         <div class="meta">In: ${v.inTime}${v.outTime ? ' · Out: '+v.outTime : ''}</div>
-        ${!v.outTime ? <div class="actions"><button class="small" onclick="markExit('${v.id}')">Mark exit</button></div> : ''}
+        ${!v.outTime ? `<div class="actions"><button class="small" onclick="markExit('${v.id}')">Mark exit</button></div>` : ''}
       </div>`).join('');
 }
 
@@ -243,7 +259,7 @@ function renderPasses(){
         <div class="entry-top"><b>${p.name} · Room ${p.room}</b><span class="badge ${p.status}">${p.status}</span></div>
         <div class="meta">Reason: ${p.reason}</div>
         <div class="meta">Expected return: ${p.ret ? new Date(p.ret).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—'}</div>
-        ${p.status==='pending' ? <div class="actions"><button class="small" onclick="decidePass('${p.id}','approved')">Approve</button><button class="small ghost" onclick="decidePass('${p.id}','denied')">Deny</button></div> : ''}
+        ${p.status==='pending' ? `<div class="actions"><button class="small" onclick="decidePass('${p.id}','approved')">Approve</button><button class="small ghost" onclick="decidePass('${p.id}','denied')">Deny</button></div>` : ''}
       </div>`).join('');
 }
 
@@ -271,7 +287,7 @@ function renderIncidents(){
         <div class="entry-top"><b>${i.loc}</b></div>
         <div class="meta">Reported ${i.time} · Status: ${i.status}</div>
         <div class="meta" style="color:var(--cream);font-family:'Inter',sans-serif;">${i.desc}</div>
-        ${i.status==='open' ? <div class="actions"><button class="small" onclick="closeIncident('${i.id}')">Mark resolved</button></div> : ''}
+        ${i.status==='open' ? `<div class="actions"><button class="small" onclick="closeIncident('${i.id}')">Mark resolved</button></div>` : ''}
       </div>`).join('');
 }
 
