@@ -35,7 +35,7 @@ function renderVisitors(){
         <div class="entry-top"><b>${v.name}</b><span class="badge ${v.outTime?'out':'in'}">${v.outTime?'checked out':'inside'}</span></div>
         <div class="meta">Visiting ${v.student} · ${v.purpose} · ID: ${v.idType}</div>
         <div class="meta">In: ${v.inTime}${v.outTime ? ' · Out: '+v.outTime : ''}</div>
-        ${!v.outTime ? `<div class="actions"><button class="small" onclick="markExit('${v.id}')">Mark exit</button></div>` : ''}
+        ${!v.outTime ? <div class="actions"><button class="small" onclick="markExit('${v.id}')">Mark exit</button></div> : ''}
       </div>`).join('');
 }
 
@@ -65,7 +65,7 @@ function renderPasses(){
         <div class="entry-top"><b>${p.name} · Room ${p.room}</b><span class="badge ${p.status}">${p.status}</span></div>
         <div class="meta">Reason: ${p.reason}</div>
         <div class="meta">Expected return: ${p.ret ? new Date(p.ret).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—'}</div>
-        ${p.status==='pending' ? `<div class="actions"><button class="small" onclick="decidePass('${p.id}','approved')">Approve</button><button class="small ghost" onclick="decidePass('${p.id}','denied')">Deny</button></div>` : ''}
+        ${p.status==='pending' ? <div class="actions"><button class="small" onclick="decidePass('${p.id}','approved')">Approve</button><button class="small ghost" onclick="decidePass('${p.id}','denied')">Deny</button></div> : ''}
       </div>`).join('');
 }
 
@@ -73,10 +73,9 @@ function renderPasses(){
 let incidents = loadJSON(I_KEY, []);
 function reportIncident(){
   const loc = document.getElementById('i-loc').value.trim();
-  const sev = document.getElementById('i-sev').value;
   const desc = document.getElementById('i-desc').value.trim();
   if(!loc || !desc){ alert('Enter location and description.'); return; }
-  incidents.unshift({ id:'I'+Date.now().toString().slice(-6), loc, sev, desc, status:'open', time: timeNow() });
+  incidents.unshift({ id:'I'+Date.now().toString().slice(-6), loc, desc, status:'open', time: timeNow() });
   saveJSON(I_KEY, incidents);
   document.getElementById('i-loc').value=''; document.getElementById('i-desc').value='';
   renderIncidents();
@@ -91,10 +90,10 @@ function renderIncidents(){
     ? '<div style="font-size:13px;color:var(--cream-dim);font-style:italic;">No incidents reported.</div>'
     : incidents.map(i=>`
       <div class="entry">
-        <div class="entry-top"><b>${i.loc}</b><span class="badge ${i.sev}">${i.sev}</span></div>
+        <div class="entry-top"><b>${i.loc}</b></div>
         <div class="meta">Reported ${i.time} · Status: ${i.status}</div>
         <div class="meta" style="color:var(--cream);font-family:'Inter',sans-serif;">${i.desc}</div>
-        ${i.status==='open' ? `<div class="actions"><button class="small" onclick="closeIncident('${i.id}')">Mark resolved</button></div>` : ''}
+        ${i.status==='open' ? <div class="actions"><button class="small" onclick="closeIncident('${i.id}')">Mark resolved</button></div> : ''}
       </div>`).join('');
 }
 
