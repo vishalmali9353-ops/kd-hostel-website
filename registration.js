@@ -42,6 +42,7 @@
 // "google-sheet-setup-guide.md" file me di gayi hain.
 // ------------------------------------------------------------
 const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzXCec7gF1aGtmuMvRaqq1y7Aoate37wsY2W41WLmTiTokr1pz6Ax6luuPZcs8iibQXsg/exec";
+const BACKEND_URL = "https://kd-hostel-backend.onrender.com/api/register";
 
 // Minimum age (in whole years) required to register at the hostel.
 const MIN_AGE_YEARS = 14;
@@ -544,6 +545,22 @@ function registerStudent(){
   const btn = document.querySelector('.pay-btn');
   const entry = collectFormData();
 
+  // Form field ids ko backend ke expected field names me map karo
+  const payload = {
+    name: entry.r_name,
+    gender: entry.r_gender,
+    dob: entry.r_dob,
+    phone: entry.r_mobile,
+    email: entry.r_email,
+    aadhar: entry.r_aadhar,
+    course: entry.r_course,
+    year: entry.r_year,
+    roll_no: entry.r_roll,
+    guardian: entry.r_guardian,
+    guardian_mobile: entry.r_guardian_mobile,
+    address: entry.r_address
+  };
+
   if (btn){
     btn.disabled = true;
     btn.classList.add('is-loading');
@@ -552,10 +569,10 @@ function registerStudent(){
   setStatus('<span class="text-muted"><i class="bi bi-arrow-repeat"></i> Saving...</span>');
   announcePolitely('Saving your registration, please wait.');
 
-  fetch(SHEET_WEBAPP_URL, {
+  fetch(BACKEND_URL, {
     method: "POST",
-    headers: { "Content-Type": "text/plain" }, // avoids CORS preflight with Apps Script
-    body: JSON.stringify(entry)
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
   })
   .then(function(res){ return res.json(); })
   .then(function(res){
@@ -563,7 +580,7 @@ function registerStudent(){
       btn.disabled = false;
       btn.classList.remove('is-loading');
     }
-    if (res.result === "success"){
+    if (res.success){
       FormStats.submissionSuccesses++;
       setStatus('<span class="text-success"><i class="bi bi-check-circle-fill"></i> Registered successfully!</span>');
       announcePolitely('Registration successful.');
@@ -575,7 +592,7 @@ function registerStudent(){
       if (counter) counter.textContent = '0';
       logFormStats();
     } else {
-      setStatus('<span class="text-danger">Something went wrong. Please try again.</span>');
+      setStatus('<span class="text-danger">' + (res.message || 'Something went wrong. Please try again.') + '</span>');
       announcePolitely('Something went wrong while saving your registration.');
     }
   })
