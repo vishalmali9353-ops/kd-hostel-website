@@ -1,136 +1,206 @@
-/* Smart Room Allocation - page styles (index.css ke upar load hota hai) */
-:root {
-  --al-accent: var(--navy);
-  --al-accent-soft: #e8f0fc;
-  --al-ok: #2e7d4f;
-  --al-warn: #b7791f;
-  --al-full: #a33a3a;
-  --al-border: #dbe4f3;
-  --al-text: #2b2b2b;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K.D. Hostel | Smart Room Allocation</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<!-- Google Fonts: classic serif + clean sans -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="allocation.css">
+</head>
+<body>
 
-.al-wrap { padding: 2rem 0 3rem; }
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-kd sticky-top">
+<div class="container">
+<a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
+<div class="d-flex align-items-center order-lg-3">
+<a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
+<a href="https://kd-hostel-backend.onrender.com/login" class="navbar-phone ms-3">Faculty</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Toggle navigation">
+<i class="bi bi-list navbar-toggler-icon-custom"></i>
+</button>
+</div>
+<div class="collapse navbar-collapse" id="navMenu">
+<ul class="navbar-nav ms-auto text-center">
+<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="notice.html">Notice</a></li>
+<li class="nav-item"><a class="nav-link" href="registration.html">Student Registration</a></li>
+<li class="nav-item"><a class="nav-link active" href="allocation.html">Smart Room Allocation</a></li>
+<li class="nav-item"><a class="nav-link" href="visitor.html">Visitor Management</a></li>
+<li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
+<li class="nav-item"><a class="nav-link" href="complaint.html">Complaint Management</a></li>
+<li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
+<li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
+<li class="nav-item"><a class="nav-link" href="security.html">Security &amp; Surveillance</a></li>
+<li class="nav-item"><a class="nav-link" href="support.html">24/7 Student Support</a></li>
+</ul>
+</div>
+</div>
+</nav>
 
-.al-stats .stat {
-  background: #fff;
-  border: 1px solid var(--al-border);
-  border-left: 4px solid var(--al-accent);
-  border-radius: 4px;
-  padding: 1rem 1.25rem;
-  height: 100%;
-}
-.al-stats .stat b { display: block; font-size: 1.8rem; font-family: "Playfair Display", serif; color: var(--al-accent); }
-.al-stats .stat span { color: #666; font-size: .95rem; }
+<!-- Hero -->
+<section class="hero">
+<div class="container">
+<h1>Smart Room Allocation</h1>
+<div class="divider"></div>
+<p>Automated and fair allocation of hostel rooms based on block, course, year and preference.</p>
+</div>
+</section>
 
-.al-panel {
-  background: #fff;
-  border: 1px solid var(--al-border);
-  border-radius: 4px;
-  padding: 1.5rem;
-  height: 100%;
-}
-.al-panel h3 { font-family: "Playfair Display", serif; font-size: 1.3rem; margin-bottom: 1rem; color: var(--al-accent); }
-.al-panel label { font-weight: 600; font-size: .9rem; margin-bottom: .25rem; }
+<!-- Page content -->
+<main class="container">
+<div class="section-title">
+<h2>Smart Room Allocation</h2>
+<div class="divider"></div>
+</div>
 
-.btn-al {
-  background: var(--al-accent);
-  color: #fff;
-  border: 0;
-  padding: .6rem 1.4rem;
-  border-radius: 4px;
-  font-weight: 600;
-}
-.btn-al:hover { background: var(--navy-deep); color: #fff; }
-.btn-al:focus-visible, .al-tab:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+<div class="al-wrap">
 
-.al-result {
-  display: none;
-  margin-top: 1.25rem;
-  padding: 1.1rem 1.25rem;
-  border-radius: 4px;
-  background: var(--al-accent-soft);
-  border: 1px solid #c9daf7;
-}
-.al-result.show { display: block; }
-.al-result.error { background: #fdf1ef; border-color: #f0c5bd; }
-.al-result h4 { font-size: 1.1rem; margin-bottom: .5rem; }
-.al-result dl { display: grid; grid-template-columns: 9rem 1fr; gap: .25rem .75rem; margin: 0; }
-.al-result dt { font-weight: 600; color: #555; }
-.al-result dd { margin: 0; }
-.al-why { font-size: .88rem; color: #555; margin-top: .6rem; }
+<div class="alert alert-info py-2 small" role="note">Demo page: data sirf is browser me save hota hai. Backend baad me connect hoga.</div>
 
-.al-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-.al-tab {
-  border: 1px solid var(--al-border);
-  background: #fff;
-  padding: .4rem 1rem;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: .9rem;
-  cursor: pointer;
-}
-.al-tab.active { background: var(--al-accent); color: #fff; border-color: var(--al-accent); }
+<!-- Stats -->
+<div class="row g-3 al-stats mb-3">
+<div class="col-6 col-md-3"><div class="stat"><b id="stTotal">0</b><span>Total beds</span></div></div>
+<div class="col-6 col-md-3"><div class="stat"><b id="stTaken">0</b><span>Occupied</span></div></div>
+<div class="col-6 col-md-3"><div class="stat"><b id="stFree">0</b><span>Beds available</span></div></div>
+<div class="col-6 col-md-3"><div class="stat"><b id="stWait">0</b><span>On waiting list</span></div></div>
+</div>
 
-.room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: .75rem; }
-.room {
-  border: 1px solid var(--al-border);
-  border-radius: 4px;
-  padding: .7rem .75rem;
-  background: #fff;
-  position: relative;
-}
-.room.flash { box-shadow: 0 0 0 3px var(--gold); }
-.room .no { font-weight: 700; font-size: 1.05rem; }
-.room .meta { font-size: .8rem; color: #666; }
-.room .beds { display: flex; gap: 4px; margin-top: .45rem; }
-.room .bed { width: 16px; height: 10px; border-radius: 2px; background: var(--al-ok); }
-.room .bed.taken { background: #cfc9bf; }
-.room.full { opacity: .65; }
-.room .tag { position: absolute; top: .5rem; right: .55rem; font-size: .7rem; font-weight: 700; }
-.room .tag.ok { color: var(--al-ok); }
-.room .tag.full { color: var(--al-full); }
+<!-- Block occupancy -->
+<div class="row g-3 mb-4">
+<div class="col-md-6"><div class="occ"><div class="occ-top"><b>Boys block</b><span id="occBoysTxt"></span></div><div class="occ-bar" role="progressbar" aria-label="Boys block occupancy" id="occBoysBar"><i></i></div></div></div>
+<div class="col-md-6"><div class="occ"><div class="occ-top"><b>Girls block</b><span id="occGirlsTxt"></span></div><div class="occ-bar" role="progressbar" aria-label="Girls block occupancy" id="occGirlsBar"><i></i></div></div></div>
+</div>
 
-.al-legend { font-size: .85rem; color: #666; display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
-.al-legend i { display: inline-block; width: 14px; height: 9px; border-radius: 2px; margin-right: 5px; }
+<div class="row g-4">
+<!-- Form -->
+<div class="col-lg-5">
+<div class="al-panel">
+<h3>Allot a room</h3>
+<form id="allocForm" novalidate>
+<div class="row g-3 mb-3">
+<div class="col-7"><label for="name">Student name</label><input class="form-control" id="name" name="name" type="text" autocomplete="off" required></div>
+<div class="col-5"><label for="enroll">Enrollment no.</label><input class="form-control" id="enroll" name="enroll" type="text" autocomplete="off" required></div>
+</div>
+<div class="row g-3 mb-3">
+<div class="col-6"><label for="gender">Hostel block</label>
+<select class="form-select" id="gender" name="gender" required><option value="">Select</option><option value="Boys">Boys</option><option value="Girls">Girls</option></select></div>
+<div class="col-6"><label for="year">Year</label>
+<select class="form-select" id="year" name="year" required><option value="">Select</option><option>1</option><option>2</option><option>3</option></select></div>
+</div>
+<div class="row g-3 mb-3">
+<div class="col-7"><label for="course">Course</label>
+<select class="form-select" id="course" name="course" required><option value="">Select</option><option>Diploma Computer</option><option>Diploma Civil</option><option>Diploma Mechanical</option><option>Diploma Electrical</option></select></div>
+<div class="col-5"><label for="floor">Floor preference</label>
+<select class="form-select" id="floor" name="floor"><option value="any">Any</option><option value="0">Ground</option><option value="1">1st</option><option value="2">2nd</option></select></div>
+</div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="ground" name="ground"><label class="form-check-label" for="ground">Ground floor zaroori hai (special need)</label></div>
+<button class="btn-al" type="submit">Allot room</button>
+<button class="btn btn-link text-muted" type="button" id="resetBtn">Reset demo data</button>
+</form>
+<div id="result" class="al-result" role="status" aria-live="polite"></div>
+</div>
+</div>
 
-.table-al th { background: #eaf1fc; font-size: .88rem; }
-.table-al td { vertical-align: middle; font-size: .92rem; }
+<!-- Rooms -->
+<div class="col-lg-7">
+<div class="al-panel">
+<h3>Room availability</h3>
+<div class="al-toolbar">
+<div class="al-tabs" role="tablist">
+<button class="al-tab active" type="button" role="tab" data-tab="Boys">Boys block</button>
+<button class="al-tab" type="button" role="tab" data-tab="Girls">Girls block</button>
+</div>
+<select class="form-select form-select-sm al-filter" id="floorFilter" aria-label="Filter by floor"><option value="all">All floors</option><option value="0">Ground</option><option value="1">1st floor</option><option value="2">2nd floor</option></select>
+<input class="form-control form-control-sm al-search" id="searchBox" type="search" placeholder="Room ya student search" aria-label="Search room or student">
+</div>
+<div id="roomGrid" class="room-grid"></div>
+<div class="al-legend"><span><i style="background:#2e7d4f"></i>Free bed</span><span><i style="background:#cfc9bf"></i>Occupied bed</span><span>Room par click karke details dekhein</span></div>
+<div id="roomDetail" class="room-detail" aria-live="polite"></div>
+</div>
+</div>
+</div>
 
-@media (max-width: 575px) {
-  .al-result dl { grid-template-columns: 1fr; }
-  .al-result dt { margin-top: .4rem; }
-}
+<div class="row g-4 mt-1">
+<div class="col-lg-7">
+<div class="al-panel">
+<h3>Recent allocations</h3>
+<div class="table-responsive">
+<table class="table table-al mb-0">
+<thead><tr><th>Student</th><th>Course</th><th>Room</th><th>Block</th><th>Time</th></tr></thead>
+<tbody id="logBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="col-lg-5">
+<div class="al-panel">
+<h3>Waiting list</h3>
+<ul class="wait-list" id="waitList"></ul>
+<p class="small text-muted mb-0">Room khali hote hi usi block ke pehle student ko automatic room mil jata hai.</p>
+</div>
+</div>
+</div>
 
-/* ---- Final page additions ---- */
-.occ { background: #fff; border: 1px solid var(--al-border); border-radius: 4px; padding: .8rem 1rem; }
-.occ-top { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: .4rem; }
-.occ-bar { height: 8px; border-radius: 4px; background: #e4ecfa; overflow: hidden; }
-.occ-bar > i { display: block; height: 100%; width: 0; background: var(--navy); border-radius: 4px; transition: width .3s ease; }
-.occ-bar.high > i { background: var(--al-full); }
+</div>
+</main>
 
-.al-toolbar { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin-bottom: 1rem; }
-.al-toolbar .al-tabs { margin-bottom: 0; }
-.al-filter { width: auto; }
-.al-search { width: 190px; max-width: 100%; }
+<!-- Footer -->
+<footer class="footer-kd">
+<div class="container">
+<div class="row g-4">
+<div class="col-lg-3 col-md-6">
+<img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo">
+<h5>K. D. HOSTEL</h5>
+<a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+</div>
+<div class="col-lg-3 col-md-6">
+<h5>Quick Links</h5>
+<a href="index.html">Home</a>
+<a href="notice.html">Notice</a>
+<a href="registration.html">Student Registration</a>
+<a href="fee.html">Fee Management</a>
+<a href="complaint.html">Complaint Management</a>
+</div>
+<div class="col-lg-3 col-md-6">
+<h5>Facilities</h5>
+<a href="boys.html">Boys Block</a>
+<a href="girls.html">Girls Block</a>
+<a href="mess.html">Mess &amp; Dining</a>
+<a href="#">Common Room</a>
+<a href="#">Sports Room</a>
+</div>
+<div class="col-lg-3 col-md-6">
+<h5>Contact Us</h5>
+<div class="contact-line">
+<i class="bi bi-geo-alt-fill"></i>
+<span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
+</div>
+<div class="contact-line">
+<i class="bi bi-telephone-fill"></i>
+<a href="tel:02766220419">02766-220419</a>
+</div>
+<div class="contact-line">
+<i class="bi bi-envelope-fill"></i>
+<a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
+<p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
+</div>
+</div>
+</footer>
 
-.room { cursor: pointer; text-align: left; width: 100%; font: inherit; }
-.room:hover { border-color: var(--gold); }
-.room:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
-.room.selected { border-color: var(--navy); background: #eaf1fc; }
-.room.dim { opacity: .3; }
-.room.match { box-shadow: 0 0 0 2px var(--gold); }
-
-.room-detail { margin-top: 1rem; }
-.room-detail .box { border: 1px solid var(--al-border); background: var(--cream); border-radius: 4px; padding: 1rem; }
-.room-detail h4 { font-size: 1.05rem; margin-bottom: .6rem; }
-.occupant { display: flex; justify-content: space-between; align-items: center; gap: .5rem; padding: .4rem 0; border-bottom: 1px solid var(--al-border); font-size: .92rem; }
-.occupant:last-child { border-bottom: 0; }
-.occupant small { color: #666; display: block; }
-.btn-vacate { background: #fff; color: var(--al-full); border: 1px solid var(--al-full); border-radius: 4px; padding: .2rem .65rem; font-size: .8rem; font-weight: 600; }
-.btn-vacate:hover { background: var(--al-full); color: #fff; }
-.btn-vacate:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
-
-.wait-list { list-style: none; padding: 0; margin: 0 0 1rem; }
-.wait-list li { padding: .55rem 0; border-bottom: 1px solid var(--al-border); font-size: .92rem; }
-.wait-list li:last-child { border-bottom: 0; }
-.wait-list small { color: #666; display: block; }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="allocation.js"></script>
+</body>
+</html>
