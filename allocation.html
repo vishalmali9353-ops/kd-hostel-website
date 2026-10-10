@@ -10,6 +10,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <!-- Google Fonts: classic serif + clean sans -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
 <link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="allocation.css">
 </head>
@@ -54,34 +55,51 @@
 </section>
 
 <!-- Page content -->
-<main class="container ">
+<main class="container">
+<div class="section-title">
+<h2>Smart Room Allocation</h2>
+<div class="divider"></div>
+</div>
+
 <div class="al-wrap">
-<div class="row g-3 al-stats mb-4">
+
+<div class="alert alert-info py-2 small" role="note">Demo page: data sirf is browser me save hota hai. Backend baad me connect hoga.</div>
+
+<!-- Stats -->
+<div class="row g-3 al-stats mb-3">
 <div class="col-6 col-md-3"><div class="stat"><b id="stTotal">0</b><span>Total beds</span></div></div>
 <div class="col-6 col-md-3"><div class="stat"><b id="stTaken">0</b><span>Occupied</span></div></div>
 <div class="col-6 col-md-3"><div class="stat"><b id="stFree">0</b><span>Beds available</span></div></div>
-<div class="col-6 col-md-3"><div class="stat"><b id="stRooms">0</b><span>Rooms with space</span></div></div>
+<div class="col-6 col-md-3"><div class="stat"><b id="stWait">0</b><span>On waiting list</span></div></div>
+</div>
+
+<!-- Block occupancy -->
+<div class="row g-3 mb-4">
+<div class="col-md-6"><div class="occ"><div class="occ-top"><b>Boys block</b><span id="occBoysTxt"></span></div><div class="occ-bar" role="progressbar" aria-label="Boys block occupancy" id="occBoysBar"><i></i></div></div></div>
+<div class="col-md-6"><div class="occ"><div class="occ-top"><b>Girls block</b><span id="occGirlsTxt"></span></div><div class="occ-bar" role="progressbar" aria-label="Girls block occupancy" id="occGirlsBar"><i></i></div></div></div>
 </div>
 
 <div class="row g-4">
+<!-- Form -->
 <div class="col-lg-5">
 <div class="al-panel">
 <h3>Allot a room</h3>
 <form id="allocForm" novalidate>
-<div class="mb-3"><label for="name">Student name</label><input class="form-control" id="name" name="name" type="text" required></div>
+<div class="row g-3 mb-3">
+<div class="col-7"><label for="name">Student name</label><input class="form-control" id="name" name="name" type="text" autocomplete="off" required></div>
+<div class="col-5"><label for="enroll">Enrollment no.</label><input class="form-control" id="enroll" name="enroll" type="text" autocomplete="off" required></div>
+</div>
 <div class="row g-3 mb-3">
 <div class="col-6"><label for="gender">Hostel block</label>
 <select class="form-select" id="gender" name="gender" required><option value="">Select</option><option value="Boys">Boys</option><option value="Girls">Girls</option></select></div>
 <div class="col-6"><label for="year">Year</label>
 <select class="form-select" id="year" name="year" required><option value="">Select</option><option>1</option><option>2</option><option>3</option></select></div>
 </div>
-<div class="mb-3"><label for="course">Course</label>
-<select class="form-select" id="course" name="course" required><option value="">Select</option><option>Diploma Computer</option><option>Diploma Civil</option><option>Diploma Mechanical</option><option>Diploma Electrical</option></select></div>
 <div class="row g-3 mb-3">
-<div class="col-6"><label for="floor">Floor preference</label>
+<div class="col-7"><label for="course">Course</label>
+<select class="form-select" id="course" name="course" required><option value="">Select</option><option>Diploma Computer</option><option>Diploma Civil</option><option>Diploma Mechanical</option><option>Diploma Electrical</option></select></div>
+<div class="col-5"><label for="floor">Floor preference</label>
 <select class="form-select" id="floor" name="floor"><option value="any">Any</option><option value="0">Ground</option><option value="1">1st</option><option value="2">2nd</option></select></div>
-<div class="col-6"><label for="seater">Room type</label>
-<select class="form-select" id="seater" name="seater"><option value="any">Any</option><option value="2">2-seater</option><option value="3">3-seater</option></select></div>
 </div>
 <div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="ground" name="ground"><label class="form-check-label" for="ground">Ground floor zaroori hai (special need)</label></div>
 <button class="btn-al" type="submit">Allot room</button>
@@ -91,20 +109,28 @@
 </div>
 </div>
 
+<!-- Rooms -->
 <div class="col-lg-7">
 <div class="al-panel">
 <h3>Room availability</h3>
+<div class="al-toolbar">
 <div class="al-tabs" role="tablist">
 <button class="al-tab active" type="button" role="tab" data-tab="Boys">Boys block</button>
 <button class="al-tab" type="button" role="tab" data-tab="Girls">Girls block</button>
 </div>
+<select class="form-select form-select-sm al-filter" id="floorFilter" aria-label="Filter by floor"><option value="all">All floors</option><option value="0">Ground</option><option value="1">1st floor</option><option value="2">2nd floor</option></select>
+<input class="form-control form-control-sm al-search" id="searchBox" type="search" placeholder="Room ya student search" aria-label="Search room or student">
+</div>
 <div id="roomGrid" class="room-grid"></div>
-<div class="al-legend"><span><i style="background:#2e7d4f"></i>Free bed</span><span><i style="background:#cfc9bf"></i>Occupied bed</span></div>
+<div class="al-legend"><span><i style="background:#2e7d4f"></i>Free bed</span><span><i style="background:#cfc9bf"></i>Occupied bed</span><span>Room par click karke details dekhein</span></div>
+<div id="roomDetail" class="room-detail" aria-live="polite"></div>
 </div>
 </div>
 </div>
 
-<div class="al-panel mt-4">
+<div class="row g-4 mt-1">
+<div class="col-lg-7">
+<div class="al-panel">
 <h3>Recent allocations</h3>
 <div class="table-responsive">
 <table class="table table-al mb-0">
@@ -113,6 +139,16 @@
 </table>
 </div>
 </div>
+</div>
+<div class="col-lg-5">
+<div class="al-panel">
+<h3>Waiting list</h3>
+<ul class="wait-list" id="waitList"></ul>
+<p class="small text-muted mb-0">Room khali hote hi usi block ke pehle student ko automatic room mil jata hai.</p>
+</div>
+</div>
+</div>
+
 </div>
 </main>
 
