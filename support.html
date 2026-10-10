@@ -3,166 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K.D. Hostel | 24/7 Student Support</title>
 <!-- Bootstrap CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
 <!-- Bootstrap Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-
-<title>24/7 Student Support · KD Hostel</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Google Fonts: classic serif + clean sans -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="stylesheet" href="index.css">
 <link rel="stylesheet" href="support.css">
 </head>
 <body>
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-kd sticky-top">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
-    <div class="d-flex align-items-center order-lg-3">
-      <a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-        <i class="bi bi-list navbar-toggler-icon-custom"></i>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto text-center">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="notice.html">Notice</a></li>
-        <li class="nav-item"><a class="nav-link" href="registration.html">Student Registration</a></li>
-        <li class="nav-item"><a class="nav-link" href="allocation.html">Smart Room Allocation</a></li>
-        <li class="nav-item"><a class="nav-link" href="visitor.html">Visitor Management</a></li>
-        <li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
-        <li class="nav-item"><a class="nav-link" href="complaint.html">Complaint Management</a></li>
-        <li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
-        <li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
-        <li class="nav-item"><a class="nav-link" href="security.html">Security &amp; Surveillance</a></li>
-        <li class="nav-item"><a class="nav-link active" href="support.html">24/7 Student Support</a></li>
-      </ul>
-    </div>
-  </div>
+<div class="container">
+<a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo"> K.D. HOSTEL</a>
+<div class="d-flex align-items-center order-lg-3">
+<a href="tel:02766220419" class="navbar-phone"><i class="bi bi-telephone-fill"></i> 02766-220419</a>
+<a href="https://kd-hostel-backend.onrender.com/login" class="navbar-phone ms-3">Faculty</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Toggle navigation">
+<i class="bi bi-list navbar-toggler-icon-custom"></i>
+</button>
+</div>
+<div class="collapse navbar-collapse" id="navMenu">
+<ul class="navbar-nav ms-auto text-center">
+<li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="notice.html">Notice</a></li>
+<li class="nav-item"><a class="nav-link" href="registration.html">Student Registration</a></li>
+<li class="nav-item"><a class="nav-link" href="allocation.html">Smart Room Allocation</a></li>
+<li class="nav-item"><a class="nav-link" href="visitor.html">Visitor Management</a></li>
+<li class="nav-item"><a class="nav-link" href="mess.html">Mess Management</a></li>
+<li class="nav-item"><a class="nav-link" href="complaint.html">Complaint Management</a></li>
+<li class="nav-item"><a class="nav-link" href="fee.html">Fee Management</a></li>
+<li class="nav-item"><a class="nav-link" href="maintenance.html">Maintenance Prediction</a></li>
+<li class="nav-item"><a class="nav-link" href="security.html">Security &amp; Surveillance</a></li>
+<li class="nav-item"><a class="nav-link active" href="support.html">24/7 Student Support</a></li>
+</ul>
+</div>
+</div>
 </nav>
 
-<header>
-  <div class="eyebrow">KD Hostel · Module</div>
-  <h1>24/7 Student Support</h1>
-  <div class="sub">Instant answers, complaint tracking, and emergency contacts</div>
-</header>
+<!-- Hero -->
+<section class="hero">
+<div class="container">
+<h1>24/7 Student Support</h1>
+<div class="divider"></div>
+<p>Round the clock assistance for student queries.</p>
+</div>
+</section>
 
-<main>
-  <div class="tabs">
-    <div class="tab active" data-tab="chat" onclick="switchTab('chat')">Chat Assistant</div>
-    <div class="tab" data-tab="tickets" onclick="switchTab('tickets')">My Tickets</div>
-    <div class="tab" data-tab="contacts" onclick="switchTab('contacts')">Emergency Contacts</div>
-  </div>
+<!-- Page content -->
+<main class="container ">
+<div class="section-title">
+<h2>How Can We Help?</h2>
+<div class="divider"></div>
+</div>
+<div class="sp-wrap">
+<div class="row g-3 mb-4">
+<div class="col-md-3 col-6"><div class="sp-contact"><i class="bi bi-telephone-fill"></i><h4>Hostel office</h4><a href="tel:02766220419">02766-220419</a><small>Daily, 24 ghante</small></div></div>
+<div class="col-md-3 col-6"><div class="sp-contact"><i class="bi bi-person-badge-fill"></i><h4>Warden</h4><span>Number office se lein</span><small>Night duty available</small></div></div>
+<div class="col-md-3 col-6"><div class="sp-contact"><i class="bi bi-envelope-fill"></i><h4>Email</h4><a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a><small>24 ghante me reply</small></div></div>
+<div class="col-md-3 col-6"><div class="sp-contact"><i class="bi bi-exclamation-triangle-fill"></i><h4>Emergency</h4><a href="tel:112">112</a><small>Police, ambulance, fire</small></div></div>
+</div>
 
-  <div class="panel active" id="panel-chat">
-    <div class="card">
-      <h2>Ask the hostel assistant</h2>
-      <div class="quick-row">
-        <div class="quick" onclick="sendQuick('mess timing')">Mess timing</div>
-        <div class="quick" onclick="sendQuick('wifi not working')">Wi-Fi issue</div>
-        <div class="quick" onclick="sendQuick('laundry')">Laundry</div>
-        <div class="quick" onclick="sendQuick('warden contact')">Warden contact</div>
-        <div class="quick" onclick="sendQuick('raise a complaint')">Raise complaint</div>
-      </div>
-      <div class="chat-window" id="chat-window"></div>
-      <div class="chat-input">
-        <input id="chat-in" placeholder="Type your question..." onkeydown="if(event.key==='Enter')sendMessage()">
-        <button onclick="sendMessage()">Send</button>
-      </div>
-    </div>
-  </div>
+<div class="row g-4">
+<div class="col-lg-6">
+<div class="sp-panel">
+<h3>Ask the hostel helper</h3>
+<div id="chatBox" class="chat-box" aria-live="polite"></div>
+<div class="chips">
+<button class="chip" type="button" data-q="Mess ka menu kya hai?">Mess</button>
+<button class="chip" type="button" data-q="Fee receipt kahan milegi?">Fee</button>
+<button class="chip" type="button" data-q="Room change karna hai">Room</button>
+<button class="chip" type="button" data-q="Wi-Fi nahi chal raha">Wi-Fi</button>
+<button class="chip" type="button" data-q="Visitor aa raha hai">Visitor</button>
+</div>
+<form id="chatForm" class="chat-form">
+<label for="chatInput" class="visually-hidden">Your question</label>
+<input class="form-control" id="chatInput" type="text" placeholder="Apna sawal likhein" autocomplete="off">
+<button class="btn-sp" type="submit">Send</button>
+</form>
+</div>
+</div>
 
-  <div class="panel" id="panel-tickets">
-    <div class="card">
-      <h2>Raise a new complaint</h2>
-      <div class="row">
-        <div class="field"><label>Category</label>
-          <select id="t-cat"><option>Room / Furniture</option><option>Electrical</option><option>Plumbing</option><option>Mess / Food</option><option>Wi-Fi / Network</option><option>Cleanliness</option><option>Other</option></select>
-        </div>
-        <div class="field"><label>Room no.</label><input id="t-room" placeholder="e.g. A3"></div>
-      </div>
-      <div class="row">
-        <div class="field"><label>Describe the issue</label><textarea id="t-desc" rows="2" placeholder="Briefly describe what's wrong..."></textarea></div>
-      </div>
-      <button onclick="raiseTicket()">Submit complaint</button>
-    </div>
-    <div class="card">
-      <h2>Tracked tickets (<span id="t-count">0</span>)</h2>
-      <div id="ticket-list"></div>
-    </div>
-  </div>
+<div class="col-lg-6">
+<div class="sp-panel">
+<h3>Raise a support ticket</h3>
+<form id="ticketForm" novalidate>
+<div class="row g-3 mb-3">
+<div class="col-md-7"><label for="sname">Name</label><input class="form-control" id="sname" name="sname" type="text" required></div>
+<div class="col-md-5"><label for="sroom">Room no.</label><input class="form-control" id="sroom" name="sroom" type="text"></div>
+</div>
+<div class="row g-3 mb-3">
+<div class="col-6"><label for="scategory">Category</label><select class="form-select" id="scategory" name="scategory"><option>Room</option><option>Mess</option><option>Fee</option><option>Maintenance</option><option>Other</option></select></div>
+<div class="col-6"><label for="spriority">Priority</label><select class="form-select" id="spriority" name="spriority"><option>Normal</option><option>Urgent</option></select></div>
+</div>
+<div class="mb-3"><label for="smessage">Problem</label><textarea class="form-control" id="smessage" name="smessage" rows="3" required></textarea></div>
+<button class="btn-sp" type="submit">Raise ticket</button>
+</form>
+<div id="ticketMsg" class="sp-msg" role="status" aria-live="polite"></div>
+</div>
+</div>
+</div>
 
-  <div class="panel" id="panel-contacts">
-    <div class="card">
-      <h2>Emergency & support contacts</h2>
-      <div class="contact-grid">
-        <div class="contact"><b>Warden — Boys Block</b><span>Available 8 AM – 10 PM</span><span class="num">+91 98250 11223</span></div>
-        <div class="contact"><b>Warden — Girls Block</b><span>Available 8 AM – 10 PM</span><span class="num">+91 98250 33445</span></div>
-        <div class="contact"><b>Security Gate Desk</b><span>Available 24/7</span><span class="num">+91 98250 55667</span></div>
-        <div class="contact"><b>Medical / First Aid</b><span>On-call emergency</span><span class="num">+91 98250 77889</span></div>
-        <div class="contact"><b>Mess Supervisor</b><span>Available 7 AM – 9 PM</span><span class="num">+91 98250 99001</span></div>
-        <div class="contact"><b>Maintenance Desk</b><span>Available 9 AM – 6 PM</span><span class="num">+91 98250 22114</span></div>
-      </div>
-    </div>
-  </div>
+<div class="row g-4 mt-1">
+<div class="col-lg-6"><div class="sp-panel"><h3>Your recent tickets</h3><div id="ticketList"></div></div></div>
+<div class="col-lg-6"><div class="sp-panel"><h3>Common questions</h3><div class="accordion" id="faq"><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f0">Room change kaise karein?</button></h2>
+<div id="f0" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">Support ticket me 'Room' category chunein aur apna current room number likhein. Warden approval ke baad Smart Room Allocation se naya room milega.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f1">Mess ka khana kharab ho to?</button></h2>
+<div id="f1" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">'Mess' category me ticket raise karein. Mess committee ko usi din notify kiya jata hai.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">Raat me emergency ho to?</button></h2>
+<div id="f2" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">Seedha warden ko call karein ya 112 dial karein. Ticket emergency ke liye nahi hai.</div></div></div><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f3">Fee receipt nahi mil rahi?</button></h2>
+<div id="f3" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">Fee Management page se receipt download karein. Na mile to 'Fee' category me ticket raise karein.</div></div></div></div></div></div>
+</div>
+</div>
 </main>
+
 <!-- Footer -->
 <footer class="footer-kd">
-  <div class="container">
-    <div class="row g-4">
-
-      <div class="col-lg-3 col-md-6">
-        <img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo">
-        <h5>K. D. HOSTEL</h5>
-        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-      </div>
-
-      <div class="col-lg-3 col-md-6">
-        <h5>Quick Links</h5>
-        <a href="index.html">Home</a>
-        <a href="notice.html">Notice</a>
-        <a href="registration.html">Student Registration</a>
-        <a href="fee.html">Fee Management</a>
-        <a href="complaint.html">Complaint Management</a>
-      </div>
-
-      <div class="col-lg-3 col-md-6">
-        <h5>Facilities</h5>
-        <a href="boys.html">Boys Block</a>
-        <a href="girls.html">Girls Block</a>
-        <a href="mess.html">Mess &amp; Dining</a>
-        <a href="#">Common Room</a>
-        <a href="#">Sports Room</a>
-      </div>
-
-      <div class="col-lg-3 col-md-6">
-        <h5>Contact Us</h5>
-        <div class="contact-line">
-          <i class="bi bi-geo-alt-fill"></i>
-          <span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
-        </div>
-        <div class="contact-line">
-          <i class="bi bi-telephone-fill"></i>
-          <a href="tel:02766220419">02766-220419</a>
-        </div>
-        <div class="contact-line">
-          <i class="bi bi-envelope-fill"></i>
-          <a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="footer-bottom">
-      <p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
-      <p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
-    </div>
-  </div>
+<div class="container">
+<div class="row g-4">
+<div class="col-lg-3 col-md-6">
+<img src="logo.png" alt="K.D. Hostel Logo" class="kd-logo">
+<h5>K. D. HOSTEL</h5>
+<a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+</div>
+<div class="col-lg-3 col-md-6">
+<h5>Quick Links</h5>
+<a href="index.html">Home</a>
+<a href="notice.html">Notice</a>
+<a href="registration.html">Student Registration</a>
+<a href="fee.html">Fee Management</a>
+<a href="complaint.html">Complaint Management</a>
+</div>
+<div class="col-lg-3 col-md-6">
+<h5>Facilities</h5>
+<a href="boys.html">Boys Block</a>
+<a href="girls.html">Girls Block</a>
+<a href="mess.html">Mess &amp; Dining</a>
+<a href="#">Common Room</a>
+<a href="#">Sports Room</a>
+</div>
+<div class="col-lg-3 col-md-6">
+<h5>Contact Us</h5>
+<div class="contact-line">
+<i class="bi bi-geo-alt-fill"></i>
+<span>K. D. Hostel, Near K. D. Polytechnic,<br>Hemchandracharya North Gujarat University Road,<br>Patan - 384265, Gujarat</span>
+</div>
+<div class="contact-line">
+<i class="bi bi-telephone-fill"></i>
+<a href="tel:02766220419">02766-220419</a>
+</div>
+<div class="contact-line">
+<i class="bi bi-envelope-fill"></i>
+<a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<p class="mb-1">&copy; 2026 K. D. HOSTEL, PATAN. All Rights Reserved.</p>
+<p class="mb-0">Designed &amp; Developed for Excellence in Student Living</p>
+</div>
+</div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 <script src="support.js"></script>
-
 </body>
 </html>
