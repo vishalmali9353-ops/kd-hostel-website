@@ -1,126 +1,123 @@
-const CHAT_KEY='kdh_support_chat_v1';
-const TICKET_KEY='kdh_support_tickets_v1';
+/* 24/7 Student Support - frontend only (chat bot scripted hai, tickets browser me save hote hain) */
+(function () {
+  "use strict";
 
-function switchTab(name){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===name));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel-'+name).classList.add('active');
-}
+  var STORE_KEY = "kd_support_tickets_v1";
 
-// ---------- CHAT ----------
-const KB = [
-  { kw:['mess','food','menu','dinner','lunch','breakfast'], reply:"Mess timings: Breakfast 7:30–9:00 AM, Lunch 12:30–2:00 PM, Dinner 8:00–9:30 PM. The weekly menu is posted on the mess notice board every Sunday." },
-  { kw:['wifi','wi-fi','internet','network'], reply:"For Wi-Fi issues: first try reconnecting to 'KDH-Hostel' network. If it persists, I've logged this as a Wi-Fi complaint — check the Tickets tab, or raise one manually with your room number." },
-  { kw:['laundry','washing'], reply:"Laundry pickup is Monday, Wednesday and Friday mornings before 8 AM. Drop bags at the ground-floor laundry counter with your room number tagged." },
-  { kw:['warden','contact','call'], reply:"You can reach your block warden directly — check the Emergency Contacts tab for numbers. For urgent night-time issues, the Security Gate Desk is available 24/7." },
-  { kw:['complaint','issue','problem','broken','not working','raise'], reply:"I can help you log that. Head to the Tickets tab, choose a category, add your room number and a short description — it'll be tracked until resolved." },
-  { kw:['fee','payment','due'], reply:"Hostel fee dues can be checked with the accounts office (ground floor, admin block) between 10 AM–4 PM on weekdays." },
-  { kw:['leave','outpass','gate pass','permission'], reply:"Gate passes and outings are managed under the Security & Surveillance module — request an out-pass there and your warden will approve it." },
-  { kw:['room change','shift room','reallocation'], reply:"Room change requests go through Smart Room Allocation. Speak with your warden to add you back to the allocation queue." },
-  { kw:['water','electricity','power','light'], reply:"For electrical or water supply issues, please raise a complaint under 'Electrical' or 'Plumbing' category in the Tickets tab — maintenance responds same day for urgent issues." },
-  { kw:['hi','hello','hey'], reply:"Hey! I'm the KD Hostel assistant. Ask me about mess timing, Wi-Fi, laundry, warden contacts, or say 'raise a complaint' to log an issue." },
-];
+  // Chat bot ke answers - apne hostel ke hisaab se edit karein
+  var ANSWERS = [
+    { keys: ["mess", "food", "khana", "menu"], text: "Mess ka menu aur timing Mess Management page par milega. Khane ki complaint ke liye neeche ticket raise karein." },
+    { keys: ["fee", "payment", "pay", "receipt"], text: "Fee dues aur receipt Fee Management page par dekh sakte hain. Payment problem ho to ticket me 'Fee' category chunein." },
+    { keys: ["room", "allot", "allocation", "shift"], text: "Room allotment Smart Room Allocation page se hota hai. Room change ke liye ticket me 'Room' category chunein." },
+    { keys: ["wifi", "internet", "net"], text: "Wi-Fi issue ke liye router restart check karein. Phir bhi problem ho to 'Maintenance' category me ticket raise karein." },
+    { keys: ["visitor", "guest", "mehman"], text: "Visitor entry gate par register hoti hai. Details Visitor Management page par hain." },
+    { keys: ["emergency", "medical", "doctor", "fire", "urgent"], text: "Emergency me turant warden ko call karein ya 112 dial karein. Upar emergency numbers diye gaye hain." },
+    { keys: ["hello", "hi", "hey", "namaste"], text: "Namaste! Mess, fee, room, Wi-Fi ya visitor ke baare me pooch sakte hain." }
+  ];
+  var FALLBACK = "Yeh sawal mujhe samajh nahi aaya. Neeche ticket raise karein - warden team 24 ghante ke andar reply karegi.";
 
-function botReply(text){
-  const t = text.toLowerCase();
-  for(const entry of KB){
-    if(entry.kw.some(k=>t.includes(k))) return entry.reply;
+  var tickets = [];
+
+  function $(id) { return document.getElementById(id); }
+  function esc(t) {
+    return String(t).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
   }
-  return "I didn't quite catch that. Try asking about mess timing, Wi-Fi, laundry, or say 'raise a complaint' — or check the Tickets / Contacts tabs above.";
-}
 
-function loadChat(){
-  try{ return JSON.parse(localStorage.getItem(CHAT_KEY)) || []; }catch(e){ return []; }
-}
-function saveChat(msgs){ localStorage.setItem(CHAT_KEY, JSON.stringify(msgs)); }
+  function loadTickets() {
+    try { tickets = JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { tickets = []; }
+  }
+  function saveTickets() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(tickets)); } catch (e) { /* ignore */ }
+  }
 
-let chatLog = loadChat();
-if(chatLog.length===0){
-  chatLog.push({from:'bot', text:"Hi, I'm your 24/7 hostel assistant. Ask me anything about mess timing, Wi-Fi, laundry, or raise a complaint."});
-  saveChat(chatLog);
-}
+  // ---- Chat ----
+  function addBubble(text, who) {
+    var box = $("chatBox");
+    var d = document.createElement("div");
+    d.className = "bubble " + who;
+    d.textContent = text;
+    box.appendChild(d);
+    box.scrollTop = box.scrollHeight;
+  }
 
-function renderChat(){
-  const win = document.getElementById('chat-window');
-  win.innerHTML = chatLog.map(m=>`<div class="bubble ${m.from}">${m.text}</div>`).join('');
-  win.scrollTop = win.scrollHeight;
-}
+  function reply(q) {
+    var s = q.toLowerCase();
+    var hit = ANSWERS.filter(function (a) {
+      return a.keys.some(function (k) { return s.indexOf(k) !== -1; });
+    })[0];
+    return hit ? hit.text : FALLBACK;
+  }
 
-function pushMessage(from, text){
-  chatLog.push({from, text});
-  saveChat(chatLog);
-  renderChat();
-}
+  function ask(q) {
+    q = q.trim();
+    if (!q) return;
+    addBubble(q, "me");
+    setTimeout(function () { addBubble(reply(q), "bot"); }, 350);
+  }
 
-function sendMessage(){
-  const inp = document.getElementById('chat-in');
-  const val = inp.value.trim();
-  if(!val) return;
-  pushMessage('user', val);
-  inp.value='';
-  setTimeout(()=>pushMessage('bot', botReply(val)), 350);
-}
-function sendQuick(text){
-  pushMessage('user', text);
-  setTimeout(()=>pushMessage('bot', botReply(text)), 350);
-}
+  // ---- Tickets ----
+  function renderTickets() {
+    var box = $("ticketList");
+    box.innerHTML = "";
+    if (!tickets.length) {
+      box.innerHTML = '<p class="text-muted mb-0">Abhi koi ticket nahi hai. Upar form se naya ticket raise karein.</p>';
+      return;
+    }
+    tickets.slice().reverse().slice(0, 6).forEach(function (t) {
+      var d = document.createElement("div");
+      d.className = "ticket";
+      d.innerHTML = "<b>#" + t.id + " · " + esc(t.category) + '</b><span class="status">Open</span>' +
+        "<div>" + esc(t.message) + "</div><small>" + esc(t.name) + " · Room " + esc(t.room || "-") + " · " + esc(t.time) + "</small>";
+      box.appendChild(d);
+    });
+  }
 
-// ---------- TICKETS ----------
-function loadTickets(){
-  try{ return JSON.parse(localStorage.getItem(TICKET_KEY)) || []; }catch(e){ return []; }
-}
-function saveTickets(t){ localStorage.setItem(TICKET_KEY, JSON.stringify(t)); }
-let tickets = loadTickets();
+  function showMsg(text, ok) {
+    var m = $("ticketMsg");
+    m.textContent = text;
+    m.className = "sp-msg show " + (ok ? "ok" : "err");
+  }
 
-function raiseTicket(){
-  const cat = document.getElementById('t-cat').value;
-  const room = document.getElementById('t-room').value.trim() || '—';
-  const desc = document.getElementById('t-desc').value.trim();
-  if(!desc){ alert('Please describe the issue.'); return; }
-  tickets.unshift({
-    id: 'T'+Date.now().toString().slice(-6),
-    cat, room, desc,
-    status: 'open',
-    date: new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short'})
-  });
-  saveTickets(tickets);
-  document.getElementById('t-desc').value='';
-  document.getElementById('t-room').value='';
-  renderTickets();
-}
+  function onTicket(e) {
+    e.preventDefault();
+    var f = e.target;
+    var name = f.sname.value.trim();
+    var msg = f.smessage.value.trim();
+    if (!name || !msg) { showMsg("Naam aur problem ki details likhna zaroori hai.", false); return; }
+    var id = 1001 + tickets.length;
+    tickets.push({
+      id: id,
+      name: name,
+      room: f.sroom.value.trim(),
+      category: f.scategory.value,
+      priority: f.spriority.value,
+      message: msg,
+      time: new Date().toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })
+    });
+    saveTickets();
+    renderTickets();
+    showMsg("Ticket #" + id + " raise ho gaya. Warden team jald reply karegi.", true);
+    f.reset();
+  }
 
-function cycleStatus(id){
-  const t = tickets.find(x=>x.id===id);
-  if(!t) return;
-  t.status = t.status==='open' ? 'progress' : (t.status==='progress' ? 'resolved' : 'resolved');
-  saveTickets(tickets);
-  renderTickets();
-}
-function deleteTicket(id){
-  tickets = tickets.filter(x=>x.id!==id);
-  saveTickets(tickets);
-  renderTickets();
-}
+  function init() {
+    loadTickets();
+    renderTickets();
+    addBubble("Namaste! Main K.D. Hostel helper hoon. Mess, fee, room, Wi-Fi ya visitor ke baare me pooch sakte hain.", "bot");
 
-function renderTickets(){
-  document.getElementById('t-count').textContent = tickets.length;
-  const list = document.getElementById('ticket-list');
-  list.innerHTML = tickets.length===0
-    ? '<div style="font-size:13px;color:var(--cream-dim);font-style:italic;">No complaints raised yet.</div>'
-    : tickets.map(t=>`
-      <div class="ticket">
-        <div class="ticket-top">
-          <b>${t.id} · ${t.cat}</b>
-          <span class="status ${t.status}">${t.status==='progress'?'in progress':t.status}</span>
-        </div>
-        <div class="ticket-meta">Room ${t.room} · Raised ${t.date}</div>
-        <div class="ticket-desc">${t.desc}</div>
-        <div class="ticket-actions">
-          ${t.status!=='resolved' ? `<button class="ghost" onclick="cycleStatus('${t.id}')">Mark ${t.status==='open'?'in progress':'resolved'}</button>` : ''}
-          <button class="ghost" onclick="deleteTicket('${t.id}')">Remove</button>
-        </div>
-      </div>`).join('');
-}
+    $("chatForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var inp = $("chatInput");
+      ask(inp.value);
+      inp.value = "";
+    });
+    document.querySelectorAll(".chip").forEach(function (c) {
+      c.addEventListener("click", function () { ask(c.getAttribute("data-q")); });
+    });
+    $("ticketForm").addEventListener("submit", onTicket);
+  }
 
-renderChat();
-renderTickets();
+  document.addEventListener("DOMContentLoaded", init);
+})();
