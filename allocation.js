@@ -1,4 +1,4 @@
-/* Smart Room Allocation - FINAL frontend demo
+/* Smart Room Allocation - FINAL frontend 
  * Sirf frontend: data browser ke localStorage me save hota hai.
  * Backend baad me jodna ho to sirf neeche "DATA LAYER" section badalna hai
  * (load/save ko fetch() calls se replace karein). Baaki UI code wahi rahega.
