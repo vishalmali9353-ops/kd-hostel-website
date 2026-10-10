@@ -1,130 +1,237 @@
-/* Smart Room Allocation - frontend only (sample data, backend se baad me connect karna) */
+/* Smart Room Allocation - FINAL frontend demo
+ * Sirf frontend: data browser ke localStorage me save hota hai.
+ * Backend baad me jodna ho to sirf neeche "DATA LAYER" section badalna hai
+ * (load/save ko fetch() calls se replace karein). Baaki UI code wahi rahega.
+ */
 (function () {
   "use strict";
 
-  var STORE_KEY = "kd_allocation_v1";
+  /* ================= CONFIG ================= */
+  // Boys 32 rooms (96 beds), Girls 28 rooms (84 beds), sab 3-seater.
+  // Floor-wise split sample hai - apne hostel ke hisaab se badal lein.
+  var HOSTEL = [
+    { block: "Boys",  prefix: "B", perFloor: [11, 11, 10] },
+    { block: "Girls", prefix: "G", perFloor: [10, 9, 9] }
+  ];
+  var SEATS_PER_ROOM = 3;
 
-  // Sample rooms: block, floor, type (capacity), occupants (course-year)
+  /* ================= DATA LAYER (backend yahan jodna) ================= */
+  var STORE_KEY = "kd_allocation_final_v1";
+
+  var Data = {
+    // Baad me: return fetch("/api/allocation").then(r => r.json());
+    load: function () {
+      try {
+        var p = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (p && p.rooms && p.log && p.waitlist) return p;
+      } catch (e) { /* storage unavailable */ }
+      return null;
+    },
+    // Baad me: fetch("/api/allocation", { method: "POST", body: JSON.stringify(state) })
+    save: function (st) {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify({ rooms: st.rooms, log: st.log, waitlist: st.waitlist }));
+      } catch (e) { /* ignore */ }
+    }
+  };
+
+  /* ================= SEED (demo data) ================= */
   function buildRooms() {
     var rooms = [];
-    var boys = { block: "Boys", prefix: "B" };
-    var girls = { block: "Girls", prefix: "G" };
-    [boys, girls].forEach(function (b) {
-      for (var floor = 0; floor < 3; floor++) {
-        for (var n = 1; n <= 6; n++) {
-          var cap = n % 3 === 0 ? 3 : 2;
+    HOSTEL.forEach(function (b) {
+      b.perFloor.forEach(function (count, floor) {
+        for (var n = 1; n <= count; n++) {
           rooms.push({
-            id: b.prefix + floor + "0" + n,
-            block: b.block,
-            floor: floor,
-            capacity: cap,
-            occupants: []
+            id: b.prefix + floor + (n < 10 ? "0" + n : "" + n),
+            block: b.block, floor: floor, capacity: SEATS_PER_ROOM, occupants: []
           });
         }
-      }
+      });
     });
-    // Starting occupancy so the page looks alive
     var seed = [
-      ["B001", "Rahul P.", "Diploma Computer", "1"],
-      ["B002", "Jay S.", "Diploma Civil", "2"],
-      ["B002", "Dhruv M.", "Diploma Civil", "2"],
-      ["B101", "Karan T.", "Diploma Computer", "2"],
-      ["B103", "Het R.", "Diploma Mechanical", "3"],
-      ["B103", "Om V.", "Diploma Mechanical", "3"],
-      ["B103", "Yash D.", "Diploma Mechanical", "3"],
-      ["G001", "Priya S.", "Diploma Computer", "1"],
-      ["G002", "Neha P.", "Diploma Electrical", "2"],
-      ["G002", "Riya M.", "Diploma Electrical", "2"],
-      ["G101", "Kinjal B.", "Diploma Civil", "1"]
+      ["B001", "Rahul Patel", "DEMO101", "Diploma Computer", "1"],
+      ["B002", "Jay Shah", "DEMO102", "Diploma Civil", "2"],
+      ["B002", "Dhruv Mehta", "DEMO103", "Diploma Civil", "2"],
+      ["B101", "Karan Thakkar", "DEMO104", "Diploma Computer", "2"],
+      ["B103", "Het Raval", "DEMO105", "Diploma Mechanical", "3"],
+      ["B103", "Om Vyas", "DEMO106", "Diploma Mechanical", "3"],
+      ["B103", "Yash Desai", "DEMO107", "Diploma Mechanical", "3"],
+      ["G001", "Priya Solanki", "DEMO201", "Diploma Computer", "1"],
+      ["G002", "Neha Parmar", "DEMO202", "Diploma Electrical", "2"],
+      ["G002", "Riya Modi", "DEMO203", "Diploma Electrical", "2"],
+      ["G101", "Kinjal Brahmbhatt", "DEMO204", "Diploma Civil", "1"]
     ];
     seed.forEach(function (s) {
       var r = rooms.filter(function (x) { return x.id === s[0]; })[0];
-      if (r) r.occupants.push({ name: s[1], course: s[2], year: s[3] });
+      if (r) r.occupants.push({ name: s[1], enroll: s[2], course: s[3], year: s[4] });
     });
     return rooms;
   }
 
-  var state = { rooms: buildRooms(), log: [], tab: "Boys" };
+  var state = { rooms: [], log: [], waitlist: [], tab: "Boys", floor: "all", search: "", selected: null };
 
-  function load() {
-    try {
-      var raw = localStorage.getItem(STORE_KEY);
-      if (raw) {
-        var parsed = JSON.parse(raw);
-        if (parsed && parsed.rooms && parsed.log) {
-          state.rooms = parsed.rooms;
-          state.log = parsed.log;
-        }
-      }
-    } catch (e) { /* storage unavailable - sample data chalega */ }
-  }
-  function save() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify({ rooms: state.rooms, log: state.log })); }
-    catch (e) { /* ignore */ }
+  function resetState() {
+    state.rooms = buildRooms();
+    state.log = [];
+    state.waitlist = [];
+    state.selected = null;
   }
 
+  /* ================= HELPERS ================= */
+  function $(id) { return document.getElementById(id); }
+  function esc(t) {
+    return String(t).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
   function floorName(f) { return f === 0 ? "Ground" : f === 1 ? "1st" : "2nd"; }
+  function nowText() {
+    return new Date().toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+  }
+  function findRoom(id) { return state.rooms.filter(function (r) { return r.id === id; })[0]; }
+  function exists(enroll) {
+    var e = enroll.toLowerCase();
+    var inRoom = state.rooms.some(function (r) {
+      return r.occupants.some(function (o) { return o.enroll.toLowerCase() === e; });
+    });
+    var inWait = state.waitlist.some(function (w) { return w.enroll.toLowerCase() === e; });
+    return inRoom || inWait;
+  }
 
-  // ---- Scoring: preference + roommate compatibility ----
+  /* ================= ALLOCATION LOGIC ================= */
   function score(room, s) {
-    var pts = 0, why = [];
     var free = room.capacity - room.occupants.length;
     if (free <= 0) return null;
-
+    var pts = 0, why = [];
     if (s.floor !== "any" && String(room.floor) === s.floor) { pts += 30; why.push("preferred floor"); }
-    if (s.seater !== "any" && String(room.capacity) === s.seater) { pts += 25; why.push(room.capacity + "-seater as requested"); }
-
     var sameCourse = room.occupants.filter(function (o) { return o.course === s.course; }).length;
     var sameYear = room.occupants.filter(function (o) { return o.year === s.year; }).length;
     if (sameCourse) { pts += 15 * sameCourse; why.push("roommate(s) from same course"); }
     if (sameYear) { pts += 10 * sameYear; why.push("same year roommate(s)"); }
-
-    // Fill partly-occupied rooms first so empty rooms stay available for later
     if (room.occupants.length > 0) { pts += 8; why.push("fills a partly occupied room"); }
-    // Ground floor for students who need it
     if (s.ground && room.floor === 0) { pts += 40; why.push("ground floor (special need)"); }
     return { pts: pts, why: why, room: room };
   }
 
-  function allocate(s) {
-    var candidates = state.rooms
+  function bestRoom(s) {
+    var list = state.rooms
       .filter(function (r) { return r.block === s.gender; })
       .map(function (r) { return score(r, s); })
       .filter(Boolean)
       .sort(function (a, b) { return b.pts - a.pts; });
-    return candidates[0] || null;
+    return list[0] || null;
   }
 
-  // ---- Rendering ----
-  function $(id) { return document.getElementById(id); }
+  function place(s, best) {
+    var room = best.room;
+    var mates = room.occupants.map(function (o) { return o.name; });
+    room.occupants.push({ name: s.name, enroll: s.enroll, course: s.course, year: s.year });
+    state.log.push({ name: s.name, course: s.course, year: s.year, room: room.id, block: room.block, time: nowText() });
+    return mates;
+  }
 
+  // Room khali hone par usi block ke waiting students ko auto allot
+  function promoteWaitlist(block) {
+    var promoted = [];
+    var i = 0;
+    while (i < state.waitlist.length) {
+      var w = state.waitlist[i];
+      if (w.gender === block) {
+        var best = bestRoom(w);
+        if (best) {
+          place(w, best);
+          promoted.push(w.name + " → " + best.room.id);
+          state.waitlist.splice(i, 1);
+          continue;
+        }
+      }
+      i++;
+    }
+    return promoted;
+  }
+
+  /* ================= RENDER ================= */
   function renderStats() {
-    var total = 0, taken = 0;
-    state.rooms.forEach(function (r) { total += r.capacity; taken += r.occupants.length; });
+    var total = 0, taken = 0, byBlock = { Boys: [0, 0], Girls: [0, 0] };
+    state.rooms.forEach(function (r) {
+      total += r.capacity; taken += r.occupants.length;
+      byBlock[r.block][0] += r.capacity; byBlock[r.block][1] += r.occupants.length;
+    });
     $("stTotal").textContent = total;
     $("stTaken").textContent = taken;
     $("stFree").textContent = total - taken;
-    $("stRooms").textContent = state.rooms.filter(function (r) { return r.occupants.length < r.capacity; }).length;
+    $("stWait").textContent = state.waitlist.length;
+    ["Boys", "Girls"].forEach(function (b) {
+      var cap = byBlock[b][0], used = byBlock[b][1], pct = cap ? Math.round(used * 100 / cap) : 0;
+      $("occ" + b + "Txt").textContent = used + " / " + cap + " beds (" + pct + "%)";
+      var bar = $("occ" + b + "Bar");
+      bar.firstElementChild.style.width = pct + "%";
+      bar.className = "occ-bar" + (pct >= 90 ? " high" : "");
+      bar.setAttribute("aria-valuenow", pct);
+      bar.setAttribute("aria-valuemin", 0);
+      bar.setAttribute("aria-valuemax", 100);
+    });
+  }
+
+  function matchesSearch(r) {
+    var q = state.search.toLowerCase();
+    if (!q) return false;
+    return r.id.toLowerCase().indexOf(q) !== -1 ||
+      r.occupants.some(function (o) {
+        return o.name.toLowerCase().indexOf(q) !== -1 || o.enroll.toLowerCase().indexOf(q) !== -1;
+      });
   }
 
   function renderRooms(flashId) {
     var grid = $("roomGrid");
     grid.innerHTML = "";
-    state.rooms.filter(function (r) { return r.block === state.tab; }).forEach(function (r) {
+    var rooms = state.rooms.filter(function (r) {
+      return r.block === state.tab && (state.floor === "all" || String(r.floor) === state.floor);
+    });
+    if (!rooms.length) { grid.innerHTML = '<p class="text-muted mb-0">Is filter me koi room nahi hai.</p>'; return; }
+
+    rooms.forEach(function (r) {
       var full = r.occupants.length >= r.capacity;
-      var div = document.createElement("div");
-      div.className = "room" + (full ? " full" : "") + (r.id === flashId ? " flash" : "");
+      var m = matchesSearch(r);
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "room" + (full ? " full" : "") + (r.id === flashId ? " flash" : "") +
+        (r.id === state.selected ? " selected" : "") +
+        (state.search ? (m ? " match" : " dim") : "");
       var beds = "";
-      for (var i = 0; i < r.capacity; i++) {
-        beds += '<span class="bed' + (i < r.occupants.length ? " taken" : "") + '"></span>';
-      }
-      div.innerHTML =
+      for (var i = 0; i < r.capacity; i++) beds += '<span class="bed' + (i < r.occupants.length ? " taken" : "") + '"></span>';
+      btn.innerHTML =
         '<span class="tag ' + (full ? "full" : "ok") + '">' + (full ? "FULL" : (r.capacity - r.occupants.length) + " free") + "</span>" +
         '<div class="no">' + r.id + "</div>" +
         '<div class="meta">' + floorName(r.floor) + " floor · " + r.capacity + "-seater</div>" +
         '<div class="beds" aria-hidden="true">' + beds + "</div>";
-      div.title = r.occupants.map(function (o) { return o.name; }).join(", ") || "Empty room";
-      grid.appendChild(div);
+      btn.setAttribute("aria-label", "Room " + r.id + ", " + r.occupants.length + " of " + r.capacity + " beds occupied");
+      btn.addEventListener("click", function () {
+        state.selected = state.selected === r.id ? null : r.id;
+        renderRooms(); renderDetail();
+      });
+      grid.appendChild(btn);
+    });
+  }
+
+  function renderDetail() {
+    var box = $("roomDetail");
+    box.innerHTML = "";
+    var r = state.selected ? findRoom(state.selected) : null;
+    if (!r) return;
+    var html = '<div class="box"><h4>Room ' + r.id + " · " + r.block + " block · " + floorName(r.floor) + " floor</h4>";
+    if (!r.occupants.length) {
+      html += '<p class="text-muted mb-0">Yeh room abhi khali hai.</p>';
+    } else {
+      r.occupants.forEach(function (o, i) {
+        html += '<div class="occupant"><div><b>' + esc(o.name) + "</b><small>" + esc(o.enroll) + " · " + esc(o.course) + " · Year " + esc(o.year) +
+          '</small></div><button type="button" class="btn-vacate" data-i="' + i + '">Vacate</button></div>';
+      });
+    }
+    html += "</div>";
+    box.innerHTML = html;
+    box.querySelectorAll(".btn-vacate").forEach(function (b) {
+      b.addEventListener("click", function () { vacate(r.id, Number(b.getAttribute("data-i"))); });
     });
   }
 
@@ -142,64 +249,19 @@
     });
   }
 
-  function esc(t) {
-    return String(t).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  function renderWait() {
+    var ul = $("waitList");
+    ul.innerHTML = "";
+    if (!state.waitlist.length) { ul.innerHTML = '<li class="text-muted">Waiting list khali hai.</li>'; return; }
+    state.waitlist.forEach(function (w, i) {
+      var li = document.createElement("li");
+      li.innerHTML = "<b>" + (i + 1) + ". " + esc(w.name) + "</b><small>" + w.gender + " block · " + esc(w.course) + " · Year " + esc(w.year) + "</small>";
+      ul.appendChild(li);
     });
   }
 
-  function showResult(html, isError) {
-    var box = $("result");
-    box.className = "al-result show" + (isError ? " error" : "");
-    box.innerHTML = html;
-  }
-
-  // ---- Events ----
-  function onSubmit(e) {
-    e.preventDefault();
-    var form = e.target;
-    var s = {
-      name: form.name.value.trim(),
-      gender: form.gender.value,
-      course: form.course.value,
-      year: form.year.value,
-      floor: form.floor.value,
-      seater: form.seater.value,
-      ground: form.ground.checked
-    };
-    if (!s.name || !s.gender || !s.course || !s.year) {
-      showResult("<b>Form adhura hai.</b> Name, gender, course aur year bharna zaroori hai.", true);
-      return;
-    }
-    var best = allocate(s);
-    if (!best) {
-      showResult("<b>" + s.gender + " block me koi room khali nahi hai.</b> Warden se waiting list ke liye sampark karein.", true);
-      return;
-    }
-    var room = best.room;
-    var mates = room.occupants.map(function (o) { return o.name; });
-    room.occupants.push({ name: s.name, course: s.course, year: s.year });
-    state.log.push({
-      name: s.name, course: s.course, year: s.year, room: room.id, block: room.block,
-      time: new Date().toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })
-    });
-    save();
-
-    state.tab = room.block;
-    syncTabs();
-    renderStats();
-    renderRooms(room.id);
-    renderLog();
-
-    showResult(
-      "<h4>Room allot ho gaya: " + room.id + "</h4><dl>" +
-      "<dt>Student</dt><dd>" + esc(s.name) + "</dd>" +
-      "<dt>Block / Floor</dt><dd>" + room.block + " · " + floorName(room.floor) + " floor</dd>" +
-      "<dt>Room type</dt><dd>" + room.capacity + "-seater</dd>" +
-      "<dt>Roommates</dt><dd>" + (mates.length ? esc(mates.join(", ")) : "Abhi koi nahi") + "</dd></dl>" +
-      '<div class="al-why">Kyun yeh room: ' + (best.why.length ? best.why.join(", ") : "sabse best available option") + ".</div>"
-    );
-    form.reset();
+  function renderAll(flashId) {
+    renderStats(); renderRooms(flashId); renderDetail(); renderLog(); renderWait();
   }
 
   function syncTabs() {
@@ -210,27 +272,101 @@
     });
   }
 
+  function showResult(html, kind) {
+    var box = $("result");
+    box.className = "al-result show" + (kind === "error" ? " error" : "");
+    box.innerHTML = html;
+  }
+
+  /* ================= ACTIONS ================= */
+  function vacate(roomId, idx) {
+    var r = findRoom(roomId);
+    if (!r || !r.occupants[idx]) return;
+    var gone = r.occupants.splice(idx, 1)[0];
+    var promoted = promoteWaitlist(r.block);
+    save();
+    renderAll();
+    showResult(
+      "<h4>" + esc(gone.name) + " ne room " + r.id + " khali kiya</h4>" +
+      (promoted.length ? '<div class="al-why">Waiting list se allot: ' + esc(promoted.join(", ")) + ".</div>" : '<div class="al-why">Ab ek bed available hai.</div>')
+    );
+  }
+
+  function onSubmit(e) {
+    e.preventDefault();
+    var f = e.target;
+    var s = {
+      name: f.name.value.trim(), enroll: f.enroll.value.trim(), gender: f.gender.value,
+      course: f.course.value, year: f.year.value, floor: f.floor.value, ground: f.ground.checked
+    };
+    if (!s.name || !s.enroll || !s.gender || !s.course || !s.year) {
+      showResult("<b>Form adhura hai.</b> Name, enrollment no., block, course aur year bharna zaroori hai.", "error");
+      return;
+    }
+    if (exists(s.enroll)) {
+      showResult("<b>Yeh enrollment no. pehle se allot ya waiting list me hai.</b> Duplicate allotment nahi ho sakta.", "error");
+      return;
+    }
+    var best = bestRoom(s);
+    if (!best) {
+      state.waitlist.push(s);
+      save(); renderAll();
+      showResult("<h4>" + s.gender + " block full hai</h4>" + esc(s.name) + " ko waiting list me add kiya gaya (number " + state.waitlist.length + "). Room khali hote hi automatic allot hoga.", "error");
+      f.reset();
+      return;
+    }
+    var mates = place(s, best);
+    var room = best.room;
+    state.tab = room.block;
+    state.selected = room.id;
+    save();
+    syncTabs();
+    renderAll(room.id);
+    showResult(
+      "<h4>Room allot ho gaya: " + room.id + "</h4><dl>" +
+      "<dt>Student</dt><dd>" + esc(s.name) + " (" + esc(s.enroll) + ")</dd>" +
+      "<dt>Block / Floor</dt><dd>" + room.block + " · " + floorName(room.floor) + " floor</dd>" +
+      "<dt>Room type</dt><dd>" + room.capacity + "-seater</dd>" +
+      "<dt>Roommates</dt><dd>" + (mates.length ? esc(mates.join(", ")) : "Abhi koi nahi") + "</dd></dl>" +
+      '<div class="al-why">Kyun yeh room: ' + (best.why.length ? best.why.join(", ") : "sabse best available option") + ".</div>"
+    );
+    f.reset();
+  }
+
+  function save() { Data.save(state); }
+
+  /* ================= INIT ================= */
   function init() {
-    load();
+    var saved = Data.load();
+    if (saved) { state.rooms = saved.rooms; state.log = saved.log; state.waitlist = saved.waitlist; }
+    else { resetState(); }
+
     document.querySelectorAll(".al-tab").forEach(function (t) {
       t.addEventListener("click", function () {
         state.tab = t.getAttribute("data-tab");
-        syncTabs();
-        renderRooms();
+        state.selected = null;
+        syncTabs(); renderRooms(); renderDetail();
       });
+    });
+    $("floorFilter").addEventListener("change", function (e) { state.floor = e.target.value; renderRooms(); });
+    $("searchBox").addEventListener("input", function (e) {
+      state.search = e.target.value.trim();
+      // Search match kisi aur block me ho to wahan switch karo
+      if (state.search) {
+        var hit = state.rooms.filter(matchesSearch)[0];
+        if (hit && hit.block !== state.tab) { state.tab = hit.block; syncTabs(); }
+      }
+      renderRooms();
     });
     $("allocForm").addEventListener("submit", onSubmit);
     $("resetBtn").addEventListener("click", function () {
-      state.rooms = buildRooms();
-      state.log = [];
-      save();
+      resetState(); save();
       $("result").className = "al-result";
-      renderStats(); renderRooms(); renderLog();
+      renderAll();
     });
+
     syncTabs();
-    renderStats();
-    renderRooms();
-    renderLog();
+    renderAll();
   }
 
   document.addEventListener("DOMContentLoaded", init);
