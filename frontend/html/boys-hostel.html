@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boys Hostel | K.D. Hostel Patan</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+    .page-hero {
+      padding: 75px 0;
+      color: white;
+      background: linear-gradient(110deg, rgba(10,28,57,.96), rgba(16,38,75,.72)),
+      url('https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1600&q=85') center/cover;
+    }
+    .page-hero h1 { font-weight: 800; font-size: clamp(35px,5vw,54px); }
+    .page-hero p { max-width: 700px; color: #e1e8f5; line-height: 1.9; }
+    .page-tag { color: var(--gold); letter-spacing: 2px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .detail-card { background: white; border: 1px solid #e5ebf5; border-radius: 15px; padding: 24px; height: 100%; box-shadow: 0 7px 24px #10264b0d; }
+    .detail-card i { font-size: 28px; color: var(--blue); }
+    .detail-card h5 { color: var(--navy); font-weight: 700; margin-top: 13px; }
+    .detail-card p { color: #68758a; font-size: 13px; line-height: 1.8; margin-bottom: 0; }
+    .detail-table th { background: var(--navy); color: white; }
+    .detail-table td, .detail-table th { padding: 14px; }
+    .admission-box { background: var(--navy); color: white; border-radius: 18px; padding: 32px; }
+    .admission-box p { color: #d2dced; line-height: 1.9; }
+    .breadcrumb a { color: var(--blue); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <img src="../images/kd-hostel-logo.png" alt="K.D. Hostel Logo"
+           style="width:55px;height:55px;object-fit:contain;background:white;border-radius:50%;">
+      <span class="brand-text">K.D. <span>HOSTEL</span></span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#mainNav" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#details">Hostel Details</a></li>
+        <li class="nav-item"><a class="nav-link" href="#facilities">Facilities</a></li>
+        <li class="nav-item"><a class="nav-link" href="#admission">Admission</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <a href="tel:02766220419" class="btn btn-gold ms-lg-3 mt-2 mt-lg-0">
+        <i class="bi bi-telephone-fill"></i> Call Office
+      </a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <div class="page-tag mb-3">K. D. Polytechnic · Patan</div>
+    <h1><i class="bi bi-gender-male"></i> Boys Hostel</h1>
+    <p class="mt-3">
+      A student-friendly accommodation facility supporting learning,
+      discipline, comfort and student welfare.
+    </p>
+    <a href="index.html" class="btn btn-gold mt-2">
+      <i class="bi bi-arrow-left"></i> Back to Home
+    </a>
+  </div>
+</header>
+
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Boys Hostel</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section pt-4" id="details">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Hostel Overview</span>
+      <h2 class="section-title">Boys Hostel at a Glance</h2>
+      <p class="section-description">Key information about the accommodation and administration.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-lg-3">
+        <div class="detail-card text-center">
+          <i class="bi bi-door-open"></i><h5>32 Rooms</h5>
+          <p>Total rooms</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="detail-card text-center">
+          <i class="bi bi-people"></i><h5>96 Students</h5>
+          <p>Total stated capacity</p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="detail-card text-center">
+          <i class="bi bi-person-badge"></i><h5>Shri H. V. Thakkar</h5>
+          <p>Boys Hostel Warden</p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3">
+        <div class="detail-card text-center">
+          <i class="bi bi-shield-check"></i><h5>Safety</h5>
+          <p>CCTV and security guards are listed among hostel facilities.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-light">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1000&q=85"
+          alt="Educational campus building" class="img-fluid rounded-4 shadow"
+          loading="lazy" style="width:100%;height:340px;object-fit:cover;">
+      </div>
+      <div class="col-lg-6">
+        <span class="section-label">About the Facility</span>
+        <h2 class="section-title">About Boys Hostel</h2>
+        <p class="section-description">
+          K. D. Hostel is located near K. D. Polytechnic on
+          Hemchandracharya North Gujarat University Road, Patan.
+          The boys hostel provides accommodation for students
+          and aims to support their academic life.
+        </p>
+        <p class="section-description">
+          Students should contact the Rector or the respective
+          Warden for current room availability, hostel rules and
+          admission requirements.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="facilities">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Student Amenities</span>
+      <h2 class="section-title">Boys Hostel Facilities</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-lg-4"><div class="detail-card">
+        <i class="bi bi-house-door"></i><h5>Furnished Rooms</h5>
+        <p>Furnished accommodation for hostel residents.</p>
+      </div></div>
+      <div class="col-6 col-lg-4"><div class="detail-card">
+        <i class="bi bi-droplet-half"></i><h5>RO Drinking Water</h5>
+        <p>24/7 RO drinking water facility.</p>
+      </div></div>
+      <div class="col-6 col-lg-4"><div class="detail-card">
+        <i class="bi bi-book"></i><h5>Study Room</h5>
+        <p>A separate reading and study room.</p>
+      </div></div>
+      <div class="col-6 col-lg-4"><div class="detail-card">
+        <i class="bi bi-tv"></i><h5>TV Room</h5>
+        <p>A common room for TV and entertainment.</p>
+      </div></div>
+      <div class="col-6 col-lg-4"><div class="detail-card">
+        <i class="bi bi-sun"></i><h5>Solar Water Heater</h5>
+        <p>Solar water-heating facility.</p>
+      </div></div>
+      <div class="col-6 col-lg-4"><div class="detail-card">
+        <i class="bi bi-camera-video"></i><h5>CCTV and Security</h5>
+        <p>CCTV surveillance and security guards.</p>
+      </div></div>
+      <div class="col-6 col-lg-4"><div class="detail-card">
+        <i class="bi bi-tree"></i><h5>Clean Campus</h5>
+        <p>Clean campus and garden facilities.</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-light">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="section-title">Accommodation Details</h2>
+    </div>
+    <div class="table-responsive rounded-4 shadow-sm">
+      <table class="table table-bordered detail-table align-middle mb-0">
+        <thead><tr><th>Particular</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td>Hostel Name</td><td>K. D. Boys Hostel</td></tr>
+          <tr><td>Total Rooms</td><td>32</td></tr>
+          <tr><td>Total Capacity</td><td>96 Students</td></tr>
+          <tr><td>Warden</td><td>Shri H. V. Thakkar</td></tr>
+          <tr><td>Admission Enquiries</td><td>Rector / Warden Office</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="admission">
+  <div class="container">
+    <div class="admission-box">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <h2 class="fw-bold">Boys Hostel Admission</h2>
+          <p class="mb-0">
+            Admission forms are available through the Rector or Warden
+            office. Room allotment is subject to applicable institute
+            and government hostel norms and availability. Contact the
+            hostel office for the latest instructions.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <a href="tel:02766220419" class="btn btn-gold">
+            <i class="bi bi-telephone-fill"></i> Enquire Now
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-light" id="contact">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="section-title">Contact K.D. Hostel</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4"><div class="detail-card">
+        <i class="bi bi-geo-alt"></i><h5>Address</h5>
+        <p>K. D. Hostel, Near K. D. Polytechnic,<br>
+        Hemchandracharya North Gujarat University Road,<br>
+        Patan - 384265, Gujarat</p>
+      </div></div>
+      <div class="col-md-4"><div class="detail-card">
+        <i class="bi bi-telephone"></i><h5>Phone</h5>
+        <p><a href="tel:02766220419">02766-220419</a></p>
+      </div></div>
+      <div class="col-md-4"><div class="detail-card">
+        <i class="bi bi-envelope"></i><h5>Email</h5>
+        <p><a href="mailto:kdhostel-patan@gujarat.gov.in">kdhostel-patan@gujarat.gov.in</a></p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container text-center">
+    <img src="../images/kd-hostel-logo.png" alt="K.D. Hostel Logo"
+      style="width:65px;height:65px;object-fit:contain;background:white;border-radius:50%;"
+      class="mb-3">
+    <h5>K.D. HOSTEL, PATAN</h5>
+    <p>Designed &amp; Developed for Excellence in Student Living</p>
+    <p>© <span id="currentYear">2026</span> K.D. Hostel. All Rights Reserved.</p>
+    <a href="index.html" class="btn btn-gold">Back to Home</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../javascript/script.js"></script>
+</body>
+</html>
