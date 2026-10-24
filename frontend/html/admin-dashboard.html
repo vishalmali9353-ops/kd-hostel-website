@@ -3,85 +3,280 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin Dashboard | K.D. Hostel</title>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+    body { background: #f4f7fc; }
+    .admin-layout { min-height: 100vh; }
+    .admin-sidebar {
+      background: #10264b;
+      color: white;
+      min-height: calc(100vh - 68px);
+      padding: 24px 15px;
+    }
+    .admin-sidebar a {
+      display: block;
+      padding: 12px 14px;
+      margin: 5px 0;
+      color: #dce5f5;
+      border-radius: 9px;
+      text-decoration: none;
+    }
+    .admin-sidebar a:hover, .admin-sidebar a.active {
+      background: #263e65;
+      color: #f5b942;
+    }
+    .admin-topbar {
+      background: white;
+      border-bottom: 1px solid #e5eaf2;
+      padding: 14px 20px;
+    }
+    .admin-card {
+      background: white;
+      padding: 22px;
+      border-radius: 14px;
+      border: 1px solid #e6ebf3;
+      height: 100%;
+      box-shadow: 0 5px 20px rgba(16,38,75,.04);
+    }
+    .admin-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: #eaf0ff;
+      color: #2155cd;
+      font-size: 23px;
+    }
+    .admin-number {
+      font-size: 27px;
+      font-weight: 800;
+      color: #10264b;
+      margin-top: 15px;
+    }
+    .admin-muted { color: #718096; font-size: 13px; }
+    .admin-panel {
+      background: white;
+      border: 1px solid #e6ebf3;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .admin-panel h2 { color: #10264b; font-size: 19px; font-weight: 800; }
+    .admin-table th {
+      color: #53647e;
+      background: #f7f9fd;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .admin-table td { font-size: 13px; vertical-align: middle; }
+    .admin-main { min-width: 0; }
+    .admin-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      background: white;
+      border-radius: 50%;
+      padding: 3px;
+    }
+    @media(max-width:767px) {
+      .admin-sidebar { min-height: auto; padding: 10px; }
+      .admin-sidebar nav { display: flex; flex-wrap: wrap; gap: 4px; }
+      .admin-sidebar a { padding: 9px 10px; font-size: 12px; margin: 0; }
+      .admin-topbar { padding: 12px; }
+      .admin-panel { padding: 14px; }
+    }
+  </style>
 </head>
+
 <body>
-<nav class="navbar navbar-dark"><div class="container"><a class="navbar-brand" href="index.html"><img src="../images/kd-hostel-logo.png" alt="K.D. Hostel" height="40"> Admin Dashboard</a><button id="logoutBtn" class="btn btn-outline-light">Logout</button></div></nav>
-<main class="container py-4">
-  <h1>Admin Dashboard</h1>
-  <p class="text-muted">K.D. Hostel Management System</p>
-  <div id="status" class="alert alert-info" role="status">Verifying administrator access...</div>
-  <div class="row g-3 mb-4">
-    <div class="col-md-4"><div class="card p-4 h-100"><i class="bi bi-people fs-2"></i><h5 class="mt-2">Students</h5><p id="studentCount" class="fs-3 mb-0">—</p></div></div>
-    <div class="col-md-4"><div class="card p-4 h-100"><i class="bi bi-door-closed fs-2"></i><h5 class="mt-2">Room Allocations</h5><p id="allocationCount" class="fs-3 mb-0">—</p></div></div>
-    <div class="col-md-4"><div class="card p-4 h-100"><i class="bi bi-bell fs-2"></i><h5 class="mt-2">Notices</h5><p id="noticeCount" class="fs-3 mb-0">—</p></div></div>
+<nav class="navbar navbar-dark" style="background:#10264b">
+  <div class="container-fluid px-3 px-lg-4">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <img src="../images/kd-hostel-logo.png" class="admin-logo" alt="K.D. Hostel logo">
+      <span class="fw-bold">K.D. <span style="color:#f5b942">HOSTEL</span></span>
+    </a>
+    <a href="index.html" class="btn btn-outline-light btn-sm">
+      <i class="bi bi-house"></i> View Website
+    </a>
   </div>
-  <div class="card p-3">
-    <h4>Registered Students</h4>
-    <div class="table-responsive"><table class="table table-striped">
-      <thead><tr><th>Name</th><th>Email</th><th>Hostel</th><th>Status</th></tr></thead>
-      <tbody id="studentRows"><tr><td colspan="4">Waiting for server...</td></tr></tbody>
-    </table></div>
+</nav>
+
+<div class="container-fluid admin-layout">
+  <div class="row">
+    <aside class="col-md-3 col-xl-2 admin-sidebar">
+      <p class="text-uppercase small text-white-50 px-2 mb-3">Administration</p>
+      <nav>
+        <a class="active" href="#overview"><i class="bi bi-grid me-2"></i> Dashboard</a>
+        <a href="#students"><i class="bi bi-people me-2"></i> Students</a>
+        <a href="boys-hostel.html"><i class="bi bi-building me-2"></i> Boys Hostel</a>
+        <a href="girls-hostel.html"><i class="bi bi-house-heart me-2"></i> Girls Hostel</a>
+        <a href="facilities.html"><i class="bi bi-list-check me-2"></i> Facilities</a>
+        <a href="contact.html"><i class="bi bi-envelope me-2"></i> Enquiries</a>
+        <a href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Login Page</a>
+      </nav>
+      <p class="small text-white-50 px-2 mt-4">
+        Dashboard preview. Student data requires a connected backend.
+      </p>
+    </aside>
+
+    <main class="col-md-9 col-xl-10 admin-main p-0">
+      <div class="admin-topbar d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <div>
+          <h1 class="h5 fw-bold mb-1" style="color:#10264b">Admin Dashboard</h1>
+          <div class="admin-muted">K.D. Hostel Management System</div>
+        </div>
+        <span class="badge text-bg-warning">Frontend Preview</span>
+      </div>
+
+      <div class="p-3 p-lg-4">
+        <section id="overview">
+          <h2 class="h5 fw-bold mb-1" style="color:#10264b">Overview</h2>
+          <p class="admin-muted mb-4">Hostel management summary</p>
+
+          <div class="row g-3 mb-4">
+            <div class="col-6 col-xl-3">
+              <div class="admin-card">
+                <div class="admin-icon"><i class="bi bi-people"></i></div>
+                <div class="admin-number">—</div>
+                <div class="admin-muted">Total Students</div>
+              </div>
+            </div>
+            <div class="col-6 col-xl-3">
+              <div class="admin-card">
+                <div class="admin-icon"><i class="bi bi-building"></i></div>
+                <div class="admin-number">—</div>
+                <div class="admin-muted">Boys Hostel Students</div>
+              </div>
+            </div>
+            <div class="col-6 col-xl-3">
+              <div class="admin-card">
+                <div class="admin-icon"><i class="bi bi-house-heart"></i></div>
+                <div class="admin-number">—</div>
+                <div class="admin-muted">Girls Hostel Students</div>
+              </div>
+            </div>
+            <div class="col-6 col-xl-3">
+              <div class="admin-card">
+                <div class="admin-icon"><i class="bi bi-envelope"></i></div>
+                <div class="admin-number">—</div>
+                <div class="admin-muted">Pending Enquiries</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="students" class="admin-panel mb-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <div>
+              <h2 class="mb-1">Student Management</h2>
+              <p class="admin-muted mb-0">Search records when the backend is connected.</p>
+            </div>
+            <button class="btn btn-primary btn-sm" id="refreshStudents" type="button">
+              <i class="bi bi-arrow-clockwise"></i> Refresh
+            </button>
+          </div>
+
+          <div class="row g-2 mb-3">
+            <div class="col-md-8">
+              <input type="search" id="studentSearch" class="form-control"
+                placeholder="Search student records..." aria-label="Search students">
+            </div>
+            <div class="col-md-4">
+              <select id="hostelFilter" class="form-select" aria-label="Filter by hostel">
+                <option value="">All hostels</option>
+                <option value="Boys">Boys Hostel</option>
+                <option value="Girls">Girls Hostel</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="alert alert-info small" role="status" id="dashboardMessage">
+            No live student data is connected. This page does not create or modify student records.
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover admin-table mb-0">
+              <thead>
+                <tr>
+                  <th>Enrollment No.</th>
+                  <th>Student Name</th>
+                  <th>Hostel</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="studentTableBody">
+                <tr>
+                  <td colspan="4" class="text-center text-secondary py-4">
+                    No student records loaded.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="admin-panel mb-4" id="quickLinks">
+          <h2 class="mb-3">Quick Links</h2>
+          <div class="row g-3">
+            <div class="col-sm-6 col-lg-4">
+              <a class="btn btn-outline-primary w-100 p-3" href="register.html">
+                <i class="bi bi-person-plus me-2"></i>Student Registration
+              </a>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+              <a class="btn btn-outline-primary w-100 p-3" href="boys-hostel.html">
+                <i class="bi bi-building me-2"></i>Boys Hostel Details
+              </a>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+              <a class="btn btn-outline-primary w-100 p-3" href="girls-hostel.html">
+                <i class="bi bi-house-heart me-2"></i>Girls Hostel Details
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <footer class="text-center admin-muted py-3">
+          &copy; <span id="currentYear"></span> K.D. Hostel Management System
+        </footer>
+      </div>
+    </main>
   </div>
-</main>
-<footer class="footer py-3 text-center"><p class="mb-0">© <span class="current-year"></span> K.D. Hostel</p></footer>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../javascript/script.js"></script>
 <script>
-const API = "https://YOUR-BACKEND-URL.onrender.com";
+  document.addEventListener("DOMContentLoaded", function () {
+    const refreshButton = document.getElementById("refreshStudents");
+    const message = document.getElementById("dashboardMessage");
 
-async function loadDashboard() {
-  const status = document.getElementById("status");
-  try {
-    const res = await fetch(API + "/api/admin/dashboard", {
-      credentials: "include"
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Admin access denied");
-
-    document.getElementById("studentCount").textContent = data.student_count;
-    document.getElementById("allocationCount").textContent = data.allocation_count;
-    document.getElementById("noticeCount").textContent = data.notice_count;
-
-    const rows = document.getElementById("studentRows");
-    rows.replaceChildren();
-
-    data.students.forEach(student => {
-      const tr = document.createElement("tr");
-      [student.name, student.email, student.hostel, student.status].forEach(value => {
-        const td = document.createElement("td");
-        td.textContent = value ?? "";
-        tr.appendChild(td);
-      });
-      rows.appendChild(tr);
+    refreshButton.addEventListener("click", function () {
+      message.textContent =
+        "Backend API is not connected yet. No student records were fetched.";
     });
 
-    status.className = "alert alert-success";
-    status.textContent = "Administrator access verified.";
-  } catch (err) {
-    status.className = "alert alert-warning";
-    status.textContent = err.message.includes("Failed to fetch")
-      ? "Backend not connected. Update the API URL and deploy Flask."
-      : err.message;
-  }
-}
+    const search = document.getElementById("studentSearch");
+    const filter = document.getElementById("hostelFilter");
 
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-  try {
-    await fetch(API + "/api/logout", {
-      method: "POST",
-      credentials: "include"
-    });
-  } finally {
-    window.location.href = "login.html";
-  }
-});
+    function showPreviewMessage() {
+      const searchTerm = search.value.trim();
+      const hostel = filter.value;
+      if (searchTerm || hostel) {
+        message.textContent =
+          "Search and hostel filters are ready for the future API connection. No live student records are loaded.";
+      }
+    }
 
-loadDashboard();
+    search.addEventListener("input", showPreviewMessage);
+    filter.addEventListener("change", showPreviewMessage);
+  });
 </script>
 </body>
 </html>
