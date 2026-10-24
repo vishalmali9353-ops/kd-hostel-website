@@ -1,2 +1,0 @@
-K.D. HOSTEL , PATAN
-
