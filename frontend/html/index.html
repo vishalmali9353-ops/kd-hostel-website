@@ -3,75 +3,279 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>K.D. Hostel | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>K.D. Hostel | K. D. Polytechnic, Patan</title>
+  <meta name="description" content="Explore K.D. Hostel, Patan, boys and girls hostel information, facilities and admission enquiries.">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container">
-    <a class="navbar-brand" href="index.html"><img src="../images/kd-hostel-logo.png" alt="K.D. Hostel" height="42"> K.D. Hostel</a>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <img src="../images/kd-hostel-logo.png"
+           alt="K.D. Hostel Logo" class="site-logo">
+      <span class="brand-text">K.D. <span>HOSTEL</span></span>
+    </a>
+
+    <button class="navbar-toggler" type="button"
+      data-bs-toggle="collapse" data-bs-target="#mainNav"
+      aria-controls="mainNav" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
         <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
         <li class="nav-item"><a class="nav-link" href="boys-hostel.html">Boys Hostel</a></li>
         <li class="nav-item"><a class="nav-link" href="girls-hostel.html">Girls Hostel</a></li>
         <li class="nav-item"><a class="nav-link" href="facilities.html">Facilities</a></li>
         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        <li class="nav-item"><a class="nav-link" href="login.html">Student Login</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-gold mt-2 mt-lg-0" href="login.html">
+            <i class="bi bi-person-lock"></i> Student Login
+          </a>
+        </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<header class="hero text-center py-5">
-  <div class="container py-5">
-    <p class="text-uppercase fw-semibold">K. D. Polytechnic, Patan</p>
-    <h1 class="display-4 fw-bold">Welcome to K.D. Hostel</h1>
-    <p class="lead">A place to live, learn and grow.</p>
-    <a href="boys-hostel.html" class="btn btn-primary m-2">Explore Boys Hostel</a>
-    <a href="girls-hostel.html" class="btn btn-outline-primary m-2">Explore Girls Hostel</a>
+<header class="hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <span class="hero-tag">
+          <i class="bi bi-mortarboard"></i>
+          K. D. Polytechnic, Patan
+        </span>
+
+        <h1>Welcome to <span>K.D. Hostel</span></h1>
+
+        <p>
+          A place to live, learn and grow. Explore hostel information,
+          student facilities and accommodation options for boys and girls.
+        </p>
+
+        <div class="d-flex flex-wrap gap-2 mt-4">
+          <a href="boys-hostel.html" class="btn btn-gold">
+            Boys Hostel <i class="bi bi-arrow-right"></i>
+          </a>
+          <a href="girls-hostel.html" class="btn btn-outline-light">
+            Girls Hostel <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
-<main class="container py-5">
-  <div class="text-center mb-4">
-    <h2>Our Hostel</h2>
-    <p>Student accommodation near K. D. Polytechnic, Patan.</p>
-  </div>
-  <div class="row g-4">
-    <div class="col-md-6"><div class="card h-100 p-4"><i class="bi bi-building fs-1"></i><h3 class="mt-3">Boys Hostel</h3><p>32 rooms with a stated capacity of 96 students.</p><a href="boys-hostel.html">View Boys Hostel →</a></div></div>
-    <div class="col-md-6"><div class="card h-100 p-4"><i class="bi bi-house fs-1"></i><h3 class="mt-3">Girls Hostel</h3><p>28 rooms with a stated capacity of 84 students.</p><a href="girls-hostel.html">View Girls Hostel →</a></div></div>
-  </div>
-  <section class="py-5">
-    <h2 class="text-center mb-4">Hostel Facilities</h2>
-    <div class="row g-3">
-      <div class="col-sm-6 col-lg-3"><div class="card p-3 h-100"><i class="bi bi-book fs-2"></i><h5>Study Room</h5><p class="mb-0">Separate reading and study space.</p></div></div>
-      <div class="col-sm-6 col-lg-3"><div class="card p-3 h-100"><i class="bi bi-droplet fs-2"></i><h5>RO Water</h5><p class="mb-0">24/7 RO drinking water facility.</p></div></div>
-      <div class="col-sm-6 col-lg-3"><div class="card p-3 h-100"><i class="bi bi-shield-check fs-2"></i><h5>Security</h5><p class="mb-0">CCTV and security guards.</p></div></div>
-      <div class="col-sm-6 col-lg-3"><div class="card p-3 h-100"><i class="bi bi-sun fs-2"></i><h5>Solar Heating</h5><p class="mb-0">Solar water heater facility.</p></div></div>
+<main>
+  <section class="stats">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <i class="bi bi-building"></i>
+            <h3>Boys</h3>
+            <p>Hostel Information</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <i class="bi bi-house-heart"></i>
+            <h3>Girls</h3>
+            <p>Hostel Information</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <i class="bi bi-book"></i>
+            <h3>Study</h3>
+            <p>Learning Environment</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <i class="bi bi-info-circle"></i>
+            <h3>Support</h3>
+            <p>Hostel Enquiries</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="text-center mt-4"><a href="facilities.html" class="btn btn-primary">View All Facilities</a></div>
   </section>
-  <div class="contact-banner p-4 rounded text-center">
-    <h3>Need hostel information?</h3>
-    <p>Contact the hostel office for admission-related enquiries.</p>
-    <a href="contact.html" class="btn btn-primary">Contact Us</a>
-  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-label">Accommodation</span>
+        <h2 class="section-title">Explore Our Hostels</h2>
+        <p class="section-description mx-auto">
+          Select a hostel to learn more about accommodation,
+          available facilities and admission enquiries.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <article class="hostel-card">
+            <img
+              src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1000&q=80"
+              alt="Hostel room and accommodation"
+              loading="lazy">
+
+            <div class="hostel-content">
+              <span class="section-label">Student Accommodation</span>
+              <h3><i class="bi bi-building"></i> Boys Hostel</h3>
+              <p>
+                Explore boys hostel information, room availability,
+                accommodation guidelines and facilities.
+              </p>
+              <div class="hostel-facts">
+                <p><i class="bi bi-check-circle"></i> Accommodation information</p>
+                <p><i class="bi bi-check-circle"></i> Student facilities</p>
+                <p><i class="bi bi-check-circle"></i> Admission enquiries</p>
+              </div>
+              <a href="boys-hostel.html" class="btn btn-gold mt-3">
+                Explore Boys Hostel <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <div class="col-md-6">
+          <article class="hostel-card">
+            <img
+              src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=80"
+              alt="Comfortable student living space"
+              loading="lazy">
+
+            <div class="hostel-content">
+              <span class="section-label">Student Accommodation</span>
+              <h3><i class="bi bi-house-heart"></i> Girls Hostel</h3>
+              <p>
+                Explore girls hostel information, room availability,
+                accommodation guidelines and facilities.
+              </p>
+              <div class="hostel-facts">
+                <p><i class="bi bi-check-circle"></i> Accommodation information</p>
+                <p><i class="bi bi-check-circle"></i> Student facilities</p>
+                <p><i class="bi bi-check-circle"></i> Admission enquiries</p>
+              </div>
+              <a href="girls-hostel.html" class="btn btn-gold mt-3">
+                Explore Girls Hostel <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-label">Student Life</span>
+        <h2 class="section-title">Hostel Facilities</h2>
+        <p class="section-description">
+          Check the facilities available at the hostel.
+          Confirm current availability with the hostel office.
+        </p>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-6 col-lg-3">
+          <div class="facility-card">
+            <div class="facility-icon"><i class="bi bi-book"></i></div>
+            <h5>Study Environment</h5>
+            <p>Information about study spaces and learning facilities.</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="facility-card">
+            <div class="facility-icon"><i class="bi bi-droplet"></i></div>
+            <h5>Drinking Water</h5>
+            <p>Check drinking water facilities and availability.</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="facility-card">
+            <div class="facility-icon"><i class="bi bi-shield-check"></i></div>
+            <h5>Safety</h5>
+            <p>Ask the hostel office about security arrangements.</p>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="facility-card">
+            <div class="facility-icon"><i class="bi bi-lightning-charge"></i></div>
+            <h5>Utilities</h5>
+            <p>Check electricity, water and other available services.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="facilities.html" class="btn btn-gold">
+          View All Facilities <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-banner text-center">
+        <img src="../images/kd-hostel-logo.png"
+             alt="K.D. Hostel Logo" class="footer-logo mb-3">
+        <h2>Need Hostel Information?</h2>
+        <p>
+          Contact the hostel office for current admission details,
+          room availability and hostel rules.
+        </p>
+        <a href="contact.html" class="btn btn-gold">
+          Contact Us <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer class="footer py-4 text-center">
+<footer class="footer">
   <div class="container">
-    <p>K.D. Hostel, Near K. D. Polytechnic, Patan - 384265, Gujarat</p>
-    <p>Phone: 02766-220419 | Email: kdhostel-patan@gujarat.gov.in</p>
-    <a href="about.html">About</a> · <a href="facilities.html">Facilities</a> · <a href="contact.html">Contact</a>
-    <p class="mb-0">© <span class="current-year"></span> K.D. Hostel Management System</p>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <h5>K.D. Hostel</h5>
+        <p>
+          K. D. Polytechnic, Patan, Gujarat.
+          A student hostel information and management project.
+        </p>
+      </div>
+      <div class="col-6 col-md-3">
+        <h5>Quick Links</h5>
+        <a href="about.html">About Us</a>
+        <a href="boys-hostel.html">Boys Hostel</a>
+        <a href="girls-hostel.html">Girls Hostel</a>
+      </div>
+      <div class="col-6 col-md-3">
+        <h5>Help</h5>
+        <a href="facilities.html">Facilities</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Student Login</a>
+      </div>
+    </div>
+    <div class="footer-bottom mt-4 pt-3 text-center">
+      &copy; <span id="currentYear"></span> K.D. Hostel Management System
+    </div>
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../javascript/script.js"></script>
 </body>
