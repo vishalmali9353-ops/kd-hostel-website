@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="../css/style.css">
 
   <style>
-    body { background: #f4f7fc; }
+    body {
+      background: #f4f7fc;
+    }
 
     .auth-section {
       min-height: 78vh;
@@ -47,7 +49,9 @@
       font-size: 28px;
     }
 
-    .auth-card .form-control { padding: 12px; }
+    .auth-card .form-control {
+      padding: 12px;
+    }
 
     .auth-card .btn-primary {
       background: #2155cd;
@@ -67,7 +71,9 @@
       overflow-wrap: anywhere;
     }
 
-    .info-row:last-child { border-bottom: none; }
+    .info-row:last-child {
+      border-bottom: none;
+    }
 
     .info-label {
       color: #667085;
@@ -79,6 +85,21 @@
       color: #10264b;
       font-weight: 600;
     }
+
+    .contact-link {
+      color: #2155cd;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 576px) {
+      .auth-card {
+        padding: 22px 18px;
+      }
+    }
   </style>
 </head>
 
@@ -86,9 +107,12 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+    <a class="navbar-brand d-flex align-items-center gap-2"
+       href="index.html">
       <img src="../images/kd-hostel-logo.png"
-           alt="K.D. Hostel logo" width="45" height="45">
+           alt="K.D. Hostel logo"
+           width="45"
+           height="45">
       <span class="brand-text">K.D. Hostel</span>
     </a>
 
@@ -105,19 +129,21 @@
 
       <div class="text-center mb-4">
         <img src="../images/kd-hostel-logo.png"
-             alt="K.D. Hostel" class="auth-logo mb-3">
+             alt="K.D. Hostel"
+             class="auth-logo mb-3">
 
         <div class="auth-icon">
           <i class="bi bi-person-lock"></i>
         </div>
 
         <h1 class="h3 fw-bold">K.D. Hostel Login</h1>
+
         <p class="text-secondary">
           Login using your Enrollment Number or Admin ID.
         </p>
       </div>
 
-      <div class="alert alert-warning small">
+      <div class="alert alert-warning small" role="status">
         <i class="bi bi-info-circle me-1"></i>
         Demo login only. Do not use this frontend-only version
         to protect real student information.
@@ -129,6 +155,7 @@
           <label for="loginId" class="form-label fw-semibold">
             Enrollment Number / Admin ID
           </label>
+
           <input type="text"
                  class="form-control"
                  id="loginId"
@@ -172,16 +199,19 @@
            role="status"
            aria-live="polite"></div>
 
-      <!-- Student information appears after successful login -->
+      <!-- Student Information -->
       <section id="studentDashboard" class="d-none mt-4">
+
         <div class="text-center mb-3">
           <i class="bi bi-person-circle text-primary"
              style="font-size: 48px;"></i>
+
           <h2 class="h4 fw-bold mt-2">Student Information</h2>
           <p class="text-secondary mb-0">Login successful</p>
         </div>
 
         <div class="student-info">
+
           <div class="info-row">
             <span class="info-label">Student Name</span>
             <span class="info-value" id="studentName"></span>
@@ -194,7 +224,12 @@
 
           <div class="info-row">
             <span class="info-label">Semester</span>
-            <span class="info-value" id="studentSemester">5th Semester</span>
+            <span class="info-value">5th Semester</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Branch</span>
+            <span class="info-value" id="studentBranch"></span>
           </div>
 
           <div class="info-row">
@@ -206,6 +241,7 @@
             <span class="info-label">Account Type</span>
             <span class="info-value">Student</span>
           </div>
+
         </div>
 
         <button type="button"
@@ -213,17 +249,21 @@
                 class="btn btn-outline-primary w-100 mt-3">
           <i class="bi bi-box-arrow-right me-2"></i>Logout
         </button>
+
       </section>
 
-      <!-- Admin message -->
+      <!-- Admin Information -->
       <section id="adminDashboard" class="d-none mt-4">
         <div class="text-center p-4 rounded-3 bg-light">
           <i class="bi bi-shield-check text-success"
              style="font-size: 48px;"></i>
+
           <h2 class="h4 fw-bold mt-3">Admin Login Successful</h2>
+
           <p class="text-secondary">
             Admin credentials accepted in demo mode.
           </p>
+
           <p class="mb-0">
             The Admin Dashboard and student database
             must be connected separately.
@@ -237,13 +277,12 @@
         </button>
       </section>
 
+      <!-- Updated: Contact link instead of Register link -->
       <p class="text-center mt-4 mb-0">
-        New student?
-        <a href="register.html" class="fw-semibold">Register here</a>
-      </p>
-
-      <p class="text-center mt-3 mb-0">
-        <a href="contact.html">Need help? Contact the hostel</a>
+        Need help?
+        <a href="contact.html" class="fw-semibold contact-link">
+          <i class="bi bi-headset me-1"></i>Contact the hostel
+        </a>
       </p>
 
     </div>
@@ -265,7 +304,6 @@
   document.getElementById("currentYear").textContent =
     new Date().getFullYear();
 
-  // Fixed student enrollment list supplied for this demo.
   const students = {
     "226310307007": "BHATT DHAIRYA MUKESHKUMAR",
     "236310307057": "MAYUR PRAKASHBHAI PRAJAPATI",
@@ -301,8 +339,22 @@
     "246310307049": "JOSHI TARUN JAYANTIBHAI"
   };
 
-  // Demo credentials only. These must be checked on a secure server
-  // before being used for real accounts.
+  // Random demo branches. These may change after page reload.
+  const branches = [
+    "Computer Engineering",
+    "Mechanical Engineering",
+    "Civil Engineering",
+    "Electrical Engineering"
+  ];
+
+  const studentBranches = {};
+
+  Object.keys(students).forEach(function(enrollment) {
+    studentBranches[enrollment] =
+      branches[Math.floor(Math.random() * branches.length)];
+  });
+
+  // Demo credentials only. Do not use for real authentication.
   const STUDENT_PASSWORD = "1234";
   const ADMIN_IDS = ["YRP", "MRT", "MCT"];
   const ADMIN_PASSWORD = "271";
@@ -314,6 +366,7 @@
 
   const studentDashboard =
     document.getElementById("studentDashboard");
+
   const adminDashboard =
     document.getElementById("adminDashboard");
 
@@ -335,10 +388,11 @@
   }
 
   document.getElementById("togglePassword")
-    .addEventListener("click", function () {
+    .addEventListener("click", function() {
       const show = passwordField.type === "password";
 
       passwordField.type = show ? "text" : "password";
+
       this.innerHTML = show
         ? '<i class="bi bi-eye-slash"></i>'
         : '<i class="bi bi-eye"></i>';
@@ -349,17 +403,18 @@
       );
     });
 
-  loginForm.addEventListener("submit", function (event) {
+  loginForm.addEventListener("submit", function(event) {
     event.preventDefault();
 
     hideDashboards();
     message.className = "alert mt-3 d-none";
 
-    const loginId = loginIdField.value.trim().toUpperCase();
+    const rawId = loginIdField.value.trim();
+    const normalizedId = rawId.toUpperCase();
     const password = passwordField.value;
 
     // Admin login
-    if (ADMIN_IDS.includes(loginId)) {
+    if (ADMIN_IDS.includes(normalizedId)) {
       if (password === ADMIN_PASSWORD) {
         showMessage("Admin login successful.", "success");
         adminDashboard.classList.remove("d-none");
@@ -370,7 +425,7 @@
     }
 
     // Student login
-    const enrollment = loginIdField.value.trim();
+    const enrollment = rawId;
 
     if (!Object.prototype.hasOwnProperty.call(students, enrollment)) {
       showMessage("Enrollment number not found in the student list.");
@@ -382,14 +437,20 @@
       return;
     }
 
-    // Display the matching student's information.
     document.getElementById("studentName").textContent =
       students[enrollment];
 
     document.getElementById("studentEnrollment").textContent =
       enrollment;
 
-    showMessage("Welcome, " + students[enrollment] + "!", "success");
+    document.getElementById("studentBranch").textContent =
+      studentBranches[enrollment];
+
+    showMessage(
+      "Welcome, " + students[enrollment] + "!",
+      "success"
+    );
+
     studentDashboard.classList.remove("d-none");
   });
 
