@@ -121,8 +121,9 @@
 
       <div class="alert alert-warning small" role="status">
         <i class="bi bi-info-circle me-1"></i>
-        Frontend demo only. Do not enter real Aadhaar or other sensitive
-        personal details until secure backend storage is implemented.
+        Demo form only. Details are not saved or sent to the Admin Dashboard.
+        Do not enter real Aadhaar information until secure backend storage
+        is implemented.
       </div>
 
       <form id="registerForm">
@@ -219,7 +220,7 @@
                    pattern="[0-9]{12}"
                    placeholder="Enter 12-digit Aadhaar number" required>
             <div class="form-text">
-              12 digits. It will not be stored by this demo.
+              Enter exactly 12 digits. This demo does not save it.
             </div>
           </div>
 
@@ -247,23 +248,26 @@
             <label for="branch" class="form-label fw-semibold">
               Branch of Study <span class="required-mark">*</span>
             </label>
-            <input type="text" class="form-control" id="branch"
-                   maxlength="100" placeholder="Enter your branch" required>
+            <select class="form-select" id="branch" required>
+              <option value="">Select Branch</option>
+              <option value="Computer Engineering">Computer Engineering</option>
+              <option value="Mechanical Engineering">Mechanical Engineering</option>
+              <option value="Electrical Engineering">Electrical Engineering</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+            </select>
           </div>
 
           <div class="col-md-6">
             <label for="semester" class="form-label fw-semibold">
-              Year / Semester <span class="required-mark">*</span>
+              Semester <span class="required-mark">*</span>
             </label>
             <select class="form-select" id="semester" required>
-              <option value="">Select year / semester</option>
-              <option value="1st Year - 1st Semester">1st Year - 1st Semester</option>
-              <option value="1st Year - 2nd Semester">1st Year - 2nd Semester</option>
-              <option value="2nd Year - 3rd Semester">2nd Year - 3rd Semester</option>
-              <option value="2nd Year - 4th Semester">2nd Year - 4th Semester</option>
-              <option value="3rd Year - 5th Semester">3rd Year - 5th Semester</option>
-              <option value="3rd Year - 6th Semester">3rd Year - 6th Semester</option>
-              <option value="Other">Other</option>
+              <option value="">Select Semester</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
             </select>
           </div>
 
@@ -378,7 +382,6 @@
   document.getElementById("currentYear").textContent =
     new Date().getFullYear();
 
-  // Prevent future dates and calculate age.
   function calculateAge(dateValue) {
     if (!dateValue) return "";
 
@@ -437,7 +440,6 @@
     this.reportValidity();
   });
 
-  // Accept only digits in number-limited fields.
   function restrictDigits(id, maxLength) {
     const input = document.getElementById(id);
 
@@ -450,7 +452,6 @@
   restrictDigits("phone", 10);
   restrictDigits("aadhaar", 12);
 
-  // Copy permanent address when checkbox is selected.
   const sameAddress = document.getElementById("sameAddress");
   const permanentAddress = document.getElementById("permanentAddress");
   const residentialAddress = document.getElementById("residentialAddress");
@@ -471,9 +472,9 @@
     event.preventDefault();
 
     const age = calculateAge(dobInput.value);
-    const enrollment = document.getElementById("enrollment").value;
-    const phone = document.getElementById("phone").value;
-    const aadhaar = document.getElementById("aadhaar").value;
+    const enrollmentInput = document.getElementById("enrollment");
+    const phoneInput = document.getElementById("phone");
+    const aadhaarInput = document.getElementById("aadhaar");
 
     if (age === "" || age < 14) {
       dobInput.setCustomValidity(
@@ -485,42 +486,40 @@
 
     dobInput.setCustomValidity("");
 
-    if (!/^[0-9]{12}$/.test(enrollment)) {
-      document.getElementById("enrollment").setCustomValidity(
+    if (!/^[0-9]{12}$/.test(enrollmentInput.value)) {
+      enrollmentInput.setCustomValidity(
         "Enrollment number must contain exactly 12 digits."
       );
-      document.getElementById("enrollment").reportValidity();
+      enrollmentInput.reportValidity();
       return;
     }
 
-    document.getElementById("enrollment").setCustomValidity("");
+    enrollmentInput.setCustomValidity("");
 
-    if (!/^[0-9]{10}$/.test(phone)) {
-      document.getElementById("phone").setCustomValidity(
+    if (!/^[0-9]{10}$/.test(phoneInput.value)) {
+      phoneInput.setCustomValidity(
         "Contact number must contain exactly 10 digits."
       );
-      document.getElementById("phone").reportValidity();
+      phoneInput.reportValidity();
       return;
     }
 
-    document.getElementById("phone").setCustomValidity("");
+    phoneInput.setCustomValidity("");
 
-    if (!/^[0-9]{12}$/.test(aadhaar)) {
-      document.getElementById("aadhaar").setCustomValidity(
+    if (!/^[0-9]{12}$/.test(aadhaarInput.value)) {
+      aadhaarInput.setCustomValidity(
         "Aadhaar number must contain exactly 12 digits."
       );
-      document.getElementById("aadhaar").reportValidity();
+      aadhaarInput.reportValidity();
       return;
     }
 
-    document.getElementById("aadhaar").setCustomValidity("");
+    aadhaarInput.setCustomValidity("");
 
     message.className = "alert alert-info mt-3";
     message.textContent =
       "Form validation successful. Registration is not saved yet. " +
       "A secure backend is required to submit details to the Admin Dashboard.";
-
-    // Do not save sensitive personal details in browser storage or console.
   });
 </script>
 
