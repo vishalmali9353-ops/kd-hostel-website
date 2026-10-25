@@ -10,44 +10,91 @@
   <link rel="stylesheet" href="../css/style.css">
 
   <style>
-    body { background: #f4f7fc; }
-    .auth-section { padding: 45px 0; }
+    body {
+      background: #f4f7fc;
+    }
+
+    .auth-section {
+      padding: 35px 0;
+    }
+
     .auth-card {
-      max-width: 650px;
+      max-width: 850px;
       margin: auto;
-      padding: 32px;
+      padding: 30px;
       background: white;
       border-radius: 20px;
       box-shadow: 0 10px 35px rgba(16, 38, 75, .10);
     }
-    .auth-logo { width: 68px; height: 68px; object-fit: contain; }
+
+    .auth-logo {
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+    }
+
     .auth-icon {
-      width: 58px;
-      height: 58px;
+      width: 55px;
+      height: 55px;
       display: grid;
       place-items: center;
       margin: 0 auto 14px;
       background: #eef3ff;
       color: #2155cd;
       border-radius: 17px;
-      font-size: 26px;
+      font-size: 25px;
     }
+
     .auth-card .form-control,
-    .auth-card .form-select { padding: 12px; }
+    .auth-card .form-select {
+      padding: 11px 12px;
+    }
+
     .auth-card .btn-primary {
       background: #2155cd;
       border-color: #2155cd;
     }
+
+    .section-heading {
+      color: #10264b;
+      font-size: 17px;
+      font-weight: 700;
+      padding-bottom: 9px;
+      margin: 12px 0 18px;
+      border-bottom: 2px solid #edf1f8;
+    }
+
+    .form-label {
+      font-size: 14px;
+    }
+
+    .required-mark {
+      color: #dc3545;
+    }
+
+    @media (max-width: 576px) {
+      .auth-section {
+        padding: 20px 0;
+      }
+
+      .auth-card {
+        padding: 20px 16px;
+        border-radius: 14px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-      <img src="../images/kd-hostel-logo.png" alt="K.D. Hostel logo" width="45" height="45">
+      <img src="../images/kd-hostel-logo.png"
+           alt="K.D. Hostel logo" width="45" height="45">
       <span class="brand-text">K.D. Hostel</span>
     </a>
+
     <a href="index.html" class="btn btn-outline-primary btn-sm">
       <i class="bi bi-house me-1"></i>Home
     </a>
@@ -57,72 +104,232 @@
 <main class="auth-section">
   <div class="container">
     <div class="auth-card">
+
       <div class="text-center mb-4">
-        <img src="../images/kd-hostel-logo.png" alt="K.D. Hostel" class="auth-logo mb-3">
-        <div class="auth-icon"><i class="bi bi-person-plus"></i></div>
+        <img src="../images/kd-hostel-logo.png"
+             alt="K.D. Hostel" class="auth-logo mb-3">
+
+        <div class="auth-icon">
+          <i class="bi bi-person-vcard"></i>
+        </div>
+
         <h1 class="h3 fw-bold">Student Registration</h1>
-        <p class="text-secondary">Fill in the form to begin your registration</p>
+        <p class="text-secondary">
+          Enter your personal, academic and contact details.
+        </p>
       </div>
 
       <div class="alert alert-warning small" role="status">
         <i class="bi bi-info-circle me-1"></i>
-        Demo form only: your details will not be saved or sent. Do not enter real personal information until secure registration is available.
+        Frontend demo only. Do not enter real Aadhaar or other sensitive
+        personal details until secure backend storage is implemented.
       </div>
 
       <form id="registerForm">
+
+        <!-- PERSONAL DETAILS -->
+        <h2 class="section-heading">
+          <i class="bi bi-person me-2"></i>Personal Details
+        </h2>
+
         <div class="row g-3">
+
           <div class="col-md-6">
-            <label for="fullName" class="form-label fw-semibold">Full Name</label>
+            <label for="fullName" class="form-label fw-semibold">
+              Full Name <span class="required-mark">*</span>
+            </label>
             <input type="text" class="form-control" id="fullName"
-              autocomplete="name" maxlength="100" placeholder="Enter full name" required>
+                   maxlength="100" autocomplete="name"
+                   placeholder="Enter full name" required>
           </div>
 
           <div class="col-md-6">
-            <label for="email" class="form-label fw-semibold">Email Address</label>
-            <input type="email" class="form-control" id="email"
-              autocomplete="email" maxlength="150" placeholder="Enter email" required>
+            <label for="dob" class="form-label fw-semibold">
+              Date of Birth <span class="required-mark">*</span>
+            </label>
+            <input type="date" class="form-control" id="dob" required>
+            <div class="form-text">Minimum age: 14 years.</div>
           </div>
 
           <div class="col-md-6">
-            <label for="phone" class="form-label fw-semibold">Phone Number</label>
-            <input type="tel" class="form-control" id="phone"
-              autocomplete="tel" inputmode="numeric" pattern="[0-9]{10}"
-              maxlength="10" placeholder="10-digit mobile number" required>
-            <div class="form-text">Enter a 10-digit number.</div>
+            <label for="age" class="form-label fw-semibold">Age</label>
+            <input type="number" class="form-control" id="age"
+                   placeholder="Calculated automatically" readonly>
           </div>
 
           <div class="col-md-6">
-            <label for="studentId" class="form-label fw-semibold">Student ID (optional)</label>
-            <input type="text" class="form-control" id="studentId"
-              maxlength="50" placeholder="Enter student ID if applicable">
-          </div>
-
-          <div class="col-12">
-            <label for="hostelType" class="form-label fw-semibold">Hostel Preference</label>
-            <select class="form-select" id="hostelType" required>
-              <option value="">Select hostel preference</option>
-              <option value="boys">Boys Hostel</option>
-              <option value="girls">Girls Hostel</option>
+            <label for="gender" class="form-label fw-semibold">
+              Gender <span class="required-mark">*</span>
+            </label>
+            <select class="form-select" id="gender" required>
+              <option value="">Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
             </select>
           </div>
 
           <div class="col-md-6">
-            <label for="password" class="form-label fw-semibold">Create Password</label>
-            <input type="password" class="form-control" id="password"
-              autocomplete="new-password" minlength="8"
-              placeholder="At least 8 characters" required>
+            <label for="bloodGroup" class="form-label fw-semibold">
+              Blood Group <span class="required-mark">*</span>
+            </label>
+            <select class="form-select" id="bloodGroup" required>
+              <option value="">Select blood group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="Unknown">Unknown</option>
+            </select>
           </div>
 
           <div class="col-md-6">
-            <label for="confirmPassword" class="form-label fw-semibold">Confirm Password</label>
-            <input type="password" class="form-control" id="confirmPassword"
-              autocomplete="new-password" minlength="8"
-              placeholder="Re-enter password" required>
+            <label for="nationality" class="form-label fw-semibold">
+              Nationality <span class="required-mark">*</span>
+            </label>
+            <input type="text" class="form-control" id="nationality"
+                   value="Indian" maxlength="60" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="category" class="form-label fw-semibold">
+              Category <span class="required-mark">*</span>
+            </label>
+            <select class="form-select" id="category" required>
+              <option value="">Select category</option>
+              <option value="GEN">GEN</option>
+              <option value="OBC">OBC</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="aadhaar" class="form-label fw-semibold">
+              Aadhaar Number <span class="required-mark">*</span>
+            </label>
+            <input type="password" class="form-control" id="aadhaar"
+                   inputmode="numeric" autocomplete="off"
+                   maxlength="12" minlength="12"
+                   pattern="[0-9]{12}"
+                   placeholder="Enter 12-digit Aadhaar number" required>
+            <div class="form-text">
+              12 digits. It will not be stored by this demo.
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ACADEMIC DETAILS -->
+        <h2 class="section-heading mt-4">
+          <i class="bi bi-mortarboard me-2"></i>Academic Details
+        </h2>
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label for="enrollment" class="form-label fw-semibold">
+              Student Enrollment Number <span class="required-mark">*</span>
+            </label>
+            <input type="text" class="form-control" id="enrollment"
+                   inputmode="numeric" maxlength="12" minlength="12"
+                   pattern="[0-9]{12}" autocomplete="off"
+                   placeholder="12-digit enrollment number" required>
+            <div class="form-text">Enter exactly 12 digits.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label for="branch" class="form-label fw-semibold">
+              Branch of Study <span class="required-mark">*</span>
+            </label>
+            <input type="text" class="form-control" id="branch"
+                   maxlength="100" placeholder="Enter your branch" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="semester" class="form-label fw-semibold">
+              Year / Semester <span class="required-mark">*</span>
+            </label>
+            <select class="form-select" id="semester" required>
+              <option value="">Select year / semester</option>
+              <option value="1st Year - 1st Semester">1st Year - 1st Semester</option>
+              <option value="1st Year - 2nd Semester">1st Year - 2nd Semester</option>
+              <option value="2nd Year - 3rd Semester">2nd Year - 3rd Semester</option>
+              <option value="2nd Year - 4th Semester">2nd Year - 4th Semester</option>
+              <option value="3rd Year - 5th Semester">3rd Year - 5th Semester</option>
+              <option value="3rd Year - 6th Semester">3rd Year - 6th Semester</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- CONTACT DETAILS -->
+        <h2 class="section-heading mt-4">
+          <i class="bi bi-telephone me-2"></i>Contact Details
+        </h2>
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label for="phone" class="form-label fw-semibold">
+              Contact Number <span class="required-mark">*</span>
+            </label>
+            <input type="tel" class="form-control" id="phone"
+                   inputmode="numeric" autocomplete="tel"
+                   maxlength="10" minlength="10"
+                   pattern="[0-9]{10}"
+                   placeholder="10-digit mobile number" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="email" class="form-label fw-semibold">
+              Email ID <span class="required-mark">*</span>
+            </label>
+            <input type="email" class="form-control" id="email"
+                   maxlength="150" autocomplete="email"
+                   placeholder="Enter email address" required>
+          </div>
+
+          <div class="col-12">
+            <label for="permanentAddress" class="form-label fw-semibold">
+              Permanent Address <span class="required-mark">*</span>
+            </label>
+            <textarea class="form-control" id="permanentAddress"
+                      rows="3" maxlength="500"
+                      autocomplete="street-address"
+                      placeholder="Enter permanent address" required></textarea>
+          </div>
+
+          <div class="col-12">
+            <label for="residentialAddress" class="form-label fw-semibold">
+              Current Residential Address <span class="required-mark">*</span>
+            </label>
+            <textarea class="form-control" id="residentialAddress"
+                      rows="3" maxlength="500"
+                      placeholder="Enter current residential address"
+                      required></textarea>
           </div>
 
           <div class="col-12">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="terms" required>
+              <input class="form-check-input" type="checkbox"
+                     id="sameAddress">
+              <label class="form-check-label" for="sameAddress">
+                Current address is the same as permanent address
+              </label>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                     id="terms" required>
               <label class="form-check-label" for="terms">
                 I confirm that the information entered is accurate.
               </label>
@@ -130,56 +337,192 @@
           </div>
 
           <div class="col-12">
-            <button type="submit" class="btn btn-primary w-100 py-3 fw-semibold">
-              <i class="bi bi-person-check me-2"></i>Register
+            <button type="submit"
+                    class="btn btn-primary w-100 py-3 fw-semibold">
+              <i class="bi bi-person-check me-2"></i>Register Student
             </button>
           </div>
+
         </div>
       </form>
 
-      <div id="registerMessage" class="alert alert-info mt-3 d-none" role="status"></div>
+      <div id="registerMessage"
+           class="alert mt-3 d-none"
+           role="status" aria-live="polite"></div>
 
       <p class="text-center mt-4 mb-0">
-        Already registered? <a href="login.html" class="fw-semibold">Login here</a>
-      </p>
-      <p class="text-center mt-3 mb-0">
         <a href="contact.html">Questions? Contact the hostel</a>
       </p>
+
     </div>
   </div>
 </main>
 
 <footer class="footer">
   <div class="container text-center py-3">
-    <p class="mb-0">&copy; <span id="currentYear"></span> K.D. Hostel, Patan.</p>
+    <p class="mb-0">
+      &copy; <span id="currentYear"></span> K.D. Hostel, Patan.
+    </p>
   </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../javascript/script.js"></script>
+
 <script>
-  document.getElementById("registerForm").addEventListener("submit", function (event) {
+  const form = document.getElementById("registerForm");
+  const dobInput = document.getElementById("dob");
+  const ageInput = document.getElementById("age");
+  const message = document.getElementById("registerMessage");
+
+  document.getElementById("currentYear").textContent =
+    new Date().getFullYear();
+
+  // Prevent future dates and calculate age.
+  function calculateAge(dateValue) {
+    if (!dateValue) return "";
+
+    const birthDate = new Date(dateValue + "T00:00:00");
+    const today = new Date();
+
+    if (Number.isNaN(birthDate.getTime()) || birthDate > today) {
+      return "";
+    }
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+
+    const birthdayNotReached =
+      today.getMonth() < birthDate.getMonth() ||
+      (today.getMonth() === birthDate.getMonth() &&
+       today.getDate() < birthDate.getDate());
+
+    if (birthdayNotReached) age--;
+
+    return age;
+  }
+
+  function getMaxBirthDate() {
+    const today = new Date();
+    const cutoff = new Date(
+      today.getFullYear() - 14,
+      today.getMonth(),
+      today.getDate()
+    );
+
+    if (cutoff.getMonth() !== today.getMonth()) {
+      cutoff.setDate(0);
+    }
+
+    const year = cutoff.getFullYear();
+    const month = String(cutoff.getMonth() + 1).padStart(2, "0");
+    const day = String(cutoff.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  dobInput.max = getMaxBirthDate();
+
+  dobInput.addEventListener("change", function () {
+    const age = calculateAge(this.value);
+    ageInput.value = age === "" ? "" : age;
+
+    if (age !== "" && age < 14) {
+      this.setCustomValidity("Student must be at least 14 years old.");
+    } else if (age === "") {
+      this.setCustomValidity("Please enter a valid date of birth.");
+    } else {
+      this.setCustomValidity("");
+    }
+
+    this.reportValidity();
+  });
+
+  // Accept only digits in number-limited fields.
+  function restrictDigits(id, maxLength) {
+    const input = document.getElementById(id);
+
+    input.addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, "").slice(0, maxLength);
+    });
+  }
+
+  restrictDigits("enrollment", 12);
+  restrictDigits("phone", 10);
+  restrictDigits("aadhaar", 12);
+
+  // Copy permanent address when checkbox is selected.
+  const sameAddress = document.getElementById("sameAddress");
+  const permanentAddress = document.getElementById("permanentAddress");
+  const residentialAddress = document.getElementById("residentialAddress");
+
+  sameAddress.addEventListener("change", function () {
+    if (this.checked) {
+      residentialAddress.value = permanentAddress.value;
+    }
+  });
+
+  permanentAddress.addEventListener("input", function () {
+    if (sameAddress.checked) {
+      residentialAddress.value = this.value;
+    }
+  });
+
+  form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword");
-    const message = document.getElementById("registerMessage");
+    const age = calculateAge(dobInput.value);
+    const enrollment = document.getElementById("enrollment").value;
+    const phone = document.getElementById("phone").value;
+    const aadhaar = document.getElementById("aadhaar").value;
 
-    if (password !== confirmPassword.value) {
-      confirmPassword.setCustomValidity("Passwords do not match.");
-      confirmPassword.reportValidity();
+    if (age === "" || age < 14) {
+      dobInput.setCustomValidity(
+        "Student must be at least 14 years old."
+      );
+      dobInput.reportValidity();
       return;
     }
 
-    confirmPassword.setCustomValidity("");
+    dobInput.setCustomValidity("");
 
-    message.textContent = "The form looks valid, but registration is not active yet. A secure backend is needed to create and save an account.";
-    message.classList.remove("d-none");
-  });
+    if (!/^[0-9]{12}$/.test(enrollment)) {
+      document.getElementById("enrollment").setCustomValidity(
+        "Enrollment number must contain exactly 12 digits."
+      );
+      document.getElementById("enrollment").reportValidity();
+      return;
+    }
 
-  document.getElementById("confirmPassword").addEventListener("input", function () {
-    this.setCustomValidity("");
+    document.getElementById("enrollment").setCustomValidity("");
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+      document.getElementById("phone").setCustomValidity(
+        "Contact number must contain exactly 10 digits."
+      );
+      document.getElementById("phone").reportValidity();
+      return;
+    }
+
+    document.getElementById("phone").setCustomValidity("");
+
+    if (!/^[0-9]{12}$/.test(aadhaar)) {
+      document.getElementById("aadhaar").setCustomValidity(
+        "Aadhaar number must contain exactly 12 digits."
+      );
+      document.getElementById("aadhaar").reportValidity();
+      return;
+    }
+
+    document.getElementById("aadhaar").setCustomValidity("");
+
+    message.className = "alert alert-info mt-3";
+    message.textContent =
+      "Form validation successful. Registration is not saved yet. " +
+      "A secure backend is required to submit details to the Admin Dashboard.";
+
+    // Do not save sensitive personal details in browser storage or console.
   });
 </script>
+
 </body>
 </html>
