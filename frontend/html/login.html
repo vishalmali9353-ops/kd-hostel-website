@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | K.D. Hostel</title>
+  <title>Student Status Portal | K.D. Hostel</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -16,13 +16,11 @@
 
     .auth-section {
       min-height: 78vh;
-      display: flex;
-      align-items: center;
       padding: 35px 0;
     }
 
     .auth-card {
-      max-width: 480px;
+      max-width: 850px;
       width: 100%;
       margin: auto;
       padding: 30px;
@@ -58,32 +56,57 @@
       border-color: #2155cd;
     }
 
-    .student-info {
-      background: #f7f9ff;
-      border: 1px solid #dce5ff;
-      border-radius: 14px;
-      padding: 20px;
+    .profile-header {
+      background: #2155cd;
+      color: white;
+      padding: 25px;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 22px;
     }
 
-    .info-row {
-      padding: 10px 0;
-      border-bottom: 1px solid #e5eaf5;
+    .profile-avatar {
+      width: 76px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 12px;
+      background: white;
+      color: #2155cd;
+      border-radius: 50%;
+      font-size: 36px;
+    }
+
+    .section-heading {
+      font-size: 17px;
+      font-weight: 700;
+      color: #10264b;
+      border-bottom: 2px solid #edf1f8;
+      padding-bottom: 10px;
+      margin: 24px 0 12px;
+    }
+
+    .profile-item {
+      padding: 13px;
+      background: #f8faff;
+      border: 1px solid #e5eaf5;
+      border-radius: 10px;
+      height: 100%;
       overflow-wrap: anywhere;
     }
 
-    .info-row:last-child {
-      border-bottom: none;
-    }
-
-    .info-label {
-      color: #667085;
-      font-size: 13px;
+    .profile-label {
       display: block;
+      font-size: 12px;
+      color: #667085;
+      margin-bottom: 5px;
     }
 
-    .info-value {
-      color: #10264b;
+    .profile-value {
       font-weight: 600;
+      color: #10264b;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
     .contact-link {
@@ -97,7 +120,7 @@
 
     @media (max-width: 576px) {
       .auth-card {
-        padding: 22px 18px;
+        padding: 20px 15px;
       }
     }
   </style>
@@ -127,132 +150,256 @@
 
     <div class="auth-card">
 
-      <div class="text-center mb-4">
-        <img src="../images/kd-hostel-logo.png"
-             alt="K.D. Hostel"
-             class="auth-logo mb-3">
+      <!-- LOGIN FORM -->
+      <div id="loginPanel">
 
-        <div class="auth-icon">
-          <i class="bi bi-person-lock"></i>
+        <div class="text-center mb-4">
+          <img src="../images/kd-hostel-logo.png"
+               alt="K.D. Hostel"
+               class="auth-logo mb-3">
+
+          <div class="auth-icon">
+            <i class="bi bi-person-lock"></i>
+          </div>
+
+          <h1 class="h3 fw-bold">Student Status Portal</h1>
+
+          <p class="text-secondary">
+            Login using your Enrollment Number or Admin ID.
+          </p>
         </div>
 
-        <h1 class="h3 fw-bold">K.D. Hostel Login</h1>
-
-        <p class="text-secondary">
-          Login using your Enrollment Number or Admin ID.
-        </p>
-      </div>
-
-      <div class="alert alert-warning small" role="status">
-        <i class="bi bi-info-circle me-1"></i>
-        Demo login only. Do not use this frontend-only version
-        to protect real student information.
-      </div>
-
-      <form id="loginForm">
-
-        <div class="mb-3">
-          <label for="loginId" class="form-label fw-semibold">
-            Enrollment Number / Admin ID
-          </label>
-
-          <input type="text"
-                 class="form-control"
-                 id="loginId"
-                 placeholder="Enter enrollment number or Admin ID"
-                 autocomplete="username"
-                 required>
+        <div class="alert alert-warning small">
+          <i class="bi bi-info-circle me-1"></i>
+          Demo portal: profile details are sample data, not verified
+          student records. Do not enter real sensitive information.
         </div>
 
-        <div class="mb-3">
-          <label for="password" class="form-label fw-semibold">
-            Password
-          </label>
+        <form id="loginForm">
 
-          <div class="input-group">
-            <input type="password"
+          <div class="mb-3">
+            <label for="loginId" class="form-label fw-semibold">
+              Enrollment Number / Admin ID
+            </label>
+
+            <input type="text"
                    class="form-control"
-                   id="password"
-                   placeholder="Enter password"
-                   autocomplete="current-password"
+                   id="loginId"
+                   placeholder="Enter enrollment number or Admin ID"
+                   autocomplete="username"
                    required>
-
-            <button class="btn btn-outline-secondary"
-                    type="button"
-                    id="togglePassword"
-                    aria-label="Show password">
-              <i class="bi bi-eye"></i>
-            </button>
           </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label fw-semibold">
+              Password
+            </label>
+
+            <div class="input-group">
+              <input type="password"
+                     class="form-control"
+                     id="password"
+                     placeholder="Enter password"
+                     autocomplete="current-password"
+                     required>
+
+              <button class="btn btn-outline-secondary"
+                      type="button"
+                      id="togglePassword"
+                      aria-label="Show password">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit"
+                  class="btn btn-primary w-100 py-3 fw-semibold">
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+            Login
+          </button>
+        </form>
+
+        <div id="loginMessage"
+             class="alert mt-3 d-none"
+             role="status"
+             aria-live="polite"></div>
+
+        <p class="text-center mt-4 mb-0">
+          Need help?
+          <a href="contact.html" class="fw-semibold contact-link">
+            <i class="bi bi-headset me-1"></i>Contact the hostel
+          </a>
+        </p>
+
+      </div>
+
+      <!-- STUDENT PROFILE -->
+      <section id="studentDashboard" class="d-none">
+
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <i class="bi bi-person"></i>
+          </div>
+
+          <h2 class="h4 fw-bold mb-1" id="profileName"></h2>
+          <p class="mb-1">Student Status Portal</p>
+          <span class="badge text-bg-light" id="profileSemesterBadge">
+            5th Semester
+          </span>
         </div>
 
-        <button type="submit"
-                class="btn btn-primary w-100 py-3 fw-semibold">
-          <i class="bi bi-box-arrow-in-right me-2"></i>
-          Login
-        </button>
-
-      </form>
-
-      <div id="loginMessage"
-           class="alert mt-3 d-none"
-           role="status"
-           aria-live="polite"></div>
-
-      <!-- Student Information -->
-      <section id="studentDashboard" class="d-none mt-4">
-
-        <div class="text-center mb-3">
-          <i class="bi bi-person-circle text-primary"
-             style="font-size: 48px;"></i>
-
-          <h2 class="h4 fw-bold mt-2">Student Information</h2>
-          <p class="text-secondary mb-0">Login successful</p>
+        <div class="alert alert-info small">
+          <i class="bi bi-info-circle me-1"></i>
+          Demo profile: details other than the supplied name and
+          enrollment number are randomly generated sample values.
+          They are not verified personal records.
         </div>
 
-        <div class="student-info">
+        <h3 class="section-heading">
+          <i class="bi bi-person-vcard me-2"></i>Personal Details
+        </h3>
 
-          <div class="info-row">
-            <span class="info-label">Student Name</span>
-            <span class="info-value" id="studentName"></span>
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Full Name</span>
+              <span class="profile-value" id="pName"></span>
+            </div>
           </div>
 
-          <div class="info-row">
-            <span class="info-label">Enrollment Number</span>
-            <span class="info-value" id="studentEnrollment"></span>
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Date of Birth</span>
+              <span class="profile-value" id="pDob"></span>
+            </div>
           </div>
 
-          <div class="info-row">
-            <span class="info-label">Semester</span>
-            <span class="info-value">5th Semester</span>
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Age</span>
+              <span class="profile-value" id="pAge"></span>
+            </div>
           </div>
 
-          <div class="info-row">
-            <span class="info-label">Branch</span>
-            <span class="info-value" id="studentBranch"></span>
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Gender</span>
+              <span class="profile-value" id="pGender"></span>
+            </div>
           </div>
 
-          <div class="info-row">
-            <span class="info-label">Tutorial Batch</span>
-            <span class="info-value">Not provided</span>
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Blood Group</span>
+              <span class="profile-value" id="pBlood"></span>
+            </div>
           </div>
 
-          <div class="info-row">
-            <span class="info-label">Account Type</span>
-            <span class="info-value">Student</span>
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Nationality</span>
+              <span class="profile-value">Indian</span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Category</span>
+              <span class="profile-value" id="pCategory"></span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Aadhaar Number</span>
+              <span class="profile-value">Not provided</span>
+            </div>
+          </div>
+
+        </div>
+
+        <h3 class="section-heading">
+          <i class="bi bi-mortarboard me-2"></i>Academic Details
+        </h3>
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Enrollment Number</span>
+              <span class="profile-value" id="pEnrollment"></span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Branch of Study</span>
+              <span class="profile-value" id="pBranch"></span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Semester</span>
+              <span class="profile-value">5th Semester</span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Tutorial Batch</span>
+              <span class="profile-value">Not provided</span>
+            </div>
+          </div>
+
+        </div>
+
+        <h3 class="section-heading">
+          <i class="bi bi-telephone me-2"></i>Contact Details
+        </h3>
+
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Contact Number</span>
+              <span class="profile-value">Not provided</span>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="profile-item">
+              <span class="profile-label">Email ID</span>
+              <span class="profile-value" id="pEmail"></span>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="profile-item">
+              <span class="profile-label">Permanent Address</span>
+              <span class="profile-value" id="pPermanentAddress"></span>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="profile-item">
+              <span class="profile-label">Current Residential Address</span>
+              <span class="profile-value" id="pCurrentAddress"></span>
+            </div>
           </div>
 
         </div>
 
         <button type="button"
                 id="studentLogout"
-                class="btn btn-outline-primary w-100 mt-3">
+                class="btn btn-outline-primary w-100 mt-4">
           <i class="bi bi-box-arrow-right me-2"></i>Logout
         </button>
 
       </section>
 
-      <!-- Admin Information -->
+      <!-- ADMIN MESSAGE -->
       <section id="adminDashboard" class="d-none mt-4">
         <div class="text-center p-4 rounded-3 bg-light">
           <i class="bi bi-shield-check text-success"
@@ -265,8 +412,8 @@
           </p>
 
           <p class="mb-0">
-            The Admin Dashboard and student database
-            must be connected separately.
+            A real Admin Dashboard requires a secure backend
+            and database connection.
           </p>
         </div>
 
@@ -276,14 +423,6 @@
           <i class="bi bi-box-arrow-right me-2"></i>Logout
         </button>
       </section>
-
-      <!-- Updated: Contact link instead of Register link -->
-      <p class="text-center mt-4 mb-0">
-        Need help?
-        <a href="contact.html" class="fw-semibold contact-link">
-          <i class="bi bi-headset me-1"></i>Contact the hostel
-        </a>
-      </p>
 
     </div>
   </div>
@@ -304,6 +443,7 @@
   document.getElementById("currentYear").textContent =
     new Date().getFullYear();
 
+  // Student roster supplied by you.
   const students = {
     "226310307007": "BHATT DHAIRYA MUKESHKUMAR",
     "236310307057": "MAYUR PRAKASHBHAI PRAJAPATI",
@@ -339,7 +479,6 @@
     "246310307049": "JOSHI TARUN JAYANTIBHAI"
   };
 
-  // Random demo branches. These may change after page reload.
   const branches = [
     "Computer Engineering",
     "Mechanical Engineering",
@@ -347,22 +486,89 @@
     "Electrical Engineering"
   ];
 
-  const studentBranches = {};
+  const bloodGroups = [
+    "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"
+  ];
 
-  Object.keys(students).forEach(function(enrollment) {
-    studentBranches[enrollment] =
-      branches[Math.floor(Math.random() * branches.length)];
+  const genders = ["Male", "Female"];
+  const categories = ["GEN", "OBC", "SC", "ST"];
+
+  // Clearly fictional/demo profile values.
+  // These are not real student contact or identity records.
+  const demoCities = [
+    "Patan", "Ahmedabad", "Mehsana", "Gandhinagar",
+    "Vadodara", "Rajkot", "Surat", "Anand"
+  ];
+
+  const demoAreas = [
+    "Sample Nagar", "Demo Park", "Model Society",
+    "Example Colony", "Sample Road", "Demo Residency"
+  ];
+
+  // Generate a profile once per student during this page load.
+  // Refreshing the page may assign different demo details.
+  const profiles = {};
+
+  function randomItem(items) {
+    return items[Math.floor(Math.random() * items.length)];
+  }
+
+  function randomAge() {
+    return Math.floor(Math.random() * 9) + 18;
+  }
+
+  function dobFromAge(age) {
+    const today = new Date();
+    const year = today.getFullYear() - age;
+    const month = Math.floor(Math.random() * 12);
+    const day = Math.floor(Math.random() * 28) + 1;
+    const date = new Date(year, month, day);
+
+    return date.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+  }
+
+  Object.keys(students).forEach(function(enrollment, index) {
+    const age = randomAge();
+    const city = randomItem(demoCities);
+    const area = randomItem(demoAreas);
+    const houseNumber = Math.floor(Math.random() * 90) + 10;
+
+    profiles[enrollment] = {
+      branch: randomItem(branches),
+      age: age,
+      dob: dobFromAge(age),
+      gender: randomItem(genders),
+      bloodGroup: randomItem(bloodGroups),
+      category: randomItem(categories),
+
+      // Reserved example domain; not a real contact address.
+      email: "student" + String(index + 1).padStart(3, "0") +
+             "@example.com",
+
+      permanentAddress:
+        houseNumber + ", " + area + ", " + city +
+        ", Gujarat, India (demo address)",
+
+      currentAddress:
+        "Room " + (index + 1) +
+        ", K.D. Hostel, Patan, Gujarat (demo address)"
+    };
   });
 
-  // Demo credentials only. Do not use for real authentication.
+  // Demo credentials only.
   const STUDENT_PASSWORD = "1234";
   const ADMIN_IDS = ["YRP", "MRT", "MCT"];
   const ADMIN_PASSWORD = "271";
 
   const loginForm = document.getElementById("loginForm");
+  const loginPanel = document.getElementById("loginPanel");
   const loginIdField = document.getElementById("loginId");
   const passwordField = document.getElementById("password");
-  const message = document.getElementById("loginMessage");
+  const loginMessage = document.getElementById("loginMessage");
 
   const studentDashboard =
     document.getElementById("studentDashboard");
@@ -370,22 +576,79 @@
   const adminDashboard =
     document.getElementById("adminDashboard");
 
+  function showMessage(text, type) {
+    loginMessage.className = "alert alert-" + type + " mt-3";
+    loginMessage.textContent = text;
+  }
+
   function hideDashboards() {
     studentDashboard.classList.add("d-none");
     adminDashboard.classList.add("d-none");
   }
 
-  function showMessage(text, type = "danger") {
-    message.className = "alert alert-" + type + " mt-3";
-    message.textContent = text;
+  function showStudentProfile(enrollment) {
+    const profile = profiles[enrollment];
+    const name = students[enrollment];
+
+    document.getElementById("profileName").textContent = name;
+    document.getElementById("pName").textContent = name;
+    document.getElementById("pEnrollment").textContent = enrollment;
+    document.getElementById("pDob").textContent = profile.dob;
+    document.getElementById("pAge").textContent =
+      profile.age + " years (demo)";
+    document.getElementById("pGender").textContent = profile.gender;
+    document.getElementById("pBlood").textContent = profile.bloodGroup;
+    document.getElementById("pCategory").textContent = profile.category;
+    document.getElementById("pBranch").textContent = profile.branch;
+    document.getElementById("pEmail").textContent = profile.email;
+
+    document.getElementById("pPermanentAddress").textContent =
+      profile.permanentAddress;
+
+    document.getElementById("pCurrentAddress").textContent =
+      profile.currentAddress;
+
+    loginPanel.classList.add("d-none");
+    studentDashboard.classList.remove("d-none");
   }
 
-  function logout() {
-    loginForm.reset();
+  loginForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
     hideDashboards();
-    message.className = "alert mt-3 d-none";
-    loginIdField.focus();
-  }
+
+    const rawId = loginIdField.value.trim();
+    const adminId = rawId.toUpperCase();
+    const password = passwordField.value;
+
+    loginMessage.className = "alert mt-3 d-none";
+
+    // Admin login
+    if (ADMIN_IDS.includes(adminId)) {
+      if (password === ADMIN_PASSWORD) {
+        loginPanel.classList.add("d-none");
+        adminDashboard.classList.remove("d-none");
+      } else {
+        showMessage("Incorrect Admin ID or password.", "danger");
+      }
+      return;
+    }
+
+    // Student login
+    const enrollment = rawId;
+
+    if (!Object.prototype.hasOwnProperty.call(students, enrollment)) {
+      showMessage("Enrollment number not found.", "danger");
+      return;
+    }
+
+    if (password !== STUDENT_PASSWORD) {
+      showMessage("Incorrect student password.", "danger");
+      return;
+    }
+
+    showStudentProfile(enrollment);
+  });
 
   document.getElementById("togglePassword")
     .addEventListener("click", function() {
@@ -403,56 +666,15 @@
       );
     });
 
-  loginForm.addEventListener("submit", function(event) {
-    event.preventDefault();
-
+  function logout() {
+    loginForm.reset();
     hideDashboards();
-    message.className = "alert mt-3 d-none";
-
-    const rawId = loginIdField.value.trim();
-    const normalizedId = rawId.toUpperCase();
-    const password = passwordField.value;
-
-    // Admin login
-    if (ADMIN_IDS.includes(normalizedId)) {
-      if (password === ADMIN_PASSWORD) {
-        showMessage("Admin login successful.", "success");
-        adminDashboard.classList.remove("d-none");
-      } else {
-        showMessage("Incorrect Admin ID or password.");
-      }
-      return;
-    }
-
-    // Student login
-    const enrollment = rawId;
-
-    if (!Object.prototype.hasOwnProperty.call(students, enrollment)) {
-      showMessage("Enrollment number not found in the student list.");
-      return;
-    }
-
-    if (password !== STUDENT_PASSWORD) {
-      showMessage("Incorrect student password.");
-      return;
-    }
-
-    document.getElementById("studentName").textContent =
-      students[enrollment];
-
-    document.getElementById("studentEnrollment").textContent =
-      enrollment;
-
-    document.getElementById("studentBranch").textContent =
-      studentBranches[enrollment];
-
-    showMessage(
-      "Welcome, " + students[enrollment] + "!",
-      "success"
-    );
-
-    studentDashboard.classList.remove("d-none");
-  });
+    studentDashboard.classList.add("d-none");
+    adminDashboard.classList.add("d-none");
+    loginPanel.classList.remove("d-none");
+    loginMessage.className = "alert mt-3 d-none";
+    loginIdField.focus();
+  }
 
   document.getElementById("studentLogout")
     .addEventListener("click", logout);
