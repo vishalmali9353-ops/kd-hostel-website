@@ -1,282 +1,53 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin Dashboard | K.D. Hostel</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/style.css">
-
-  <style>
-    body { background: #f4f7fc; }
-    .admin-layout { min-height: 100vh; }
-    .admin-sidebar {
-      background: #10264b;
-      color: white;
-      min-height: calc(100vh - 68px);
-      padding: 24px 15px;
-    }
-    .admin-sidebar a {
-      display: block;
-      padding: 12px 14px;
-      margin: 5px 0;
-      color: #dce5f5;
-      border-radius: 9px;
-      text-decoration: none;
-    }
-    .admin-sidebar a:hover, .admin-sidebar a.active {
-      background: #263e65;
-      color: #f5b942;
-    }
-    .admin-topbar {
-      background: white;
-      border-bottom: 1px solid #e5eaf2;
-      padding: 14px 20px;
-    }
-    .admin-card {
-      background: white;
-      padding: 22px;
-      border-radius: 14px;
-      border: 1px solid #e6ebf3;
-      height: 100%;
-      box-shadow: 0 5px 20px rgba(16,38,75,.04);
-    }
-    .admin-icon {
-      width: 46px;
-      height: 46px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: #eaf0ff;
-      color: #2155cd;
-      font-size: 23px;
-    }
-    .admin-number {
-      font-size: 27px;
-      font-weight: 800;
-      color: #10264b;
-      margin-top: 15px;
-    }
-    .admin-muted { color: #718096; font-size: 13px; }
-    .admin-panel {
-      background: white;
-      border: 1px solid #e6ebf3;
-      border-radius: 14px;
-      padding: 20px;
-    }
-    .admin-panel h2 { color: #10264b; font-size: 19px; font-weight: 800; }
-    .admin-table th {
-      color: #53647e;
-      background: #f7f9fd;
-      font-size: 12px;
-      white-space: nowrap;
-    }
-    .admin-table td { font-size: 13px; vertical-align: middle; }
-    .admin-main { min-width: 0; }
-    .admin-logo {
-      width: 42px;
-      height: 42px;
-      object-fit: contain;
-      background: white;
-      border-radius: 50%;
-      padding: 3px;
-    }
-    @media(max-width:767px) {
-      .admin-sidebar { min-height: auto; padding: 10px; }
-      .admin-sidebar nav { display: flex; flex-wrap: wrap; gap: 4px; }
-      .admin-sidebar a { padding: 9px 10px; font-size: 12px; margin: 0; }
-      .admin-topbar { padding: 12px; }
-      .admin-panel { padding: 14px; }
-    }
-  </style>
-</head>
-
-<body>
-<nav class="navbar navbar-dark" style="background:#10264b">
-  <div class="container-fluid px-3 px-lg-4">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-      <img src="../images/kd-hostel-logo.png" class="admin-logo" alt="K.D. Hostel logo">
-      <span class="fw-bold">K.D. <span style="color:#f5b942">HOSTEL</span></span>
-    </a>
-    <a href="index.html" class="btn btn-outline-light btn-sm">
-      <i class="bi bi-house"></i> View Website
-    </a>
-  </div>
-</nav>
-
-<div class="container-fluid admin-layout">
-  <div class="row">
-    <aside class="col-md-3 col-xl-2 admin-sidebar">
-      <p class="text-uppercase small text-white-50 px-2 mb-3">Administration</p>
-      <nav>
-        <a class="active" href="#overview"><i class="bi bi-grid me-2"></i> Dashboard</a>
-        <a href="#students"><i class="bi bi-people me-2"></i> Students</a>
-        <a href="boys-hostel.html"><i class="bi bi-building me-2"></i> Boys Hostel</a>
-        <a href="girls-hostel.html"><i class="bi bi-house-heart me-2"></i> Girls Hostel</a>
-        <a href="facilities.html"><i class="bi bi-list-check me-2"></i> Facilities</a>
-        <a href="contact.html"><i class="bi bi-envelope me-2"></i> Enquiries</a>
-        <a href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Login Page</a>
-      </nav>
-      <p class="small text-white-50 px-2 mt-4">
-        Dashboard preview. Student data requires a connected backend.
-      </p>
-    </aside>
-
-    <main class="col-md-9 col-xl-10 admin-main p-0">
-      <div class="admin-topbar d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <div>
-          <h1 class="h5 fw-bold mb-1" style="color:#10264b">Admin Dashboard</h1>
-          <div class="admin-muted">K.D. Hostel Management System</div>
-        </div>
-        <span class="badge text-bg-warning">Frontend Preview</span>
-      </div>
-
-      <div class="p-3 p-lg-4">
-        <section id="overview">
-          <h2 class="h5 fw-bold mb-1" style="color:#10264b">Overview</h2>
-          <p class="admin-muted mb-4">Hostel management summary</p>
-
-          <div class="row g-3 mb-4">
-            <div class="col-6 col-xl-3">
-              <div class="admin-card">
-                <div class="admin-icon"><i class="bi bi-people"></i></div>
-                <div class="admin-number">—</div>
-                <div class="admin-muted">Total Students</div>
-              </div>
-            </div>
-            <div class="col-6 col-xl-3">
-              <div class="admin-card">
-                <div class="admin-icon"><i class="bi bi-building"></i></div>
-                <div class="admin-number">—</div>
-                <div class="admin-muted">Boys Hostel Students</div>
-              </div>
-            </div>
-            <div class="col-6 col-xl-3">
-              <div class="admin-card">
-                <div class="admin-icon"><i class="bi bi-house-heart"></i></div>
-                <div class="admin-number">—</div>
-                <div class="admin-muted">Girls Hostel Students</div>
-              </div>
-            </div>
-            <div class="col-6 col-xl-3">
-              <div class="admin-card">
-                <div class="admin-icon"><i class="bi bi-envelope"></i></div>
-                <div class="admin-number">—</div>
-                <div class="admin-muted">Pending Enquiries</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="students" class="admin-panel mb-4">
-          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-            <div>
-              <h2 class="mb-1">Student Management</h2>
-              <p class="admin-muted mb-0">Search records when the backend is connected.</p>
-            </div>
-            <button class="btn btn-primary btn-sm" id="refreshStudents" type="button">
-              <i class="bi bi-arrow-clockwise"></i> Refresh
-            </button>
-          </div>
-
-          <div class="row g-2 mb-3">
-            <div class="col-md-8">
-              <input type="search" id="studentSearch" class="form-control"
-                placeholder="Search student records..." aria-label="Search students">
-            </div>
-            <div class="col-md-4">
-              <select id="hostelFilter" class="form-select" aria-label="Filter by hostel">
-                <option value="">All hostels</option>
-                <option value="Boys">Boys Hostel</option>
-                <option value="Girls">Girls Hostel</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="alert alert-info small" role="status" id="dashboardMessage">
-            No live student data is connected. This page does not create or modify student records.
-          </div>
-
-          <div class="table-responsive">
-            <table class="table table-hover admin-table mb-0">
-              <thead>
-                <tr>
-                  <th>Enrollment No.</th>
-                  <th>Student Name</th>
-                  <th>Hostel</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="studentTableBody">
-                <tr>
-                  <td colspan="4" class="text-center text-secondary py-4">
-                    No student records loaded.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="admin-panel mb-4" id="quickLinks">
-          <h2 class="mb-3">Quick Links</h2>
-          <div class="row g-3">
-            <div class="col-sm-6 col-lg-4">
-              <a class="btn btn-outline-primary w-100 p-3" href="register.html">
-                <i class="bi bi-person-plus me-2"></i>Student Registration
-              </a>
-            </div>
-            <div class="col-sm-6 col-lg-4">
-              <a class="btn btn-outline-primary w-100 p-3" href="boys-hostel.html">
-                <i class="bi bi-building me-2"></i>Boys Hostel Details
-              </a>
-            </div>
-            <div class="col-sm-6 col-lg-4">
-              <a class="btn btn-outline-primary w-100 p-3" href="girls-hostel.html">
-                <i class="bi bi-house-heart me-2"></i>Girls Hostel Details
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <footer class="text-center admin-muted py-3">
-          &copy; <span id="currentYear"></span> K.D. Hostel Management System
-        </footer>
-      </div>
-    </main>
-  </div>
-</div>
-
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Dashboard | K.D. Hostel</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{background:#f4f7fc}.navy{background:#10264b;color:white}.sidebar{background:#10264b;min-height:100vh;padding:20px 12px}.sidebar a{display:block;color:#e1e8f5;text-decoration:none;padding:10px;border-radius:8px}.sidebar a:hover{background:#263e65;color:#f5b942}.panel,.stat{background:white;border:1px solid #e5eaf2;border-radius:13px;padding:18px}.num{font-size:26px;font-weight:800;color:#10264b}.muted{color:#718096;font-size:13px}th{font-size:12px;background:#f7f9fd}td{font-size:13px;vertical-align:middle}
+@media(max-width:767px){.sidebar{min-height:auto}.sidebar nav{display:flex;flex-wrap:wrap}.sidebar a{font-size:12px;padding:7px}}
+</style></head><body>
+<nav class="navbar navbar-dark navy px-3"><span class="navbar-brand fw-bold">K.D. HOSTEL · Admin</span><div><a href="index.html" class="btn btn-outline-light btn-sm">Website</a> <button id="logout" class="btn btn-warning btn-sm">Logout</button></div></nav>
+<div class="container-fluid"><div class="row"><aside class="col-md-3 col-xl-2 sidebar"><nav><a href="#overview">Dashboard</a><a href="#students">Students</a><a href="#applications">Applications</a><a href="#notices">Notices</a><a href="boys-hostel.html">Boys Hostel</a><a href="girls-hostel.html">Girls Hostel</a></nav></aside>
+<main class="col-md-9 col-xl-10 p-3 p-lg-4"><div id="msg" class="alert d-none"></div>
+<section id="overview"><h1 class="h4 fw-bold">Admin Dashboard</h1><p class="muted">Live hostel management summary</p><div class="row g-3 mb-4">
+<div class="col-6 col-xl-3"><div class="stat"><div class="num" id="total">—</div><div class="muted">Total Students</div></div></div>
+<div class="col-6 col-xl-3"><div class="stat"><div class="num" id="boys">—</div><div class="muted">Boys Hostel</div></div></div>
+<div class="col-6 col-xl-3"><div class="stat"><div class="num" id="girls">—</div><div class="muted">Girls Hostel</div></div></div>
+<div class="col-6 col-xl-3"><div class="stat"><div class="num" id="pending">—</div><div class="muted">Pending Applications</div></div></div></div></section>
+<section id="students" class="panel mb-4"><div class="d-flex justify-content-between gap-2 flex-wrap"><div><h2 class="h5">Student Management</h2><p class="muted">Edit student profile, room and fee status.</p></div><button id="refresh" class="btn btn-primary btn-sm">Refresh</button></div>
+<div class="row g-2 mb-3"><div class="col-md-8"><input id="search" class="form-control" placeholder="Search name, enrollment or email"></div><div class="col-md-4"><select id="filter" class="form-select"><option value="">All hostels</option><option>Boys</option><option>Girls</option></select></div></div>
+<div class="table-responsive"><table class="table table-hover"><thead><tr><th>Enrollment</th><th>Name</th><th>Hostel</th><th>Room</th><th>Fee</th><th>Account</th><th>Action</th></tr></thead><tbody id="studentRows"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></section>
+<section id="applications" class="panel mb-4"><h2 class="h5">Registration Applications</h2><div class="table-responsive"><table class="table"><thead><tr><th>Enrollment</th><th>Name</th><th>Email</th><th>Status</th><th>Action</th></tr></thead><tbody id="applicationRows"></tbody></table></div></section>
+<section id="notices" class="panel mb-4"><h2 class="h5">Publish Notice</h2><form id="noticeForm" class="row g-3"><div class="col-md-6"><label class="form-label">Title</label><input id="noticeTitle" class="form-control" maxlength="120" required></div><div class="col-md-6"><label class="form-label">Target (all or enrollment number)</label><input id="noticeTarget" class="form-control" value="all" required></div><div class="col-12"><label class="form-label">Message</label><textarea id="noticeBody" class="form-control" rows="3" maxlength="2000" required></textarea></div><div class="col-12"><button class="btn btn-primary">Publish</button></div></form><hr><h3 class="h6">Recent notices</h3><div id="noticeRows"></div></section>
+</main></div></div>
+<div class="modal fade" id="editModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><form id="editForm"><div class="modal-header"><h5>Edit Student</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input id="eId" type="hidden"><div class="row g-3">
+<div class="col-md-6"><label class="form-label">Full name</label><input id="eName" class="form-control" required></div><div class="col-md-6"><label class="form-label">Email</label><input id="eEmail" type="email" class="form-control"></div>
+<div class="col-md-6"><label class="form-label">Phone</label><input id="ePhone" class="form-control"></div><div class="col-md-6"><label class="form-label">Hostel</label><select id="eHostel" class="form-select"><option value="">Not allotted</option><option>Boys</option><option>Girls</option></select></div>
+<div class="col-md-6"><label class="form-label">Room number</label><input id="eRoom" class="form-control"></div><div class="col-md-6"><label class="form-label">Course / branch</label><input id="eCourse" class="form-control"></div>
+<div class="col-md-6"><label class="form-label">Year / semester</label><input id="eYear" class="form-control"></div><div class="col-md-6"><label class="form-label">Fee status</label><select id="eFee" class="form-select"><option>Pending</option><option>Paid</option><option>Upcoming</option></select></div>
+<div class="col-md-6"><label class="form-label">Account status</label><select id="eStatus" class="form-select"><option value="active">Active</option><option value="inactive">Inactive</option></select></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary">Save changes</button></div></form></div></div></div>
+<div class="modal fade" id="accountModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><form id="accountForm"><div class="modal-header"><h5>Create Student Account</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input id="aId" type="hidden"><label class="form-label">Temporary password (minimum 12 characters)</label><input id="aPassword" type="password" class="form-control" minlength="12" maxlength="128" required></div><div class="modal-footer"><button class="btn btn-success">Create account</button></div></form></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../javascript/script.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const refreshButton = document.getElementById("refreshStudents");
-    const message = document.getElementById("dashboardMessage");
-
-    refreshButton.addEventListener("click", function () {
-      message.textContent =
-        "Backend API is not connected yet. No student records were fetched.";
-    });
-
-    const search = document.getElementById("studentSearch");
-    const filter = document.getElementById("hostelFilter");
-
-    function showPreviewMessage() {
-      const searchTerm = search.value.trim();
-      const hostel = filter.value;
-      if (searchTerm || hostel) {
-        message.textContent =
-          "Search and hostel filters are ready for the future API connection. No live student records are loaded.";
-      }
-    }
-
-    search.addEventListener("input", showPreviewMessage);
-    filter.addEventListener("change", showPreviewMessage);
-  });
-</script>
-</body>
-</html>
+(() => {
+const API="https://kd-hostel-website.onrender.com", token=localStorage.getItem("kd_hostel_token")||sessionStorage.getItem("kd_hostel_token")||"", role=localStorage.getItem("kd_hostel_role")||sessionStorage.getItem("kd_hostel_role")||"";
+const $=id=>document.getElementById(id);let students=[],apps=[],editModal,accountModal;
+function msg(t,type="info"){const m=$("msg");m.className="alert alert-"+type;m.textContent=t;window.scrollTo({top:0,behavior:"smooth"})}
+async function api(path,opts={}){const r=await fetch(API+path,{...opts,headers:{"Content-Type":"application/json","Authorization":"Bearer "+token,...(opts.headers||{})}});let d={};try{d=await r.json()}catch{}if(!r.ok)throw Error(d.error||"Request failed: "+r.status);return d}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function tag(v){let c=["active","Paid","approved"].includes(v)?"success":["Pending","pending","Upcoming"].includes(v)?"warning":["inactive","rejected"].includes(v)?"secondary":"info";return `<span class="badge text-bg-${c}">${esc(v||"—")}</span>`}
+function renderStudents(){let q=$("search").value.toLowerCase().trim(),h=$("filter").value;let list=students.filter(s=>[s.enrollment_number,s.full_name,s.email,s.room_number].join(" ").toLowerCase().includes(q)&&(!h||s.hostel===h));$("studentRows").innerHTML=list.length?list.map(s=>`<tr><td>${esc(s.enrollment_number)}</td><td>${esc(s.full_name)}</td><td>${esc(s.hostel||"—")}</td><td>${esc(s.room_number||"—")}</td><td>${tag(s.fee_status||"Pending")}</td><td>${tag(s.status)}</td><td><button class="btn btn-sm btn-outline-primary edit" data-id="${esc(s.enrollment_number)}">Edit</button></td></tr>`).join(""):`<tr><td colspan="7" class="text-center">No students found.</td></tr>`;$("total").textContent=students.length;$("boys").textContent=students.filter(s=>s.hostel==="Boys").length;$("girls").textContent=students.filter(s=>s.hostel==="Girls").length}
+async function loadStudents(){students=(await api("/api/admin/students")).students||[];renderStudents()}
+async function loadApps(){apps=(await api("/api/admin/applications")).applications||[];$("pending").textContent=apps.filter(a=>a.status==="pending").length;$("applicationRows").innerHTML=apps.length?apps.map(a=>`<tr><td>${esc(a.enrollment_number)}</td><td>${esc(a.full_name)}</td><td>${esc(a.email||"—")}</td><td>${tag(a.status)}</td><td>${a.status==="pending"?`<button class="btn btn-sm btn-success create" data-id="${esc(a.enrollment_number)}">Approve / Create</button> <button class="btn btn-sm btn-outline-danger reject" data-id="${esc(a.enrollment_number)}">Reject</button>`:"—"}</td></tr>`).join(""):`<tr><td colspan="5">No applications.</td></tr>`}
+async function loadNotices(){let ns=(await api("/api/admin/notices")).notices||[];$("noticeRows").innerHTML=ns.length?ns.map(n=>`<div class="border rounded p-3 mb-2"><b>${esc(n.title)}</b><div>${esc(n.body)}</div><small class="text-secondary">To: ${esc(n.target==="all"?"All students":n.target)} · ${esc(n.created_at||"")}</small></div>`).join(""):"No notices yet."}
+function openEdit(id){let s=students.find(x=>x.enrollment_number===id);if(!s)return;$("eId").value=id;$("eName").value=s.full_name||"";$("eEmail").value=s.email||"";$("ePhone").value=s.phone||"";$("eHostel").value=s.hostel||"";$("eRoom").value=s.room_number||"";$("eCourse").value=s.course||"";$("eYear").value=s.year||"";$("eFee").value=["Pending","Paid","Upcoming"].includes(s.fee_status)?s.fee_status:"Pending";$("eStatus").value=s.status==="inactive"?"inactive":"active";editModal.show()}
+document.addEventListener("click",async e=>{let b=e.target.closest("button");if(!b)return;try{if(b.classList.contains("edit"))openEdit(b.dataset.id);if(b.classList.contains("create")){$("aId").value=b.dataset.id;$("aPassword").value="";accountModal.show()}if(b.classList.contains("reject")){if(confirm("Reject this application?")){await api("/api/admin/applications/"+encodeURIComponent(b.dataset.id)+"/reject",{method:"POST",body:"{}"});await loadApps();msg("Application rejected.","success")}}}catch(x){msg(x.message,"danger")}});
+$("editForm").addEventListener("submit",async e=>{e.preventDefault();let id=$("eId").value,p={full_name:$("eName").value.trim(),email:$("eEmail").value.trim(),phone:$("ePhone").value.trim(),hostel:$("eHostel").value,room_number:$("eRoom").value.trim(),course:$("eCourse").value.trim(),year:$("eYear").value.trim(),fee_status:$("eFee").value,status:$("eStatus").value};try{await api("/api/admin/students/"+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify(p)});editModal.hide();await loadStudents();msg("Student updated.","success")}catch(x){msg(x.message,"danger")}});
+$("accountForm").addEventListener("submit",async e=>{e.preventDefault();try{await api("/api/admin/create-account",{method:"POST",body:JSON.stringify({enrollment_number:$("aId").value,password:$("aPassword").value})});accountModal.hide();await Promise.all([loadStudents(),loadApps()]);msg("Account created. Share the temporary password securely.","success")}catch(x){msg(x.message,"danger")}});
+$("noticeForm").addEventListener("submit",async e=>{e.preventDefault();try{await api("/api/admin/notices",{method:"POST",body:JSON.stringify({title:$("noticeTitle").value.trim(),body:$("noticeBody").value.trim(),target:$("noticeTarget").value.trim()||"all"})});$("noticeForm").reset();$("noticeTarget").value="all";await loadNotices();msg("Notice published.","success")}catch(x){msg(x.message,"danger")}});
+$("search").addEventListener("input",renderStudents);$("filter").addEventListener("change",renderStudents);$("refresh").addEventListener("click",async()=>{try{await Promise.all([loadStudents(),loadApps(),loadNotices()]);msg("Dashboard refreshed.","success")}catch(e){msg(e.message,"danger")}});
+$("logout").addEventListener("click",()=>{["kd_hostel_token","kd_hostel_role"].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k)});location.href="login.html"});
+async function init(){editModal=new bootstrap.Modal($("editModal"));accountModal=new bootstrap.Modal($("accountModal"));if(!token||role!=="admin"){msg("Admin session missing. Log in again.","warning");setTimeout(()=>location.href="login.html",1500);return}try{await Promise.all([loadStudents(),loadApps(),loadNotices()]);msg("Connected to backend.","success")}catch(e){msg("Dashboard could not load: "+e.message+". Check Render logs and MongoDB connection.","danger")}}
+init();
+})();
+</script></body></html>
