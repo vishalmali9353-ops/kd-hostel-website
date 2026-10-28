@@ -51,7 +51,8 @@ def required(role=None):
     return deco
 
 def clean(v, n=200): return str(v or "").strip()[:n]
-    def send_admission_email(student_name, student_email, enrollment_number):
+    
+def send_admission_email(student_name, student_email, enrollment_number):
     if not RESEND_API_KEY or not EMAIL_FROM or not student_email:
         app.logger.warning("Admission email skipped: email settings or student email missing")
         return False
