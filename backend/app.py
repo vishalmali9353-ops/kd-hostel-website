@@ -15,6 +15,11 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 MONGO_URI = os.environ.get("MONGO_URI")
 ADMIN_ID = "YRP"
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
+EMAIL_FROM = os.environ.get("EMAIL_FROM")
+
+if RESEND_API_KEY:
+    resend.api_key = RESEND_API_KEY
 if not SECRET_KEY or not MONGO_URI or not ADMIN_PASSWORD:
     raise RuntimeError("Required environment variables are missing.")
 
