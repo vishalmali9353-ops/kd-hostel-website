@@ -1,150 +1,187 @@
-K. D. Hostel Management System
+🏨 K.D. HOSTEL
 
-A web-based hostel management project for K. D. Hostel, near K. D. Polytechnic, Patan, Gujarat.
+Hostel Management System
 
-Project Overview
+<p align="center">
+  <img src="frontend/images/logo.png" alt="K.D. Hostel Logo" width="220">
+</p><p align="center">
+  <strong>A Smart, Secure & User-Friendly Hostel Management Website</strong>
+</p><p align="center">
+  <img src="https://img.shields.io/badge/Project-Hostel%20Management-0B2D59?style=for-the-badge" alt="Project">
+  <img src="https://img.shields.io/badge/Frontend-HTML%20%7C%20CSS%20%7C%20Bootstrap-F0B323?style=for-the-badge" alt="Frontend">
+  <img src="https://img.shields.io/badge/Backend-Python%20Flask-0B2D59?style=for-the-badge" alt="Backend">
+  <img src="https://img.shields.io/badge/Database-MongoDB-47A248?style=for-the-badge" alt="Database">
+</p>---
 
-The K. D. Hostel Management System is designed to provide hostel information and support student and administrator login through a web application.
+📌 About the Project
 
-Features
+K.D. Hostel Management System is a web-based application developed to simplify and digitize hostel administration at K. D. Polytechnic, Patan.
 
-- Hostel home page
-- Boys Hostel information
-- Girls Hostel information
-- About the hostel
-- Hostel facilities
-- Contact information
-- Student registration page
-- Student login page
-- Admin login and dashboard
-- Student profile and hostel status (backend integration in progress)
+The system provides a centralized platform for students and hostel administrators to manage admission applications, student information, room allotments, hostel notices, and fee status.
 
-Technology Stack
+The project aims to reduce manual paperwork, improve administrative efficiency, and provide students with easy access to their hostel-related information.
 
-Frontend
+🎯 Project Objectives
 
-- HTML5
-- CSS3
-- Bootstrap 5
-- JavaScript
+- Digitize hostel admission and student registration.
+- Provide secure student and administrator login.
+- Simplify student record management.
+- Manage hostel rooms, capacity, and allotments.
+- Display hostel notices and announcements.
+- Provide students with a personalized dashboard.
+- Improve transparency and administrative efficiency.
 
-Backend
+✨ Key Features
 
-- Python
-- Flask
-- Gunicorn
+🏠 Public Website
 
-Database
+- Professional home page and hostel introduction.
+- About Us and hostel information.
+- Separate Boys Hostel and Girls Hostel pages.
+- Facilities and photo gallery.
+- Admission information and application form.
+- Notices and announcements.
+- Contact information.
 
-- MongoDB Atlas
-- PyMongo
+👨‍🎓 Student Portal
 
-Hosting
+- Student registration and login.
+- Admission application status.
+- Student profile and personal information.
+- Room details and allotment status.
+- Hostel fee status.
+- Hostel notices and updates.
 
-- GitHub Pages for the frontend
-- Render for the backend (planned)
+🛡️ Admin Dashboard
 
-Project Structure
+- Administrator authentication.
+- View and manage student records.
+- Review and approve admission applications.
+- Update student information.
+- Manage room allocation and availability.
+- Publish hostel notices.
+- Update admission and fee status.
 
-kd-hostel-management/
+Features depend on the currently implemented and deployed application modules.
+
+🛠️ Technology Stack
+
+Technology| Purpose
+HTML5| Website structure
+CSS3| Styling and responsive layouts
+Bootstrap| Responsive user interface
+JavaScript| Frontend interactivity
+Python| Backend programming
+Flask| REST API and server-side logic
+MongoDB Atlas| Cloud database
+Git & GitHub| Version control and source code
+GitHub Pages| Frontend hosting
+Render| Backend API hosting
+
+📂 Project Structure
+
+kd-hostel-website/
+│
+├── README.md
+│
 ├── frontend/
 │   ├── html/
 │   │   ├── index.html
 │   │   ├── about.html
-│   │   ├── admin-dashboard.html
 │   │   ├── boys-hostel.html
 │   │   ├── girls-hostel.html
 │   │   ├── facilities.html
 │   │   ├── contact.html
 │   │   ├── login.html
-│   │   └── register.html
+│   │   ├── register.html
+│   │   └── admin-dashboard.html
+│   │
 │   ├── css/
 │   │   └── style.css
+│   │
 │   ├── javascript/
 │   │   └── script.js
+│   │
 │   └── images/
-│       └── kd-hostel-logo.png
+│       └── logo.png
+│
 └── backend/
     ├── app.py
     └── requirements.txt
 
-Login System
+Adjust the file names and paths above to match your actual GitHub repository.
 
-Student Login
+⚙️ Installation and Setup
 
-- User ID: Student enrollment number
-- Initial password: "1234" (planned)
-- Students should only be able to access their own profile and information.
+1. Clone the Repository
 
-Admin Login
+git clone https://github.com/YOUR-USERNAME/kd-hostel-website.git
 
-- Admin ID: "YRP"
-- Admin password: Configured privately on the backend server.
-- The administrator will manage student information and hostel status.
+2. Open the Project
 
-Security: Initial credentials are for development only. Passwords must be handled securely on the backend. Never store passwords, database credentials, or secret keys in public frontend files or this README.
+cd kd-hostel-website
 
-Database Setup
+Open the frontend's "index.html" file in your browser, or use a local development server.
 
-The project is planned to use MongoDB Atlas.
+3. Install Backend Dependencies
 
-1. Create a MongoDB Atlas deployment.
-2. Create a database user.
-3. Configure network access securely.
-4. Set the MongoDB connection string as a private environment variable on the backend host.
-5. Add student records securely before enabling student login.
+cd backend
+pip install -r requirements.txt
 
-Backend Environment Variables
+4. Configure Environment Variables
 
-Configure these privately in the backend hosting dashboard:
+Configure the required environment variables in your local environment or hosting dashboard.
 
-- "MONGO_URI" — MongoDB connection string
-- "SECRET_KEY" — a strong, randomly generated secret
-- "ADMIN_PASSWORD" — the administrator password
+MONGO_URI=your_mongodb_connection_string
+SECRET_KEY=your_secret_key
+ADMIN_PASSWORD=your_admin_password
 
-Do not commit real secret values to GitHub.
+Security: Never commit database credentials, secret keys, or administrator passwords to GitHub.
 
-Running the Backend Locally
+5. Run the Backend
 
-Install the dependencies:
+python app.py
 
-pip install -r backend/requirements.txt
+The Flask API will start on the host and port configured in the application.
 
-Set the required environment variables, then run:
+🌐 Live Deployment
 
-python backend/app.py
+- Frontend Website: https://vishalmali9353-ops.github.io/kd-hostel-website/
+- Backend API: Add your deployed Render API URL here.
+- Source Code: https://github.com/vishalmali9353-ops/kd-hostel-website
 
-The API root should return a status message when the backend is running.
+🏢 Hostel Information
 
-Deployment Plan
+Institution: K. D. Polytechnic, Patan
+Department: Computer Engineering
+Project Name: K.D. Hostel Management System
+Hostel Facilities: Separate accommodation for boys and girls, study facilities, drinking water, security, and student support.
 
-1. Complete the MongoDB Atlas setup.
-2. Configure private environment variables.
-3. Deploy the Flask backend on Render.
-4. Connect the frontend login forms to the deployed API.
-5. Implement and test the student and admin dashboards.
-6. Test authentication and authorization before public use.
+🔮 Future Enhancements
 
-Current Status
+- Automated admission confirmation emails.
+- Online fee payment integration.
+- Room availability reports.
+- Digital hostel attendance.
+- Downloadable admission receipts.
+- Improved mobile experience.
+- Advanced administrative reports.
 
-- [x] Frontend HTML pages created
-- [x] Backend "app.py" created
-- [x] Backend "requirements.txt" created
-- [ ] MongoDB Atlas configured
-- [ ] Backend deployed on Render
-- [ ] Student records added securely
-- [ ] Login system tested
-- [ ] Student dashboard connected
-- [ ] Admin dashboard connected
+🎓 Academic Project
 
-Hostel Contact Information
+This project is developed as part of the Diploma in Computer Engineering program to demonstrate practical knowledge of web development, database management, backend API development, and cloud deployment.
 
-K. D. Hostel
-Near K. D. Polytechnic, Hemchandracharya North Gujarat University Road, Patan – 384265, Gujarat, India.
+👨‍💻 Developer
 
-- Phone: 02766-220419
-- Email: kdhostel-patan@gujarat.gov.in
+Project: K.D. Hostel Management System
+Institution: K. D. Polytechnic, Patan
+Department: Computer Engineering
 
-Disclaimer
+---
 
-This project is under development. Login, database, and dashboard functionality must be configured and tested before the system is used with real student information.
+<p align="center">
+  <strong>🏨 K.D. HOSTEL</strong><br>
+  Safe • Comfortable • Disciplined
+</p><p align="center">
+  <em>Making Hostel Management Smarter and Simpler.</em>
+</p>
