@@ -1,5 +1,6 @@
 import os, re
 from datetime import datetime, timezone
+import resend
 from functools import wraps
 from flask import Flask, request, jsonify
 from flask_cors import CORS
