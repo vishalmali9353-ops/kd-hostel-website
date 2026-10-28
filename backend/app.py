@@ -51,6 +51,29 @@ def required(role=None):
     return deco
 
 def clean(v, n=200): return str(v or "").strip()[:n]
+    def send_admission_email(student_name, student_email, enrollment_number):
+    if not RESEND_API_KEY or not EMAIL_FROM or not student_email:
+        app.logger.warning("Admission email skipped: email settings or student email missing")
+        return False
+
+    try:
+        resend.Emails.send({
+            "from": EMAIL_FROM,
+            "to": [student_email],
+            "subject": "K.D. Hostel Admission Approved",
+            "html": f"""
+                <h2>Welcome to K.D. Hostel</h2>
+                <p>Dear {student_name},</p>
+                <p>Your hostel admission application has been approved.</p>
+                <p><b>Enrollment Number:</b> {enrollment_number}</p>
+                <p>Please contact the hostel administration if you need assistance.</p>
+                <p>Regards,<br>K.D. Hostel Administration</p>
+            """
+        })
+        return True
+    except Exception:
+        app.logger.exception("Admission email sending failed")
+        return False
 
 @app.get("/")
 def home(): return jsonify(message="K. D. Hostel API is running")
@@ -126,7 +149,14 @@ def create_account():
         if not a: return jsonify(error="Pending application not found"),404
         students.insert_one({"enrollment_number":uid,"full_name":a["full_name"],"email":a.get("email",""),"password_hash":generate_password_hash(pw),"status":"active","hostel":"","room_number":"","phone":"","course":"","year":"","fee_status":"Pending"})
         applications.update_one({"enrollment_number":uid},{"$set":{"status":"approved"}})
-        return jsonify(message="Student account created"),201
+
+send_admission_email(
+    a.get("full_name", "Student"),
+    a.get("email", ""),
+    uid
+)
+
+return jsonify(message="Student account created"),201
     except DuplicateKeyError: return jsonify(error="Account already exists"),409
     except PyMongoError:
         app.logger.exception("Create account failed")
