@@ -1,11 +1,12 @@
 
 import os
 import re
+import smtplib
 from html import escape
+from email.message import EmailMessage
 from datetime import datetime, timezone
 from functools import wraps
 
-import resend
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient, ASCENDING
@@ -37,14 +38,16 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 MONGO_URI = os.environ.get("MONGO_URI")
 ADMIN_ID = "YRP"
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
-RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
-EMAIL_FROM = os.environ.get("EMAIL_FROM")
 
-if RESEND_API_KEY:
-    resend.api_key = RESEND_API_KEY
+SMTP_EMAIL = os.environ.get("SMTP_EMAIL")
+SMTP_APP_PASSWORD = os.environ.get("SMTP_APP_PASSWORD")
+SMTP_SERVER = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
+SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
 
 if not SECRET_KEY or not MONGO_URI or not ADMIN_PASSWORD:
-    raise RuntimeError("Required environment variables are missing.")
+    raise RuntimeError(
+        "Required environment variables are missing."
+    )
 
 client = MongoClient(
     MONGO_URI,
@@ -113,42 +116,130 @@ def clean(value, limit=200):
     return str(value or "").strip()[:limit]
 
 
-def send_admission_email(student_name, student_email, enrollment_number):
-    if not RESEND_API_KEY or not EMAIL_FROM or not student_email:
+def valid_email(email):
+    return bool(
+        email
+        and re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email)
+    )
+
+
+def send_email(recipient, subject, html):
+    """Send email using Gmail SMTP. Never log credentials."""
+    if not SMTP_EMAIL or not SMTP_APP_PASSWORD:
         app.logger.warning(
-            "Admission email skipped: email configuration or student email missing"
+            "Email not sent: Gmail SMTP configuration is missing."
         )
         return False
 
-    safe_name = escape(str(student_name))
-    safe_enrollment = escape(str(enrollment_number))
+    if not valid_email(recipient):
+        app.logger.warning(
+            "Email not sent: recipient email is missing or invalid."
+        )
+        return False
+
+    message = EmailMessage()
+    message["From"] = f"K.D. Hostel <{SMTP_EMAIL}>"
+    message["To"] = recipient
+    message["Subject"] = subject
+    message.set_content(
+        "This message is from K.D. Hostel. "
+        "Please open it in an HTML-compatible email app."
+    )
+    message.add_alternative(html, subtype="html")
 
     try:
-        resend.Emails.send({
-            "from": EMAIL_FROM,
-            "to": [student_email],
-            "subject": "K.D. Hostel Admission Approved",
-            "html": f"""
-                <h2>Welcome to K.D. Hostel</h2>
-                <p>Dear {safe_name},</p>
-                <p>Your hostel admission application has been approved.</p>
-                <p><strong>Enrollment Number:</strong>
-                {safe_enrollment}</p>
-                <p>Please contact the hostel administration
-                if you need assistance.</p>
-                <p>Regards,<br>K.D. Hostel Administration</p>
-            """,
-        })
+        with smtplib.SMTP(
+            SMTP_SERVER,
+            SMTP_PORT,
+            timeout=20,
+        ) as server:
+            server.ehlo()
+            server.starttls()
+            server.ehlo()
+            server.login(
+                SMTP_EMAIL,
+                SMTP_APP_PASSWORD.replace(" ", ""),
+            )
+            server.send_message(message)
 
-        app.logger.info(
-            "Admission email request submitted for enrollment %s",
-            enrollment_number,
-        )
+        app.logger.info("Email accepted by Gmail SMTP.")
         return True
 
     except Exception:
-        app.logger.exception("Admission email sending failed")
+        app.logger.exception("Gmail SMTP email failed.")
         return False
+
+
+def send_admission_email(
+    student_name,
+    student_email,
+    enrollment_number,
+):
+    name = escape(str(student_name))
+    enrollment = escape(str(enrollment_number))
+
+    return send_email(
+        student_email,
+        "K.D. Hostel - Admission Approved",
+        f"""
+        <h2>Admission Approved</h2>
+        <p>Dear {name},</p>
+        <p>Your K.D. Hostel admission application has been approved.</p>
+        <p><strong>Enrollment Number:</strong> {enrollment}</p>
+        <p>Your student account has been created. Please use the
+        login instructions provided by the hostel administrator.</p>
+        <p>Regards,<br>K.D. Hostel Administration</p>
+        """,
+    )
+
+
+def send_rejection_email(
+    student_name,
+    student_email,
+    enrollment_number,
+):
+    name = escape(str(student_name))
+    enrollment = escape(str(enrollment_number))
+
+    return send_email(
+        student_email,
+        "K.D. Hostel - Admission Application Update",
+        f"""
+        <h2>Admission Application Update</h2>
+        <p>Dear {name},</p>
+        <p>We regret to inform you that your hostel admission
+        application has been rejected.</p>
+        <p><strong>Enrollment Number:</strong> {enrollment}</p>
+        <p>Please contact the hostel administration for further
+        information.</p>
+        <p>Regards,<br>K.D. Hostel Administration</p>
+        """,
+    )
+
+
+def send_account_email(
+    student_name,
+    student_email,
+    enrollment_number,
+):
+    name = escape(str(student_name))
+    enrollment = escape(str(enrollment_number))
+
+    return send_email(
+        student_email,
+        "K.D. Hostel - Student Account Created",
+        f"""
+        <h2>Student Account Created</h2>
+        <p>Dear {name},</p>
+        <p>Your K.D. Hostel student account has been created.</p>
+        <p><strong>Enrollment Number:</strong> {enrollment}</p>
+        <p>Please use your enrollment number to log in with the
+        temporary password provided by the hostel administrator.
+        Change your password after logging in.</p>
+        <p>For assistance, contact the hostel administration.</p>
+        <p>Regards,<br>K.D. Hostel Administration</p>
+        """,
+    )
 
 
 @app.get("/")
@@ -174,12 +265,12 @@ def register():
     name = clean(data.get("full_name"), 100)
     email = clean(data.get("email"), 254).lower()
 
-    if not enrollment or not name:
+    if not enrollment or not name or not email:
         return jsonify(
-            error="Full name and enrollment number are required"
+            error="Full name, enrollment number and email are required"
         ), 400
 
-    if email and not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+    if not valid_email(email):
         return jsonify(error="Invalid email address"), 400
 
     try:
@@ -191,6 +282,7 @@ def register():
             "full_name": name,
             "email": email,
             "status": "pending",
+            "created_at": datetime.now(timezone.utc).isoformat(),
         })
 
         return jsonify(
@@ -282,6 +374,7 @@ def student_notices():
         return jsonify(notices=items)
 
     except PyMongoError:
+        app.logger.exception("Student notices error")
         return jsonify(error="Database connection error"), 503
 
 
@@ -298,6 +391,7 @@ def admin_applications():
         return jsonify(applications=items)
 
     except PyMongoError:
+        app.logger.exception("Admin applications error")
         return jsonify(error="Database connection error"), 503
 
 
@@ -340,10 +434,11 @@ def create_account():
             "course": "",
             "year": "",
             "fee_status": "Pending",
+            "created_at": datetime.now(timezone.utc).isoformat(),
         })
 
         applications.update_one(
-            {"enrollment_number": uid},
+            {"enrollment_number": uid, "status": "pending"},
             {"$set": {"status": "approved"}},
         )
 
@@ -356,16 +451,25 @@ def create_account():
             error="Database error creating account"
         ), 503
 
-    # Email failure must not undo the successfully created account.
-    email_sent = send_admission_email(
-        application.get("full_name", "Student"),
-        application.get("email", ""),
+    student_name = application.get("full_name", "Student")
+    student_email = application.get("email", "")
+
+    approval_email_sent = send_admission_email(
+        student_name,
+        student_email,
+        uid,
+    )
+    account_email_sent = send_account_email(
+        student_name,
+        student_email,
         uid,
     )
 
     return jsonify(
         message="Student account created",
-        email_sent=email_sent,
+        email_sent=approval_email_sent or account_email_sent,
+        approval_email_sent=approval_email_sent,
+        account_email_sent=account_email_sent,
     ), 201
 
 
@@ -373,23 +477,46 @@ def create_account():
 @required("admin")
 def reject_application(enrollment):
     try:
+        application = applications.find_one({
+            "enrollment_number": enrollment,
+            "status": "pending",
+        })
+
+        if not application:
+            return jsonify(
+                error="Pending application not found"
+            ), 404
+
         result = applications.update_one(
             {
                 "enrollment_number": enrollment,
                 "status": "pending",
             },
-            {"$set": {"status": "rejected"}},
+            {"$set": {
+                "status": "rejected",
+                "rejected_at": datetime.now(timezone.utc).isoformat(),
+            }},
         )
 
-        if result.matched_count:
-            return jsonify(message="Application rejected"), 200
-
-        return jsonify(
-            error="Pending application not found"
-        ), 404
+        if not result.matched_count:
+            return jsonify(
+                error="Application status changed; refresh and retry"
+            ), 409
 
     except PyMongoError:
+        app.logger.exception("Reject application failed")
         return jsonify(error="Database connection error"), 503
+
+    email_sent = send_rejection_email(
+        application.get("full_name", "Student"),
+        application.get("email", ""),
+        enrollment,
+    )
+
+    return jsonify(
+        message="Application rejected",
+        email_sent=email_sent,
+    ), 200
 
 
 @app.get("/api/admin/students")
@@ -405,6 +532,7 @@ def admin_students():
         return jsonify(students=items)
 
     except PyMongoError:
+        app.logger.exception("Admin students error")
         return jsonify(error="Database connection error"), 503
 
 
@@ -437,10 +565,7 @@ def update_student(enrollment):
     if "full_name" in updates and not updates["full_name"]:
         return jsonify(error="Name cannot be empty"), 400
 
-    if updates.get("email") and not re.fullmatch(
-        r"[^@\s]+@[^@\s]+\.[^@\s]+",
-        updates["email"],
-    ):
+    if "email" in updates and not valid_email(updates["email"]):
         return jsonify(error="Invalid email"), 400
 
     if "status" in updates and updates["status"] not in (
@@ -470,6 +595,7 @@ def update_student(enrollment):
         return jsonify(error="Student not found"), 404
 
     except PyMongoError:
+        app.logger.exception("Update student failed")
         return jsonify(error="Database connection error"), 503
 
 
@@ -503,6 +629,7 @@ def post_notice():
         return jsonify(message="Notice published"), 201
 
     except PyMongoError:
+        app.logger.exception("Publish notice failed")
         return jsonify(error="Database connection error"), 503
 
 
@@ -519,6 +646,7 @@ def admin_notices():
         return jsonify(notices=items)
 
     except PyMongoError:
+        app.logger.exception("Admin notices error")
         return jsonify(error="Database connection error"), 503
 
 
