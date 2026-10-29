@@ -705,7 +705,7 @@ def update_own_profile():
 
     errors = validate_student_fields(updates)
 
-        if errors:
+    if errors:
         return jsonify(error=" ".join(errors)), 400
 
     updates["updated_at"] = iso_now()
