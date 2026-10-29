@@ -4,6 +4,10 @@ import re
 import secrets
 import hashlib
 import smtplib
+import smtplib
+import ssl
+from email.message import EmailMessage
+from email.utils import formataddr
 from datetime import datetime, timezone, timedelta
 from email.message import EmailMessage
 from functools import wraps
