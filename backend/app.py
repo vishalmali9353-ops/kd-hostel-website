@@ -938,3 +938,135 @@ def create_account():
         return jsonify(
             error="Unexpected server error while creating account."
         ), 500
+# =========================================================
+# 10. ADMIN STUDENT MANAGEMENT
+# =========================================================
+
+@app.get("/api/admin/students")
+@required("admin")
+def admin_list_students():
+    try:
+        items = list(
+            students.find({}, {"_id": 0})
+            .sort("full_name", ASCENDING)
+            .limit(2000)
+        )
+        # Never return password hashes or reset-token data.
+        items = [public_student(item) for item in items]
+        return jsonify(students=items)
+    except PyMongoError:
+        app.logger.exception("Admin student list failed")
+        return jsonify(error="Database connection error."), 503
+
+
+@app.patch("/api/admin/students/<enrollment>")
+@required("admin")
+def admin_update_student(enrollment):
+    data = request.get_json(silent=True) or {}
+
+    allowed = {
+        "full_name", "email", "phone", "hostel",
+        "room_number", "course", "year", "semester",
+        "fee_status", "status"
+    }
+
+    updates = {
+        key: clean(data[key], 254)
+        for key in allowed
+        if key in data
+    }
+
+    if not updates:
+        return jsonify(error="No editable student fields supplied."), 400
+
+    if "email" in updates:
+        updates["email"] = updates["email"].lower()
+
+    errors = validate_student_fields(updates)
+    if errors:
+        return jsonify(error=" ".join(errors)), 400
+
+    try:
+        student = students.find_one({"enrollment_number": enrollment})
+        if not student:
+            return jsonify(error="Student not found."), 404
+
+        hostel = updates.get("hostel", student.get("hostel", ""))
+        room = updates.get("room_number", student.get("room_number", ""))
+
+        if room and not hostel:
+            return jsonify(error="Select a hostel before assigning a room."), 400
+
+        if room and updates.get("status", student.get("status")) == "active":
+            if room_is_full(hostel, room, exclude_enrollment=enrollment):
+                return jsonify(error="This room is full. Maximum capacity is 3 active students."), 409
+
+        updates["updated_at"] = iso_now()
+
+        result = students.update_one(
+            {"enrollment_number": enrollment},
+            {"$set": updates}
+        )
+
+        if not result.matched_count:
+            return jsonify(error="Student not found."), 404
+
+        return jsonify(message="Student updated successfully.")
+
+    except PyMongoError:
+        app.logger.exception("Admin student update failed")
+        return jsonify(error="Database connection error."), 503
+
+
+# =========================================================
+# 11. ADMIN NOTICE MANAGEMENT
+# =========================================================
+
+@app.get("/api/admin/notices")
+@required("admin")
+def admin_list_notices():
+    try:
+        items = list(
+            notices.find({}, {"_id": 0})
+            .sort("created_at", -1)
+            .limit(500)
+        )
+        return jsonify(notices=items)
+    except PyMongoError:
+        app.logger.exception("Admin notice list failed")
+        return jsonify(error="Database connection error."), 503
+
+
+@app.post("/api/admin/notices")
+@required("admin")
+def admin_create_notice():
+    data = request.get_json(silent=True) or {}
+
+    title = clean(data.get("title"), 120)
+    message = clean(data.get("message", data.get("body")), 2000)
+    target = clean(data.get("target", "all"), 30) or "all"
+
+    if not title or not message:
+        return jsonify(error="Notice title and message are required."), 400
+
+    if target != "all" and not students.find_one(
+        {"enrollment_number": target},
+        {"_id": 1}
+    ):
+        return jsonify(error="Target student enrollment number was not found."), 404
+
+    item = {
+        "title": title,
+        "message": message,
+        "body": message,
+        "target": target,
+        "created_at": iso_now()
+    }
+
+    try:
+        notices.insert_one(item)
+        return jsonify(message="Notice published successfully."), 201
+    except PyMongoError:
+        app.logger.exception("Admin notice creation failed")
+        return jsonify(error="Database connection error."), 503
+        
