@@ -709,7 +709,9 @@ def create_account():
     password = str(data.get("password", ""))
 
     if not enrollment:
-        return jsonify(error="Enrollment number is required."), 400
+        return jsonify(
+            error="Enrollment number is required."
+        ), 400
 
     if len(password) < 12 or len(password) > 128:
         return jsonify(
@@ -717,6 +719,7 @@ def create_account():
         ), 400
 
     try:
+        # Find the pending application
         application = applications.find_one({
             "enrollment_number": enrollment,
             "status": "pending"
@@ -727,9 +730,15 @@ def create_account():
                 error="Pending application not found."
             ), 404
 
-        if students.find_one({"enrollment_number": enrollment}):
-            return jsonify(error="Student account already exists."), 409
+        # Prevent duplicate student accounts
+        if students.find_one({
+            "enrollment_number": enrollment
+        }):
+            return jsonify(
+                error="Student account already exists."
+            ), 409
 
+        # Prepare student account from application details
         student = dict(application)
         student.pop("_id", None)
 
@@ -739,5 +748,49 @@ def create_account():
             "hostel": student.get("hostel", ""),
             "room_number": student.get("room_number", ""),
             "fee_status": student.get("fee_status", "Pending"),
-            "created_at": iso_now(),
-     
+            "created_at": iso_now()
+        })
+
+        # Create student account
+        students.insert_one(student)
+
+        # Mark application as approved
+        applications.update_one(
+            {
+                "enrollment_number": enrollment,
+                "status": "pending"
+            },
+            {
+                "$set": {
+                    "status": "approved",
+                    "approved_at": iso_now()
+                }
+            }
+        )
+
+        return jsonify(
+            message="Student account created successfully.",
+            enrollment_number=enrollment,
+            status="active"
+        ), 201
+
+    except DuplicateKeyError:
+        return jsonify(
+            error="Student account already exists."
+        ), 409
+
+    except PyMongoError:
+        app.logger.exception(
+            "Create student account failed"
+        )
+        return jsonify(
+            error="Database error while creating student account."
+        ), 503
+
+    except Exception:
+        app.logger.exception(
+            "Unexpected error while creating student account"
+        )
+        return jsonify(
+            error="Unexpected server error while creating account."
+        ), 500
