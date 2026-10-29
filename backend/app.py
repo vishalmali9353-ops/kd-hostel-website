@@ -246,7 +246,10 @@ def validate_student_fields(data, registration=False):
     if data.get("fee_status") and data["fee_status"] not in FEE_STATUSES:
         errors.append("Invalid fee status.")
 
-    if data.get("status") and data["status"] not in ACCOUNT_STATUSES:
+    # Registration applications legitimately use "pending"; student accounts
+    # themselves may only be "active" or "inactive".
+    allowed_statuses = ACCOUNT_STATUSES | ({"pending"} if registration else set())
+    if data.get("status") and data["status"] not in allowed_statuses:
         errors.append("Invalid account status.")
 
     room = clean(data.get("room_number"), 3)
@@ -702,7 +705,7 @@ def update_own_profile():
 
     errors = validate_student_fields(updates)
 
-    if errors:
+        if errors:
         return jsonify(error=" ".join(errors)), 400
 
     updates["updated_at"] = iso_now()
