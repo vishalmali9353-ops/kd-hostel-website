@@ -4,12 +4,10 @@ import re
 import secrets
 import hashlib
 import smtplib
-import smtplib
 import ssl
 from email.message import EmailMessage
 from email.utils import formataddr
 from datetime import datetime, timezone, timedelta
-from email.message import EmailMessage
 from functools import wraps
 from urllib.parse import urlencode
 
@@ -278,40 +276,52 @@ def room_is_full(hostel, room, exclude_enrollment=None):
 
 def send_email(to_email, subject, body):
     """
-    SMTP configuration is optional for local development.
-    Configure all SMTP variables on Render to send real email.
+    Send email using Gmail SMTP.
+    Render environment variables required:
+    EMAIL_USER = full Gmail address
+    EMAIL_APP_PASSWORD = Google App Password (without spaces)
     """
-    host = os.environ.get("SMTP_HOST")
-    user = os.environ.get("SMTP_USER")
-    password = os.environ.get("SMTP_PASSWORD")
+    host = os.environ.get("SMTP_HOST", "smtp.gmail.com")
+    user = os.environ.get("EMAIL_USER")
+    password = os.environ.get("EMAIL_APP_PASSWORD")
     sender = os.environ.get("EMAIL_FROM") or user
-    port = int(os.environ.get("SMTP_PORT", "465"))
+    port_text = os.environ.get("SMTP_PORT", "465")
 
-    if not all([host, user, password, sender, to_email]):
-        return False, "SMTP email settings are incomplete."
+    if not all([user, password, sender, to_email]):
+        app.logger.error("Gmail email settings are incomplete.")
+        return False, "Gmail settings are incomplete."
+
+    try:
+        port = int(port_text)
+    except (TypeError, ValueError):
+        app.logger.error("SMTP_PORT must be a number.")
+        return False, "Invalid SMTP port."
 
     message = EmailMessage()
     message["Subject"] = subject
-    message["From"] = sender
+    message["From"] = formataddr(("K.D. Hostel", sender))
     message["To"] = to_email
     message.set_content(body)
 
     try:
         if port == 465:
             with smtplib.SMTP_SSL(host, port, timeout=20) as smtp:
-                smtp.login(user, password)
+                smtp.login(user, password.replace(" ", ""))
                 smtp.send_message(message)
         else:
             with smtplib.SMTP(host, port, timeout=20) as smtp:
-                smtp.starttls()
-                smtp.login(user, password)
+                smtp.ehlo()
+                smtp.starttls(context=ssl.create_default_context())
+                smtp.ehlo()
+                smtp.login(user, password.replace(" ", ""))
                 smtp.send_message(message)
 
+        app.logger.info("Email sent successfully to %s", to_email)
         return True, None
 
     except Exception:
-        app.logger.exception("Email delivery failed")
-        return False, "Email could not be sent. Check SMTP configuration."
+        app.logger.exception("Gmail SMTP delivery failed.")
+        return False, "Email could not be sent. Check Gmail settings and Render logs."
 
 
 def make_reset_link(enrollment):
@@ -343,6 +353,111 @@ def check_reset_token(raw_token):
     })
 
     return student
+
+
+# =========================================================
+# PASSWORD RESET EMAIL + RESET ENDPOINTS
+# =========================================================
+
+@app.post("/api/forgot-password")
+def forgot_password():
+    data = request.get_json(silent=True) or {}
+    enrollment = clean(data.get("enrollment_number"), 30)
+    email = clean(data.get("email"), 254).lower()
+
+    if not enrollment or not email:
+        return jsonify(error="Enrollment number and email are required."), 400
+
+    if not valid_email(email):
+        return jsonify(error="Enter a valid email address."), 400
+
+    try:
+        student = students.find_one({
+            "enrollment_number": enrollment,
+            "email": email,
+            "status": "active"
+        })
+
+        # Do not reveal whether an account exists.
+        if not student:
+            return jsonify(
+                message="If the details match an active account, a reset email will be sent."
+            ), 200
+
+        link = make_reset_link(enrollment)
+        sent, _ = send_email(
+            email,
+            "K.D. Hostel - Password Reset",
+            (
+                f"Hello {student.get('full_name', 'Student')},\\n\\n"
+                "We received a request to reset your K.D. Hostel password.\\n\\n"
+                f"Open this link within 1 hour to set a new password:\\n{link}\\n\\n"
+                "If you did not request this, you can ignore this email.\\n\\n"
+                "K.D. Hostel"
+            )
+        )
+
+        if not sent:
+            return jsonify(
+                error="Reset link could not be emailed. Please contact the hostel admin."
+            ), 503
+
+        return jsonify(
+            message="Password reset link sent to your registered email."
+        ), 200
+
+    except PyMongoError:
+        app.logger.exception("Forgot-password database error")
+        return jsonify(error="Database connection error."), 503
+
+
+@app.post("/api/reset-password")
+def reset_password():
+    data = request.get_json(silent=True) or {}
+    raw_token = clean(data.get("token"), 200)
+    new_password = str(data.get("new_password", ""))
+
+    if len(new_password) < 12 or len(new_password) > 128:
+        return jsonify(
+            error="New password must contain 12–128 characters."
+        ), 400
+
+    try:
+        student = check_reset_token(raw_token)
+        if not student:
+            return jsonify(
+                error="Reset link is invalid or expired. Request a new link."
+            ), 400
+
+        token_hash = hashlib.sha256(raw_token.encode()).hexdigest()
+        result = students.update_one(
+            {
+                "_id": student["_id"],
+                "reset_token_hash": token_hash,
+                "reset_expires_at": {"$gt": now()}
+            },
+            {
+                "$set": {
+                    "password_hash": generate_password_hash(new_password),
+                    "updated_at": iso_now()
+                },
+                "$unset": {
+                    "reset_token_hash": "",
+                    "reset_expires_at": ""
+                }
+            }
+        )
+
+        if not result.modified_count:
+            return jsonify(
+                error="Reset link is invalid or has already been used."
+            ), 400
+
+        return jsonify(message="Password reset successfully. You can now log in.")
+
+    except PyMongoError:
+        app.logger.exception("Reset-password database error")
+        return jsonify(error="Database connection error."), 503
 
 
 # =========================================================
@@ -772,10 +887,32 @@ def create_account():
             }
         )
 
+        # Email the enrollment number and temporary password to the student.
+        email_sent, email_error = send_email(
+            clean(student.get("email"), 254).lower(),
+            "K.D. Hostel - Admission Approved",
+            (
+                f"Dear {student.get('full_name', 'Student')},\\n\\n"
+                "Your K.D. Hostel admission has been approved.\\n\\n"
+                f"Enrollment Number: {enrollment}\\n"
+                f"Temporary Password: {password}\\n\\n"
+                "Please log in and change your password as soon as possible. "
+                "Do not share your password with anyone.\\n\\n"
+                "K.D. Hostel"
+            )
+        )
+
         return jsonify(
-            message="Student account created successfully.",
+            message=(
+                "Student account created and admission approved."
+                if email_sent else
+                "Student account created and admission approved, but email was not sent. "
+                "Check Render logs and Gmail settings, then send credentials securely."
+            ),
             enrollment_number=enrollment,
-            status="active"
+            status="active",
+            email_sent=email_sent,
+            email_error=None if email_sent else email_error
         ), 201
 
     except DuplicateKeyError:
