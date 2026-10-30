@@ -178,25 +178,6 @@ Open `frontend/html/index.html` in your browser (or serve the `frontend` folder 
 | Backend API | Render |
 | Database | MongoDB Atlas |
 
-## 📸 Screenshots
-
-> Replace the placeholders below with real screenshots (e.g. in `frontend/images/screenshots/`).
-
-| Home Page | About Us |
-|---|---|
-| ![Home](frontend/images/screenshots/home.png) | ![About](frontend/images/screenshots/about.png) |
-
-| Boys Hostel | Girls Hostel |
-|---|---|
-| ![Boys Hostel](frontend/images/screenshots/boys-hostel.png) | ![Girls Hostel](frontend/images/screenshots/girls-hostel.png) |
-
-| Admission Form | Student Login |
-|---|---|
-| ![Admission](frontend/images/screenshots/admission.png) | ![Login](frontend/images/screenshots/login.png) |
-
-| Admin Dashboard | Student Dashboard |
-|---|---|
-| ![Admin](frontend/images/screenshots/admin-dashboard.png) | ![Student](frontend/images/screenshots/student-dashboard.png) |
 
 ## 🔐 Security
 
