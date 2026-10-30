@@ -17,7 +17,7 @@ A Smart Digital Solution for Modern Hostel Administration
 "Flask" (https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)
 "MongoDB" (https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
 
-</div>---
+</div>
 
 01 | PROJECT OVERVIEW
 
