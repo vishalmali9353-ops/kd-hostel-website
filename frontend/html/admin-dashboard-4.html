@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10264b">
+<title>Admin Dashboard | K.D. Hostel</title>
+<link rel="icon" type="image/png" href="../images/kd-hostel-logo.png">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+:root{--navy:#10264b;--navy2:#183763;--gold:#f5b942;--bg:#f3f6fb;--line:#e4eaf3;--muted:#718096}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1b2940;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.topbar{background:var(--navy);color:#fff;min-height:70px;box-shadow:0 4px 18px #10264b20}.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;letter-spacing:.3px}.brand img{width:43px;height:43px;object-fit:contain;background:white;border-radius:50%;padding:2px}
+.layout{min-height:calc(100vh - 70px)}.sidebar{background:var(--navy);padding:20px 13px;min-height:calc(100vh - 70px)}.side-label{color:#94a9ca;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:13px 12px 6px}.side-link{display:flex;align-items:center;gap:11px;padding:11px 12px;margin:3px 0;color:#dce6f5;text-decoration:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}.side-link i{font-size:17px;width:20px;text-align:center}.side-link:hover,.side-link.active{background:#263e65;color:var(--gold)}.main{padding:25px;min-width:0}.page{display:none}.page.active{display:block}.eyebrow{color:#b17a08;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}.page-title{font-size:clamp(23px,3vw,30px);font-weight:850;color:var(--navy);margin:3px 0}.sub{color:var(--muted);font-size:13px}.panel,.stat{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 5px 18px #172f5010}.panel{padding:20px;margin-bottom:20px}.stat{padding:18px;height:100%;position:relative;overflow:hidden}.stat .icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#edf2fa;color:var(--navy);font-size:20px;margin-bottom:13px}.stat .number{font-size:30px;line-height:1.2;font-weight:850;color:var(--navy)}.stat .label{color:var(--muted);font-size:13px;margin-top:5px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:15px}.section-head h2{font-size:18px;font-weight:800;margin:0;color:var(--navy)}.form-label{font-size:13px;font-weight:700;color:#34445d}.form-control,.form-select{border-color:#dce4ef;border-radius:9px;padding:10px 12px;font-size:14px}.form-control:focus,.form-select:focus{border-color:#718db7;box-shadow:0 0 0 .2rem #10264b12}.btn{border-radius:9px;font-weight:650}.btn-primary{background:var(--navy);border-color:var(--navy)}.btn-primary:hover{background:var(--navy2);border-color:var(--navy2)}.btn-gold{background:var(--gold);color:var(--navy);border:0}.btn-gold:hover{background:#e9a91e;color:var(--navy)}.table{margin-bottom:0}.table thead th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#63728a;background:#f6f8fc;white-space:nowrap;border-bottom:1px solid var(--line);padding:13px 12px}.table td{font-size:13px;vertical-align:middle;padding:12px;white-space:nowrap}.table-responsive{border:1px solid var(--line);border-radius:12px}.empty{padding:28px!important;text-align:center;color:var(--muted)}.notice-card{border:1px solid var(--line);border-radius:12px;padding:15px;margin-bottom:10px;background:#fff}.notice-card h3{font-size:15px;font-weight:800;color:var(--navy)}.notice-card p{font-size:14px;white-space:pre-wrap;margin:8px 0}.helper{font-size:12px;color:var(--muted)}.mobile-menu{display:none}
+@media(max-width:767px){.sidebar{min-height:auto;padding:10px}.sidebar .side-label{display:none}.sidebar nav{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px}.side-link{white-space:nowrap;padding:9px 11px;font-size:12px;margin:0}.side-link i{font-size:15px}.main{padding:15px}.panel{padding:14px}.topbar .container-fluid{gap:8px}.brand{font-size:14px}.brand img{width:36px;height:36px}.top-actions .btn{font-size:11px;padding:6px 8px}}
+</style>
+</head>
+<body>
+<nav class="navbar topbar px-3 px-lg-4">
+ <div class="container-fluid">
+  <a class="brand" href="admin-dashboard.html"><img src="../images/kd-hostel-logo.png" alt="K.D. Hostel logo"><span>K.D. HOSTEL <small class="d-block fw-normal" style="font-size:10px;color:#c5d2e7;letter-spacing:1px">ADMIN PANEL</small></span></a>
+  <div class="top-actions d-flex align-items-center gap-2"><a href="index.html" class="btn btn-outline-light btn-sm"><i class="bi bi-globe2"></i> Website</a><button id="logout" class="btn btn-gold btn-sm"><i class="bi bi-box-arrow-right"></i> Logout</button></div>
+ </div>
+</nav>
+<div class="container-fluid layout"><div class="row">
+<aside class="col-md-3 col-xl-2 sidebar">
+ <nav>
+  <div class="side-label">MAIN MENU</div>
+  <a class="side-link active" data-page="dashboard"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+  <a class="side-link" data-page="students"><i class="bi bi-people-fill"></i> Student Management</a>
+  <a class="side-link" data-page="applications"><i class="bi bi-person-lines-fill"></i> Registration Applications</a>
+  <a class="side-link" data-page="notices"><i class="bi bi-megaphone-fill"></i> Notices</a>
+  <div class="side-label">HOSTEL WEBSITE</div>
+  <a class="side-link" href="boys-hostel.html"><i class="bi bi-building"></i> Boys Hostel</a>
+  <a class="side-link" href="girls-hostel.html"><i class="bi bi-house-heart"></i> Girls Hostel</a>
+ </nav>
+</aside>
+<main class="col-md-9 col-xl-10 main">
+ <div id="msg" class="alert d-none" role="status"></div>
+
+ <section class="page active" id="page-dashboard">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4"><div><div class="eyebrow">Overview</div><h1 class="page-title">Admin Dashboard</h1><p class="sub mb-0">Welcome back. Here is your hostel management summary.</p></div><button id="refresh" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i> Refresh data</button></div>
+  <div class="row g-3 mb-4">
+   <div class="col-6 col-xl-3"><div class="stat"><div class="icon"><i class="bi bi-people"></i></div><div class="number" id="total">—</div><div class="label">Total students</div></div></div>
+   <div class="col-6 col-xl-3"><div class="stat"><div class="icon"><i class="bi bi-building"></i></div><div class="number" id="boys">—</div><div class="label">Boys hostel</div></div></div>
+   <div class="col-6 col-xl-3"><div class="stat"><div class="icon"><i class="bi bi-house-heart"></i></div><div class="number" id="girls">—</div><div class="label">Girls hostel</div></div></div>
+   <div class="col-6 col-xl-3"><div class="stat"><div class="icon"><i class="bi bi-hourglass-split"></i></div><div class="number" id="pending">—</div><div class="label">Pending applications</div></div></div>
+  </div>
+  <div class="row g-3">
+   <div class="col-lg-7"><div class="panel h-100"><div class="section-head"><h2><i class="bi bi-lightning-charge me-2"></i>Quick actions</h2></div><div class="d-flex flex-wrap gap-2"><button class="btn btn-primary" data-go="applications"><i class="bi bi-person-check"></i> Review applications</button><button class="btn btn-outline-primary" data-go="students"><i class="bi bi-pencil-square"></i> Manage students</button><button class="btn btn-outline-primary" data-go="notices"><i class="bi bi-megaphone"></i> Publish notice</button></div><p class="helper mt-3 mb-0">Use the menu to open a full management page. Changes are saved through your backend API.</p></div></div>
+   <div class="col-lg-5"><div class="panel h-100"><div class="section-head"><h2><i class="bi bi-megaphone me-2"></i>Recent notices</h2><button class="btn btn-sm btn-outline-primary" data-go="notices">View all</button></div><div id="dashboardNotices" class="sub">Loading notices…</div></div></div>
+  </div>
+ </section>
+
+ <section class="page" id="page-students">
+  <div class="mb-4"><div class="eyebrow">Records</div><h1 class="page-title">Student Management</h1><p class="sub mb-0">Review registration details, edit student records, fee status and individual password-reset links.</p></div>
+  <div class="panel">
+   <div class="section-head"><h2>Student list</h2><button id="studentRefresh" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-clockwise"></i> Refresh</button></div>
+   <div class="row g-2 mb-3"><div class="col-md-8"><input id="search" class="form-control" placeholder="Search name, enrollment, email or phone"></div><div class="col-md-4"><select id="filter" class="form-select"><option value="">All hostels</option><option value="Boys">Boys</option><option value="Girls">Girls</option><option value="none">Not allotted</option></select></div></div>
+   <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Enrollment</th><th>Student name</th><th>Email</th><th>Phone</th><th>Course</th><th>Hostel</th><th>Room</th><th>Fee</th><th>Account</th><th>Actions</th></tr></thead><tbody id="studentRows"><tr><td colspan="10" class="empty">Loading students…</td></tr></tbody></table></div>
+   <p class="helper mt-2 mb-0">Room number is limited to 3 characters; phone number accepts 10 digits. Room allotment rules should also be enforced by the backend.</p>
+  </div>
+ </section>
+
+ <section class="page" id="page-applications">
+  <div class="mb-4"><div class="eyebrow">Admissions</div><h1 class="page-title">Registration Applications</h1><p class="sub mb-0">Review submitted forms, approve applicants and create student accounts.</p></div>
+  <div class="panel"><div class="section-head"><h2>Applications</h2><button id="applicationRefresh" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-clockwise"></i> Refresh</button></div>
+   <div class="row g-2 mb-3"><div class="col-md-8"><input id="appSearch" class="form-control" placeholder="Search applicant name, enrollment or email"></div><div class="col-md-4"><select id="appStatus" class="form-select"><option value="">All statuses</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div></div>
+   <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Enrollment</th><th>Name</th><th>Email</th><th>Phone</th><th>Course</th><th>Hostel</th><th>Status</th><th>Action</th></tr></thead><tbody id="applicationRows"><tr><td colspan="8" class="empty">Loading applications…</td></tr></tbody></table></div>
+  </div>
+ </section>
+
+ <section class="page" id="page-notices">
+  <div class="mb-4"><div class="eyebrow">Communication</div><h1 class="page-title">Notices</h1><p class="sub mb-0">Write a notice and choose all students or selected students.</p></div>
+  <div class="panel">
+   <div class="section-head"><h2 id="noticeFormTitle"><i class="bi bi-send me-2"></i>Create a notice</h2></div>
+   <form id="noticeForm"><input type="hidden" id="noticeEditId">
+    <div class="row g-3">
+     <div class="col-lg-7"><label class="form-label" for="noticeTitle">Notice title</label><input id="noticeTitle" class="form-control" maxlength="120" required placeholder="Enter notice title"></div>
+     <div class="col-lg-5"><label class="form-label" for="noticeAudience">Send to</label><select id="noticeAudience" class="form-select"><option value="all">All students</option><option value="selected">Select students</option></select></div>
+     <div class="col-12 d-none" id="recipientPanel"><div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2"><label class="form-label mb-0">Choose recipients</label><div class="d-flex gap-2"><button type="button" class="btn btn-sm btn-outline-primary" id="selectAll">Select all</button><button type="button" class="btn btn-sm btn-outline-secondary" id="clearAll">Clear</button></div></div><input id="recipientSearch" class="form-control mb-2" placeholder="Search students by name or enrollment"><div id="recipientList" class="border rounded-3 p-2" style="max-height:240px;overflow:auto"><div class="helper p-2">Loading students…</div></div><div class="helper mt-1" id="selectedCount">0 students selected</div></div>
+     <div class="col-12"><label class="form-label" for="noticeBody">Notice message</label><textarea id="noticeBody" class="form-control" rows="5" maxlength="2000" required placeholder="Write the complete notice…"></textarea><div class="helper mt-1">Maximum 2,000 characters.</div></div>
+     <div class="col-12"><button class="btn btn-primary" type="submit" id="noticeSubmit"><i class="bi bi-send"></i> Publish notice</button> <button class="btn btn-outline-secondary d-none" type="button" id="noticeCancelEdit">Cancel edit</button></div>
+    </div>
+   </form>
+  </div>
+  <div class="panel"><div class="section-head"><h2>Recent notices</h2><button id="noticeRefresh" class="btn btn-outline-primary btn-sm"><i class="bi bi-arrow-clockwise"></i> Refresh</button></div><div id="noticeRows"><div class="sub">Loading notices…</div></div></div>
+ </section>
+</main></div></div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content border-0 rounded-4"><form id="editForm">
+ <div class="modal-header"><div><div class="eyebrow">Student record</div><h5 class="modal-title fw-bold">Edit student details</h5></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+ <div class="modal-body"><input id="eId" type="hidden"><div class="row g-3">
+  <div class="col-md-6"><label class="form-label">Enrollment number</label><input id="eEnrollment" class="form-control" disabled></div>
+  <div class="col-md-6"><label class="form-label">Full name</label><input id="eName" class="form-control" maxlength="120" required></div>
+  <div class="col-md-6"><label class="form-label">Email</label><input id="eEmail" type="email" class="form-control" maxlength="160"></div>
+  <div class="col-md-6"><label class="form-label">Phone number (10 digits)</label><input id="ePhone" class="form-control" inputmode="numeric" pattern="[0-9]{10}" minlength="10" maxlength="10" title="Enter exactly 10 digits"></div>
+  <div class="col-md-6"><label class="form-label">Course / branch</label><select id="eCourse" class="form-select"><option value="">Select course</option><option>Computer Engineering</option><option>Electrical Engineering</option><option>Mechanical Engineering</option><option>Civil Engineering</option></select></div>
+  <div class="col-md-6"><label class="form-label">Year / semester</label><input id="eYear" class="form-control" maxlength="30" placeholder="e.g. 2nd Year / Semester 4"></div>
+  <div class="col-md-6"><label class="form-label">Hostel</label><select id="eHostel" class="form-select"><option value="">Not allotted</option><option>Boys</option><option>Girls</option></select></div>
+  <div class="col-md-6"><label class="form-label">Room number (max 3 characters)</label><input id="eRoom" class="form-control" maxlength="3" pattern="[A-Za-z0-9-]{0,3}" title="Room number can contain up to 3 letters/numbers"></div>
+  <div class="col-md-6"><label class="form-label">Fee status</label><select id="eFee" class="form-select"><option>Pending</option><option>Paid</option><option>Upcoming</option></select><div class="helper mt-1">Pending students will see the Pay Fees link on their dashboard only if your student page supports it.</div></div>
+  <div class="col-md-6"><label class="form-label">Account status</label><select id="eStatus" class="form-select"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+ </div></div><div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="submit"><i class="bi bi-check2-circle"></i> Save changes</button></div>
+</form></div></div></div>
+
+<div class="modal fade" id="accountModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><div class="modal-content border-0 rounded-4"><form id="accountForm">
+ <div class="modal-header"><h5 class="modal-title fw-bold">Approve & create student account</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+ <div class="modal-body"><input id="aId" type="hidden"><p class="sub">Applicant: <strong id="aStudentName"></strong></p><label class="form-label" for="aPassword">Temporary password (12–128 characters)</label><input id="aPassword" type="password" class="form-control" minlength="12" maxlength="128" autocomplete="new-password" required><div class="helper mt-2">After account creation, use “Reset link” in Student Management to generate a separate link for that student, if the backend endpoint is configured.</div></div>
+ <div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" type="submit">Approve & create account</button></div>
+</form></div></div></div>
+
+<div class="modal fade" id="resetLinkModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><div class="modal-content border-0 rounded-4">
+ <div class="modal-header"><h5 class="modal-title fw-bold">Student password-reset link</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+ <div class="modal-body"><p class="sub">Copy and send this student's private link directly to them.</p><label class="form-label" for="resetLinkValue">Unique reset link</label><div class="input-group"><input id="resetLinkValue" class="form-control" readonly><button id="copyResetLink" class="btn btn-primary" type="button"><i class="bi bi-clipboard"></i> Copy</button></div><div class="helper mt-2">This feature requires the backend to create a secure, single-student reset token and a matching reset-password page.</div></div>
+ <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button></div>
+</div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(() => {
+"use strict";
+const API="https://kd-hostel-website.onrender.com";
+const PAY_FEES_URL="https://www.eduqfix.com/PayDirect/#/student/pay/wtldj2los3A4rE42PbWuPkYCHxT1lLblPFFbybo1J71g2K8eflLA3ccWFp5hOuNj/1707";
+const token=localStorage.getItem("kd_hostel_token")||sessionStorage.getItem("kd_hostel_token")||"";
+const role=localStorage.getItem("kd_hostel_role")||sessionStorage.getItem("kd_hostel_role")||"";
+const $=id=>document.getElementById(id);
+let students=[],applications=[],notices=[],editModal,accountModal,resetLinkModal;
+const selectedRecipients=new Set();
+
+function showMsg(text,type="info"){const m=$("msg");m.className="alert alert-"+type;m.textContent=text;window.scrollTo({top:0,behavior:"smooth"});if(type!=="danger")setTimeout(()=>m.classList.add("d-none"),5000)}
+async function api(path,opts={}){const headers={"Content-Type":"application/json","Authorization":"Bearer "+token,...(opts.headers||{})};const r=await fetch(API+path,{...opts,headers});let data={};try{data=await r.json()}catch{}if(!r.ok)throw Error(data.error||data.message||("Request failed ("+r.status+")"));return data}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function badge(v){const s=String(v||"—"),low=s.toLowerCase();let c=["active","paid","approved"].includes(low)?"success":["pending","upcoming"].includes(low)?"warning":["inactive","rejected"].includes(low)?"secondary":"info";return `<span class="badge text-bg-${c}">${esc(s)}</span>`}
+function showPage(name){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+name));document.querySelectorAll(".side-link[data-page]").forEach(a=>a.classList.toggle("active",a.dataset.page===name));if(name==="notices")renderRecipientList();window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll("[data-page]").forEach(a=>a.addEventListener("click",()=>showPage(a.dataset.page)));
+document.querySelectorAll("[data-go]").forEach(a=>a.addEventListener("click",()=>showPage(a.dataset.go)));
+
+function renderStudents(){
+ const q=$("search").value.toLowerCase().trim(),h=$("filter").value;
+ const list=students.filter(s=>[s.enrollment_number,s.full_name,s.email,s.phone,s.course,s.room_number].join(" ").toLowerCase().includes(q)&&(!h||(h==="none"?!s.hostel:s.hostel===h)));
+ $("studentRows").innerHTML=list.length?list.map(s=>`<tr>
+ <td><strong>${esc(s.enrollment_number)}</strong></td><td>${esc(s.full_name)}</td><td>${esc(s.email||"—")}</td><td>${esc(s.phone||"—")}</td><td>${esc(s.course||"—")}</td><td>${esc(s.hostel||"Not allotted")}</td><td>${esc(s.room_number||"—")}</td><td>${badge(s.fee_status||"Pending")}${String(s.fee_status||"Pending").toLowerCase()==="pending"?`<div><a class="small" href="${PAY_FEES_URL}" target="_blank" rel="noopener">Pay fees link</a></div>`:""}</td><td>${badge(s.status||"active")}</td><td><div class="d-flex gap-1"><button class="btn btn-sm btn-outline-primary edit" data-id="${esc(s.enrollment_number)}" title="Edit"><i class="bi bi-pencil"></i></button><button class="btn btn-sm btn-outline-success reset-link" data-id="${esc(s.enrollment_number)}" title="Generate reset link"><i class="bi bi-link-45deg"></i></button></div></td></tr>`).join(""):`<tr><td colspan="10" class="empty">No students found.</td></tr>`;
+ $("total").textContent=students.length;$("boys").textContent=students.filter(s=>s.hostel==="Boys").length;$("girls").textContent=students.filter(s=>s.hostel==="Girls").length;
+}
+async function loadStudents(){const d=await api("/api/admin/students");students=d.students||[];renderStudents();renderRecipientList()}
+function filteredApplications(){const q=$("appSearch").value.toLowerCase().trim(),st=$("appStatus").value;return applications.filter(a=>[a.enrollment_number,a.full_name,a.email,a.phone,a.course].join(" ").toLowerCase().includes(q)&&(!st||String(a.status||"pending").toLowerCase()===st))}
+function renderApplications(){const list=filteredApplications();$("applicationRows").innerHTML=list.length?list.map(a=>`<tr><td><strong>${esc(a.enrollment_number)}</strong></td><td>${esc(a.full_name)}</td><td>${esc(a.email||"—")}</td><td>${esc(a.phone||"—")}</td><td>${esc(a.course||"—")}</td><td>${esc(a.hostel||"—")}</td><td>${badge(a.status||"pending")}</td><td>${String(a.status||"pending").toLowerCase()==="pending"?`<div class="d-flex gap-1"><button class="btn btn-sm btn-success approve" data-id="${esc(a.enrollment_number)}"><i class="bi bi-check2"></i> Approve</button><button class="btn btn-sm btn-outline-danger reject" data-id="${esc(a.enrollment_number)}">Reject</button></div>`:"—"}</td></tr>`).join(""):`<tr><td colspan="8" class="empty">No applications found.</td></tr>`;$("pending").textContent=applications.filter(a=>String(a.status||"pending").toLowerCase()==="pending").length}
+async function loadApplications(){const d=await api("/api/admin/applications");applications=d.applications||[];renderApplications()}
+function renderNotices(){const html=notices.length?notices.map(n=>`<article class="notice-card"><div class="d-flex justify-content-between gap-2 flex-wrap"><h3 class="mb-0">${esc(n.title)}</h3><span class="d-flex gap-2 align-items-center"><span class="badge text-bg-light">${esc(n.target==="all"?"All students":(n.target||"Selected students"))}</span><button class="btn btn-sm btn-outline-primary notice-edit" data-id="${esc(n.id)}"><i class="bi bi-pencil-square"></i> Edit</button></span></div><p>${esc(n.body)}</p><div class="helper">Published: ${esc(n.created_at||"Date unavailable")}</div></article>`).join(""):`<div class="sub">No notices published yet.</div>`;$("noticeRows").innerHTML=html;$("dashboardNotices").innerHTML=notices.length?notices.slice(0,3).map(n=>`<div class="border-bottom py-2"><div class="fw-bold">${esc(n.title)}</div><div class="helper">${esc(n.created_at||"Recently published")}</div></div>`).join(""):"No notices yet."}
+async function loadNotices(){const d=await api("/api/admin/notices");notices=d.notices||[];renderNotices()}
+function renderRecipientList(){const panel=$("recipientPanel");if(!panel)return;panel.classList.toggle("d-none",$("noticeAudience").value!=="selected"||!!$("noticeEditId").value);const q=($("recipientSearch").value||"").toLowerCase().trim();const list=students.filter(s=>[s.full_name,s.enrollment_number,s.email].join(" ").toLowerCase().includes(q));$("recipientList").innerHTML=list.length?list.map(s=>`<label class="d-flex align-items-center gap-2 border-bottom py-2 px-1"><input class="form-check-input recipient-check mt-0" type="checkbox" value="${esc(s.enrollment_number)}" ${selectedRecipients.has(String(s.enrollment_number))?"checked":""}><span class="flex-grow-1"><strong>${esc(s.full_name)}</strong><span class="helper d-block">${esc(s.enrollment_number)} · ${esc(s.email||"No email")}</span></span></label>`).join(""):`<div class="helper p-2">No matching students.</div>`;$("selectedCount").textContent=selectedRecipients.size+" students selected"}
+function openEdit(id){const s=students.find(x=>String(x.enrollment_number)===String(id));if(!s)return;$("eId").value=id;$("eEnrollment").value=s.enrollment_number||"";$("eName").value=s.full_name||"";$("eEmail").value=s.email||"";$("ePhone").value=s.phone||"";$("eCourse").value=s.course||"";$("eYear").value=s.year||"";$("eHostel").value=s.hostel||"";$("eRoom").value=s.room_number||"";$("eFee").value=["Pending","Paid","Upcoming"].includes(s.fee_status)?s.fee_status:"Pending";$("eStatus").value=String(s.status).toLowerCase()==="inactive"?"inactive":"active";editModal.show()}
+async function generateResetLink(id){showMsg("Generating a unique reset link…","info");try{const d=await api("/api/admin/students/"+encodeURIComponent(id)+"/reset-link",{method:"POST",body:"{}"});const link=d.reset_url||d.reset_link||d.url;if(!link)throw Error("Backend did not return a reset link. Add the secure reset-link endpoint in backend/app.py.");$("resetLinkValue").value=link;resetLinkModal.show();showMsg("Reset link generated.","success")}catch(e){showMsg("Could not generate reset link: "+e.message,"danger")}}
+
+document.addEventListener("click",async e=>{const b=e.target.closest("button");if(!b)return;try{
+ if(b.classList.contains("edit"))openEdit(b.dataset.id);
+ if(b.classList.contains("reset-link"))await generateResetLink(b.dataset.id);
+ if(b.classList.contains("approve")){const a=applications.find(x=>String(x.enrollment_number)===String(b.dataset.id));$("aId").value=b.dataset.id;$("aStudentName").textContent=a?.full_name||b.dataset.id;$("aPassword").value="";accountModal.show()}
+ if(b.classList.contains("reject")){if(confirm("Reject this registration application?")){await api("/api/admin/applications/"+encodeURIComponent(b.dataset.id)+"/reject",{method:"POST",body:"{}"});await loadApplications();showMsg("Application rejected.","success")}}
+ }catch(err){showMsg(err.message,"danger")}});
+$("editForm").addEventListener("submit",async e=>{e.preventDefault();const phone=$("ePhone").value.trim(),room=$("eRoom").value.trim();if(phone&&!/^[0-9]{10}$/.test(phone)){showMsg("Phone number must contain exactly 10 digits.","warning");return}if(room.length>3){showMsg("Room number can contain maximum 3 characters.","warning");return}
+ const id=$("eId").value,p={full_name:$("eName").value.trim(),email:$("eEmail").value.trim(),phone,hostel:$("eHostel").value,room_number:room,course:$("eCourse").value,year:$("eYear").value.trim(),fee_status:$("eFee").value,status:$("eStatus").value};
+ try{await api("/api/admin/students/"+encodeURIComponent(id),{method:"PATCH",body:JSON.stringify(p)});editModal.hide();await loadStudents();showMsg("Student information updated.","success")}catch(err){showMsg(err.message,"danger")}});
+$("accountForm").addEventListener("submit",async e=>{e.preventDefault();try{await api("/api/admin/create-account",{method:"POST",body:JSON.stringify({enrollment_number:$("aId").value,password:$("aPassword").value})});accountModal.hide();await Promise.all([loadStudents(),loadApplications()]);showMsg("Account created/approved. Generate the student's unique reset link from Student Management if required.","success")}catch(err){showMsg(err.message,"danger")}});
+$("noticeAudience").addEventListener("change",renderRecipientList);$("recipientSearch").addEventListener("input",renderRecipientList);
+$("recipientList").addEventListener("change",e=>{if(!e.target.classList.contains("recipient-check"))return;const id=e.target.value;if(e.target.checked)selectedRecipients.add(id);else selectedRecipients.delete(id);$("selectedCount").textContent=selectedRecipients.size+" students selected"});
+$("selectAll").addEventListener("click",()=>{students.forEach(s=>selectedRecipients.add(String(s.enrollment_number)));renderRecipientList()});
+$("clearAll").addEventListener("click",()=>{selectedRecipients.clear();renderRecipientList()});
+$("noticeForm").addEventListener("submit",async e=>{e.preventDefault();const editId=$("noticeEditId").value;if(editId){try{await api("/api/admin/notices/"+encodeURIComponent(editId),{method:"PUT",body:JSON.stringify({title:$("noticeTitle").value.trim(),body:$("noticeBody").value.trim()})});resetNoticeForm();await loadNotices();showMsg("Notice updated.","success")}catch(err){showMsg("Notice could not be updated: "+err.message,"danger")}return}const audience=$("noticeAudience").value;if(audience==="selected"&&!selectedRecipients.size){showMsg("Select at least one student for this notice.","warning");return}
+ const payload={title:$("noticeTitle").value.trim(),body:$("noticeBody").value.trim(),target:audience==="all"?"all":"selected",recipients:audience==="selected"?Array.from(selectedRecipients):[]};
+ try{await api("/api/admin/notices",{method:"POST",body:JSON.stringify(payload)});$("noticeForm").reset();$("noticeAudience").value="all";selectedRecipients.clear();renderRecipientList();await loadNotices();showMsg("Notice published.","success")}catch(err){showMsg("Notice could not be published: "+err.message+". For selected-student notices, the backend must support the recipients array.","danger")}});
+$("search").addEventListener("input",renderStudents);$("filter").addEventListener("change",renderStudents);$("appSearch").addEventListener("input",renderApplications);$("appStatus").addEventListener("change",renderApplications);
+function resetNoticeForm(){$("noticeForm").reset();$("noticeEditId").value="";$("noticeAudience").disabled=false;$("noticeAudience").value="all";selectedRecipients.clear();renderRecipientList();$("noticeFormTitle").innerHTML='<i class="bi bi-send me-2"></i>Create a notice';$("noticeSubmit").innerHTML='<i class="bi bi-send"></i> Publish notice';$("noticeCancelEdit").classList.add("d-none")}
+$("noticeRows").addEventListener("click",e=>{const b=e.target.closest(".notice-edit");if(!b)return;const n=notices.find(x=>String(x.id)===String(b.dataset.id));if(!n)return;$("noticeEditId").value=n.id;$("noticeTitle").value=n.title||"";$("noticeBody").value=n.body||"";$("noticeAudience").value=n.target==="all"?"all":"selected";$("noticeAudience").disabled=true;$("recipientPanel").classList.add("d-none");$("noticeFormTitle").innerHTML='<i class="bi bi-pencil-square me-2"></i>Edit notice';$("noticeSubmit").innerHTML='<i class="bi bi-check2"></i> Update notice';$("noticeCancelEdit").classList.remove("d-none");$("noticeForm").scrollIntoView({behavior:"smooth"})});
+$("noticeCancelEdit").addEventListener("click",resetNoticeForm);
+async function refreshAll(){try{await Promise.all([loadStudents(),loadApplications(),loadNotices()]);showMsg("Dashboard data refreshed.","success")}catch(e){showMsg("Could not load dashboard data: "+e.message,"danger")}}
+$("refresh").addEventListener("click",refreshAll);$("studentRefresh").addEventListener("click",async()=>{try{await loadStudents();showMsg("Student list refreshed.","success")}catch(e){showMsg(e.message,"danger")}});$("applicationRefresh").addEventListener("click",async()=>{try{await loadApplications();showMsg("Applications refreshed.","success")}catch(e){showMsg(e.message,"danger")}});$("noticeRefresh").addEventListener("click",async()=>{try{await loadNotices();showMsg("Notices refreshed.","success")}catch(e){showMsg(e.message,"danger")}});
+$("copyResetLink").addEventListener("click",async()=>{const v=$("resetLinkValue").value;if(!v)return;try{await navigator.clipboard.writeText(v);$("copyResetLink").innerHTML='<i class="bi bi-check2"></i> Copied';setTimeout(()=>$("copyResetLink").innerHTML='<i class="bi bi-clipboard"></i> Copy',1800)}catch{ $("resetLinkValue").select();showMsg("Select the link and copy it manually.","warning")}});
+$("logout").addEventListener("click",()=>{["kd_hostel_token","kd_hostel_role"].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k)});location.href="login.html"});
+async function init(){editModal=new bootstrap.Modal($("editModal"));accountModal=new bootstrap.Modal($("accountModal"));resetLinkModal=new bootstrap.Modal($("resetLinkModal"));if(!token||role!=="admin"){showMsg("Admin session missing. Please log in again.","warning");setTimeout(()=>location.href="login.html",1400);return}await refreshAll()}
+init();
+})();
+</script>
+</body>
+</html>
